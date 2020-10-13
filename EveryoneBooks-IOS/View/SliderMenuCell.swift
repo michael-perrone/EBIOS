@@ -14,9 +14,10 @@ class SliderMenuCell: UITableViewCell {
     
     var delegate: SliderMenuDelegate?;
     
-    private let imageV: UIImageView = {
-        let uiv = UIImageView();
-        return uiv;
+    private let imageV: UITextView = {
+        let uitv = UITextView();
+        uitv.font = .systemFont(ofSize: 30);
+        return uitv;
     }()
     
     private let cellTitle: UITextView = {
@@ -36,7 +37,6 @@ class SliderMenuCell: UITableViewCell {
     func configureCell() {
         setWidth(width: fullWidth / 1.6);
         if let item = item {
-            imageV.image = item.image;
             cellTitle.text = item.title;
             contentView.addSubview(imageV);
             let tap = UITapGestureRecognizer(target: self, action: #selector(hit))

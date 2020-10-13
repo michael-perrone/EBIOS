@@ -57,6 +57,7 @@
 		894855A0248EAFA60048C7CF /* EmployeeHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8948559F248EAFA60048C7CF /* EmployeeHomeController.swift */; };
 		894855A2248EB0210048C7CF /* EmployeeNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894855A1248EB0210048C7CF /* EmployeeNotifications.swift */; };
 		894855A4248EB0310048C7CF /* EmployeeSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894855A3248EB0310048C7CF /* EmployeeSchedule.swift */; };
+		894998B92534CBFB0083872C /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894998B82534CBFB0083872C /* SettingsController.swift */; };
 		894A4C48248A738800A110E7 /* BusinessSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A4C47248A738800A110E7 /* BusinessSearch.swift */; };
 		894A4C4A248A73EA00A110E7 /* UserBookings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A4C49248A73EA00A110E7 /* UserBookings.swift */; };
 		894A4C4E248A74AF00A110E7 /* UserHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A4C4D248A74AF00A110E7 /* UserHomeViewController.swift */; };
@@ -85,8 +86,6 @@
 		898AA1BB2527E7C400FE0A75 /* SliderMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898AA1BA2527E7C400FE0A75 /* SliderMenuCell.swift */; };
 		898AA1BD2527FD4A00FE0A75 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898AA1BC2527FD4A00FE0A75 /* Test.swift */; };
 		898AA1BF2528272D00FE0A75 /* TabBarSliderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898AA1BE2528272D00FE0A75 /* TabBarSliderController.swift */; };
-		898AA1C12529934D00FE0A75 /* ResetPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898AA1C02529934C00FE0A75 /* ResetPassword.swift */; };
-		898AA1C32529969E00FE0A75 /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898AA1C22529969E00FE0A75 /* ChangePassword.swift */; };
 		898D408C24CCCC9E00FE10B7 /* ServicesChosenTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898D408B24CCCC9E00FE10B7 /* ServicesChosenTable.swift */; };
 		8995D39224B10C5000533154 /* UserBookingSomething.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995D39124B10C5000533154 /* UserBookingSomething.swift */; };
 		8995D39424B116E700533154 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995D39324B116E700533154 /* Service.swift */; };
@@ -166,6 +165,7 @@
 		8948559F248EAFA60048C7CF /* EmployeeHomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeHomeController.swift; sourceTree = "<group>"; };
 		894855A1248EB0210048C7CF /* EmployeeNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeNotifications.swift; sourceTree = "<group>"; };
 		894855A3248EB0310048C7CF /* EmployeeSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeSchedule.swift; sourceTree = "<group>"; };
+		894998B82534CBFB0083872C /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		894A4C47248A738800A110E7 /* BusinessSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessSearch.swift; sourceTree = "<group>"; };
 		894A4C49248A73EA00A110E7 /* UserBookings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBookings.swift; sourceTree = "<group>"; };
 		894A4C4D248A74AF00A110E7 /* UserHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHomeViewController.swift; sourceTree = "<group>"; };
@@ -194,8 +194,6 @@
 		898AA1BA2527E7C400FE0A75 /* SliderMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderMenuCell.swift; sourceTree = "<group>"; };
 		898AA1BC2527FD4A00FE0A75 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		898AA1BE2528272D00FE0A75 /* TabBarSliderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarSliderController.swift; sourceTree = "<group>"; };
-		898AA1C02529934C00FE0A75 /* ResetPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPassword.swift; sourceTree = "<group>"; };
-		898AA1C22529969E00FE0A75 /* ChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
 		898D408B24CCCC9E00FE10B7 /* ServicesChosenTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesChosenTable.swift; sourceTree = "<group>"; };
 		8995D39124B10C5000533154 /* UserBookingSomething.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBookingSomething.swift; sourceTree = "<group>"; };
 		8995D39324B116E700533154 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -374,6 +372,7 @@
 		8944DCE9244F5467004A2819 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				894998B72534CBD10083872C /* SlideMenuControllers */,
 				89B18F422506F3D8000CAC20 /* RegisterControllers */,
 				894ED9E424A7D83600A24858 /* Purgatory */,
 				8948559E248EAF800048C7CF /* EmployeeHome */,
@@ -395,6 +394,14 @@
 			path = EmployeeHome;
 			sourceTree = "<group>";
 		};
+		894998B72534CBD10083872C /* SlideMenuControllers */ = {
+			isa = PBXGroup;
+			children = (
+				894998B82534CBFB0083872C /* SettingsController.swift */,
+			);
+			path = SlideMenuControllers;
+			sourceTree = "<group>";
+		};
 		894A4C46248A735A00A110E7 /* UserHome */ = {
 			isa = PBXGroup;
 			children = (
@@ -414,8 +421,6 @@
 				894ED9E524A7D87C00A24858 /* BusinessPageController.swift */,
 				89C32CAF24F1FDAF006709C3 /* MessageViewController.swift */,
 				898AA1BC2527FD4A00FE0A75 /* Test.swift */,
-				898AA1C02529934C00FE0A75 /* ResetPassword.swift */,
-				898AA1C22529969E00FE0A75 /* ChangePassword.swift */,
 			);
 			path = Purgatory;
 			sourceTree = "<group>";
@@ -616,6 +621,7 @@
 				8942484A2501DA6D00C55309 /* EmployeeBookingsCell.swift in Sources */,
 				894A4C4A248A73EA00A110E7 /* UserBookings.swift in Sources */,
 				8946CA8724CDD55A00556D83 /* UserBookingsCollectionCell.swift in Sources */,
+				894998B92534CBFB0083872C /* SettingsController.swift in Sources */,
 				898AA1BB2527E7C400FE0A75 /* SliderMenuCell.swift in Sources */,
 				893F4025251702A900EDFAE2 /* TopBookedCell.swift in Sources */,
 				894A4C48248A738800A110E7 /* BusinessSearch.swift in Sources */,
@@ -625,9 +631,7 @@
 				89E93ABB24D6003D0042E46E /* EmployeeBusinessSearchCell.swift in Sources */,
 				89A78F5724C13A82006DDEB9 /* ServicesTable.swift in Sources */,
 				8944DCD1244F53B7004A2819 /* AppDelegate.swift in Sources */,
-				898AA1C12529934D00FE0A75 /* ResetPassword.swift in Sources */,
 				8937C66924BBFEAA001BB785 /* ShiftsTableViewCell.swift in Sources */,
-				898AA1C32529969E00FE0A75 /* ChangePassword.swift in Sources */,
 				893F40212515187F00EDFAE2 /* BookingCell.swift in Sources */,
 				898AA1B72527DF6A00FE0A75 /* SliderMenuTable.swift in Sources */,
 				8944DCEB244F5559004A2819 /* LoginController.swift in Sources */,

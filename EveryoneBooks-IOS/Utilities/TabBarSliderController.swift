@@ -13,14 +13,12 @@ protocol SliderMenuDelegate: TabBarSliderController {
 }
 
 class TabBarSliderController: UITabBarController, SliderMenuDelegate {
-    
     var selectableItems: [SelectionItem]? {
         didSet {
             sliderMenuTable.items = self.selectableItems;
         }
     }
     
-
     func goToSelectedVC(vc: UIViewController?) {
         if let vc = vc {
             vc.modalPresentationStyle = .fullScreen;
@@ -28,15 +26,14 @@ class TabBarSliderController: UITabBarController, SliderMenuDelegate {
             self.present(vc, animated: true, completion: nil);
         }
         else {
-            logout()
+           // logout()
         }
     }
     
     var out = false;
     
-    private let menuButton: UIButton = {
-        let uib = Components().createMenuButton();
-        uib.addTarget(self, action: #selector(slideOutOrIn), for: .touchUpInside);
+    private let menuButton: UIBarButtonItem = {
+        let uib = UIBarButtonItem(image: UIImage(named:"menu"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(slideOutOrIn))
         return uib;
     }();
     
@@ -57,6 +54,7 @@ class TabBarSliderController: UITabBarController, SliderMenuDelegate {
         let loginController = UINavigationController(rootViewController: LoginController());
         loginController.modalPresentationStyle = .fullScreen;
         loginController.modalTransitionStyle = .crossDissolve;
+        print("am i running?")
         if Utilities().getEmployeeToken() != "nil" {
             Utilities().logout(key: "employeeToken");
         }
@@ -79,9 +77,8 @@ class TabBarSliderController: UITabBarController, SliderMenuDelegate {
     
     func configureSliderItems() {
          if Utilities().getEmployeeToken() != "nil" {
-            let resetPasswordVc = ResetPassword();
-            let changePasswordVc = ChangePassword();
-            selectableItems = [SelectionItem(vc: <#T##UIViewController?#>, title: <#T##String#>, image: <#T##UIImage#>), SelectionItem(vc: changePasswordVc, title: "Reset Password", image: #imageLiteral(resourceName: "resetpassword")) ,SelectionItem(vc: nil, title: "Logout", image: #imageLiteral(resourceName: "wavereal"))];
+            let settingsController = SettingsController();
+            self.selectableItems = [SelectionItem(vc: settingsController, title: "Settings", image: "🛠")];
         }
         else if Utilities().getToken() != "nil" {
             Utilities().logout(key: "token")
@@ -99,13 +96,15 @@ class TabBarSliderController: UITabBarController, SliderMenuDelegate {
         vs.setWidth(width: fullWidth / 1.4);
         let topTextView = Components().createSimpleText(text: "");
         if let decodedToken = Utilities().decodeUserToken() {
-            topTextView.text = decodedToken["userName"] as! String;
-        }
+           topTextView.text = decodedToken["userName"] as! String;
+         }
         else if let employeeDecodedToken = Utilities().decodeEmployeeToken() {
             topTextView.text = employeeDecodedToken["employeeName"] as! String;
         }
         else if let adminDecodedToken = Utilities().decodeAdminToken() {
+            print("YES")
             topTextView.text = adminDecodedToken["name"] as! String;
+            print(topTextView.text)
         }
         vs.addSubview(topTextView);
         topTextView.backgroundColor = .black;
@@ -143,9 +142,7 @@ class TabBarSliderController: UITabBarController, SliderMenuDelegate {
     
     func configureTabAndSlider() {
         backDrop.alpha = 0;
-        view.addSubview(menuButton);
-        menuButton.padTop(from: view.topAnchor, num: 18);
-        menuButton.padLeft(from: view.leftAnchor, num: 10);
+        navigationItem.leftBarButtonItem = menuButton;
         view.addSubview(viewSlider);
         viewSlider.isHidden = true;
         view.addSubview(backDrop);

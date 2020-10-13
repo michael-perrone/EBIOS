@@ -67,7 +67,7 @@ class AdminBookings: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad();
         navigationItem.title = "Schedule";
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: createBookingButton);
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createBookingButton);
         configureView()
         let df = DateFormatter();
         df.dateFormat = "MMM dd, yyyy";

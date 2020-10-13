@@ -13,6 +13,12 @@ import JWTDecode
 class Utilities {
     func setTokenInKeyChain(token: String, key: String) -> Bool {
         let saveSuccessful: Bool = KeychainWrapper.standard.set(token, forKey: key);
+        if let adminToken = KeychainWrapper.standard.string(forKey: "adminToken") {
+            print(adminToken)
+        }
+        print(saveSuccessful);
+        print("below save succesfful0")
+        print(token)
         return saveSuccessful;
     }
 
@@ -27,6 +33,9 @@ class Utilities {
      
      func getAdminToken() -> String {
         if let adminToken = KeychainWrapper.standard.string(forKey: "adminToken") {
+            print("adminTokenBelow")
+            print(adminToken)
+            print("PRINTING ADMINTOKEN2 ABOVE")
             return adminToken;
          }
         else {
@@ -50,7 +59,10 @@ class Utilities {
     func decodeAdminToken() -> [String: Any]? {
         do {
             let decodedToken = try decode(jwt: getAdminToken())
+            print(decodedToken)
             let admin = decodedToken.body["admin"] as? [String: Any];
+            print("ABOVE ADMIN")
+            print(admin)
             return admin;
         } catch {
             print("could not decode token")

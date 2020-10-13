@@ -12,10 +12,10 @@ import UIKit
 struct SelectionItem {
     var vc: UIViewController?;
     var title: String?
-    var image: UIImage?;
+    var image: String?;
     
     
-    init(vc: UIViewController?, title: String, image: UIImage) {
+    init(vc: UIViewController?, title: String, image: String) {
         self.vc = vc;
         self.title = title;
         self.image = image;

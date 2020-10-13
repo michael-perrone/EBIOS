@@ -29,6 +29,8 @@ class AdminHomeController: TabBarSliderController {
     }
     
     func getBusiness() {
+        print(Utilities().getAdminToken())
+        print("PRINTING ADMINTOKEN ABOVE")
         let url = myURL + "businessProfile/myBusinessForProfile";
         API().get(url: url, headerToSend: Utilities().getAdminToken()) { (res) in
             if let profileCreated = res["profileCreated"] as? Bool {
