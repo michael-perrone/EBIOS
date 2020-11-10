@@ -14,16 +14,12 @@ class BottomBookedCell: UITableViewCell {
          didSet {
             let tap = UITapGestureRecognizer(target: self, action: #selector(hit));
              if booked {
-                print(booked);
-                print(time)
                  addGestureRecognizer(tap);
                 addSubview(bottomBorder);
                 bottomBorder.padBottom(from: bottomAnchor, num: 0);
                 bottomBorder.centerTo(element: centerXAnchor);
                     backgroundColor = UIColor.init(red: 300, green: 0, blue: 0, alpha: 0.3);
              } else {
-                print(booked);
-                print(time)
                 removeGestureRecognizer(tap);
                 addSubview(bottomBorder);
                 bottomBorder.padBottom(from: bottomAnchor, num: 0);

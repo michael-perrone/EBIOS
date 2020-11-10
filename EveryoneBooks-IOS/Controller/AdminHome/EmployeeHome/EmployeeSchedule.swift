@@ -8,22 +8,31 @@
 
 import UIKit
 
-class EmployeeSchedule: UIViewController {
+protocol EmployeeBookingCellProtocol: EmployeeSchedule {
+    func goToBooking(booking: Booking);
+}
+
+class EmployeeSchedule: UIViewController, EmployeeBookingCellProtocol {
+    
+    func goToBooking(booking: Booking) {
+        let vbvc = ViewBookingViewController();
+        vbvc.booking = booking;
+        vbvc.modalPresentationStyle = .fullScreen;
+        navigationController?.pushViewController(vbvc, animated: true);
+    }
+    
     
     private var shiftAddDate: String?;
     
     var bct: String? {
         didSet {
-            bookingsTable.bct = self.bct;
+            bookingsCollection.bct = self.bct;
         }
     }
     
     var bookings: [Booking]? {
         didSet {
-            bookingsTable.bookings = self.bookings;
-            DispatchQueue.main.async {
-                self.bookingsTable.reloadData()
-            }
+            bookingsCollection.bookings = self.bookings;
         }
     }
     
@@ -53,32 +62,34 @@ class EmployeeSchedule: UIViewController {
         return uitv;
     }()
     
-    private let bookingsTable: EmployeeBookingsTable = {
-        let ebt = EmployeeBookingsTable();
-        ebt.setWidth(width: fullWidth / 1.03);
-        ebt.setHeight(height: fullWidth * 1.1);
+    private let bookingsCollection: EmployeeBookingsCollection = {
+        let layout = UICollectionViewFlowLayout();
+        let ebt = EmployeeBookingsCollection();
         return ebt;
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bookingsCollection.employeeCellDelegate = self;
         handleLogo()
         configureView()
         getTodaysDate()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated);
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated);
+        
     }
     
     func getBookings(date: String) {
         let employeeId = Utilities().decodeEmployeeToken()!["id"];
         API().post(url: myURL + "shifts/getEmployeeBookingsForDay", dataToSend: ["employeeId" : employeeId, "date": date]) { (res) in
-            print(res)
             if res["statusCode"] as! Int == 406 {
                 DispatchQueue.main.async {
-                    self.bookingsTable.isHidden = true;
+                    self.bookingsCollection.isHidden = true;
                     self.bookingsShiftText.text = "You are not scheduled for today."
+                    self.bookingsShiftText.isHidden = false;
                 }
                 return;
             }
@@ -88,14 +99,15 @@ class EmployeeSchedule: UIViewController {
                     let timeEnd: String = shiftTimes["end"]!;
                     let fin = "You are scheduled to work on this day from " + timeStart + "-" + timeEnd + " but your book is currently empty.";
                     DispatchQueue.main.async {
-                        self.bookingsTable.isHidden = true;
+                        self.bookingsCollection.isHidden = true;
                         self.bookingsShiftText.text = fin;
+                        self.bookingsShiftText.isHidden = false;
                     }
                     return;
                 }
             }
             DispatchQueue.main.async {
-                self.bookingsTable.isHidden = false;
+                self.bookingsCollection.isHidden = false;
                 self.bookingsShiftText.isHidden = true;
             }
             self.bct = res["bct"] as? String;
@@ -117,9 +129,12 @@ class EmployeeSchedule: UIViewController {
         view.addSubview(datePickerForShiftAdd);
         datePickerForShiftAdd.padTop(from: scheduleText.bottomAnchor, num: 8);
         datePickerForShiftAdd.centerTo(element: view.centerXAnchor);
-        view.addSubview(bookingsTable);
-        bookingsTable.centerTo(element: view.centerXAnchor);
-        bookingsTable.padTop(from: datePickerForShiftAdd.bottomAnchor, num: 10)
+        view.addSubview(bookingsCollection);
+        bookingsCollection.centerTo(element: view.centerXAnchor);
+        bookingsCollection.padTop(from: datePickerForShiftAdd.bottomAnchor, num: 10);
+        bookingsCollection.padBottom(from: view.safeAreaLayoutGuide.bottomAnchor, num: 0);
+        bookingsCollection.setWidth(width: fullWidth);
+        bookingsCollection.alwaysBounceVertical = true;
         view.addSubview(bookingsShiftText);
         bookingsShiftText.padTop(from: datePickerForShiftAdd.bottomAnchor, num: 10);
         bookingsShiftText.centerTo(element: view.centerXAnchor);

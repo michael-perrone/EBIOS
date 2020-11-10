@@ -22,12 +22,6 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
     
     private var bookings: [Booking] = [] {
         didSet {
-            print(bookings);
-            print(String(bookings.count) + " is the count")
-            print("THESE ARE IMPORTANT ABOVE")
-            if let bcn = bcn {
-                print(bcn)
-            }
             for booking in self.bookings {
                 let times = booking.time?.components(separatedBy: "-");
                 startTimes.append(times![0]);
@@ -153,7 +147,6 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let times = times {
                     if startTimes.contains(times[indexPath.row]) {
-                        print(startTimes)
                         let topBookedCell = dequeueReusableCell(withIdentifier: "4", for:  indexPath) as! TopBookedCell;
                         topBookedCell.booked = false;
                         topBookedCell.setTime(time: times[indexPath.row]);
@@ -165,7 +158,6 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
                     }
                     else if indexPath.row + 2 <= times.count {
                         if endTimes.contains(times[indexPath.row + 1]) {
-                            print(endTimes)
                             let bottomBookedCell = dequeueReusableCell(withIdentifier: "5", for:  indexPath) as! BottomBookedCell;
                             bottomBookedCell.booked = false;
                             bottomBookedCell.setTime(time: Utilities.itst[Utilities.stit[times[indexPath.row + 1]]!]!);
@@ -176,7 +168,6 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
                             return bottomBookedCell;
                         }
                    else if otherTimes.contains(times[indexPath.row]) {
-                            print(otherTimes)
                             let bookedCell = dequeueReusableCell(withIdentifier: "3", for:  indexPath) as! BookedCell;
                         bookedCell.booked = false;
                             bookedCell.setTime(time: times[indexPath.row]);

@@ -18,7 +18,10 @@ class SendEmployeeIdViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
+        navigationController?.navigationBar.backgroundColor = .mainLav;
         view.backgroundColor = .literGray;
+        navigationController?.navigationItem.hidesBackButton = true;
+        navigationController?.navigationBar.barTintColor = .mainLav;
     }
     
     private let logoImage: UIImageView = {
@@ -65,12 +68,7 @@ class SendEmployeeIdViewController: UIViewController {
         bs.employeeSearchingForBusiness = true;
         navigationController?.pushViewController(bs, animated: true);
     }
-    
-    private let menuButton: UIButton = {
-        let uib = Components().createMenuButton()
-        uib.addTarget(self, action: #selector(logout), for: .touchUpInside)
-        return uib;
-    }()
+
     
     @objc func logout() {
            let loginController = UINavigationController(rootViewController: LoginController());
@@ -83,7 +81,7 @@ class SendEmployeeIdViewController: UIViewController {
    
     
     func configureView() {
-        navigationItem.title = "My Schedule";
+        navigationItem.title = "Getting Started";
         view.addSubview(getAddedText);
         view.addSubview(logoImage);
         logoImage.centerTo(element: view.centerXAnchor);
@@ -96,13 +94,8 @@ class SendEmployeeIdViewController: UIViewController {
         getAddedText.setHeight(height: view.frame.height / 2.2);
         view.addSubview(sendIdButton);
         sendIdButton.centerTo(element: view.centerXAnchor);
-        sendIdButton.padTop(from: getAddedText.bottomAnchor, num: 80);
+        sendIdButton.padBottom(from: view.safeAreaLayoutGuide.bottomAnchor, num: 20);
         sendIdButton.setHeight(height: 50);
         sendIdButton.setWidth(width: 300);
-        view.addSubview(menuButton);
-        menuButton.padTop(from: view.topAnchor, num: 40);
-         menuButton.padRight(from: view.rightAnchor, num: 25);
-         menuButton.setWidth(width: 70);
-         menuButton.setHeight(height: 50);
     }
 }

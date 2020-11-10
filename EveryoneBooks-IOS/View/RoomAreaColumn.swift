@@ -23,6 +23,7 @@ class RoomAreaColumn: UICollectionViewCell {
     
     private let roomText: UITextView = {
         let uitv = Components().createSimpleText(text: "");
+        uitv.setHeight(height: 40);
         uitv.backgroundColor = .white;
         return uitv;
     }()
@@ -80,7 +81,7 @@ class RoomAreaColumn: UICollectionViewCell {
         rightBorder.padRight(from: rightAnchor, num: 0);
         rightBorder.padTop(from: topAnchor, num: 0);
         addSubview(roomText);
-        roomText.padTop(from: topAnchor, num: 28);
+        roomText.padTop(from: topAnchor, num: fullHeight > 800 ? 50 : 30 );
         roomText.centerTo(element: centerXAnchor);
         addSubview(columnTableView);
         columnTableView.padTop(from: roomText.bottomAnchor, num: 10);

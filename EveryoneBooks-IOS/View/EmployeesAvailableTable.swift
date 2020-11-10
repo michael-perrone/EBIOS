@@ -30,40 +30,41 @@ class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDe
     
     var fromBusiness: Bool?;
     
-    var phone: String? {
-        didSet {
-            print(phone)
-        }
-    }
+    var phone: String?
     
     func bookEmployee(employeeId: String) {
         var serviceIdsArray: [String] = [];
         for service in services! {
             serviceIdsArray.append(service.id);
         }
-        if let timeStart = self.timeChosen, let date = self.dateChosen, let businessId = businessId {
+        if let timeStart = self.timeChosen, let date = self.dateChosen, let businessId = businessId{
             let data = ["timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": businessId] as [String : Any];
-            if let fromBusiness = fromBusiness, let phone = phone {
-                API().post(url: myURL + "iosBooking/admin", dataToSend: ["phone": phone ,"timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"]]) { (res) in
-                     if res["statusCode"] as! Int == 200{
-                        self.otherOtherDelegate?.bookHit();
-                    }
-                     else {
-                        print(res["statusCode"])
+            if let fromBusiness = fromBusiness {
+                if let phone = phone {
+                    API().post(url: myURL + "iosBooking/admin", dataToSend: ["phone": phone ,"timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"]]) { (res) in
+                        if res["statusCode"] as! Int == 200{
+                            self.otherOtherDelegate?.bookHit();
+                        }
+                        else {
+                            print(res["statusCode"])
+                        }
                     }
                 }
+                else {
+                    otherOtherDelegate!.noPhone()
             }
-            else {
-                API().post(url: myURL + "iosBooking/user", headerToSend: Utilities().getToken(), dataToSend: data) { (res) in
-                    if res["statusCode"] as! Int == 200{
-                        self.otherDelegate?.bookHit()
-                    } else {
-                        print("something musta went wrong")
-                    }
+        }
+        else {
+            API().post(url: myURL + "iosBooking/user", headerToSend: Utilities().getToken(), dataToSend: data) { (res) in
+                if res["statusCode"] as! Int == 200{
+                    self.otherDelegate?.bookHit()
+                } else {
+                    print("something musta went wrong")
                 }
             }
         }
     }
+}
     
        var employees: [Employee]? {
            didSet {

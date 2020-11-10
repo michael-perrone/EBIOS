@@ -33,9 +33,6 @@ class Utilities {
      
      func getAdminToken() -> String {
         if let adminToken = KeychainWrapper.standard.string(forKey: "adminToken") {
-            print("adminTokenBelow")
-            print(adminToken)
-            print("PRINTING ADMINTOKEN2 ABOVE")
             return adminToken;
          }
         else {
@@ -59,10 +56,7 @@ class Utilities {
     func decodeAdminToken() -> [String: Any]? {
         do {
             let decodedToken = try decode(jwt: getAdminToken())
-            print(decodedToken)
             let admin = decodedToken.body["admin"] as? [String: Any];
-            print("ABOVE ADMIN")
-            print(admin)
             return admin;
         } catch {
             print("could not decode token")
@@ -101,7 +95,6 @@ class Utilities {
     
     func getUserId() -> String? {
         if let decodedToken = decodeUserToken() {
-            print(decodedToken)
             if let userId = decodedToken["id"] as? String {
                 return userId;
             }
@@ -152,7 +145,6 @@ class Utilities {
         let startTimeNumber = Utilities.stit[startTime];
         let endTimeNumber = Utilities.stit[endTime];
         if let start = startTimeNumber, let end = endTimeNumber {
-            print("Debugger2 " + String(end - start))
             return end - start;
         }
         return 0;

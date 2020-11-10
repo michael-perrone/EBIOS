@@ -33,7 +33,6 @@ class AddEmployees: UIViewController {
     
     var employeesPending: [Employee] = [] {
         didSet {
-            print(self.employeesPending)
            self.employeesPendingTable.employees = self.employeesPending;
             self.employeesPendingTable.url = "http://localhost:4000/api/businessProfile/removeFromPending";
             DispatchQueue.main.async {
@@ -172,9 +171,7 @@ class AddEmployees: UIViewController {
         let dataToSend = ["employeeId": self.employeeId, "business": Utilities().getBusinessId()];
         let url = myURL + "businessProfile/addEmployeeToBusinessApp";
         API().post(url: url, dataToSend: dataToSend) { (res) in
-            print("oh me!")
             if res["statusCode"] as! Int != 406 {
-                print("oh my!")
                 let newEmployee = Employee(dic: ["fullName": self.employeeName, "_id": self.employeeId!]);
                 print(newEmployee)
                 self.employeesPending.append(newEmployee);

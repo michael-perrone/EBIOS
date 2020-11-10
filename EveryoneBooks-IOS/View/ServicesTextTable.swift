@@ -26,6 +26,7 @@ class ServicesTextTable: UITableView, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = dequeueReusableCell(withIdentifier: "Cell", for: indexPath);
         if let services = services {
+            print(services)
             cell.textLabel?.text = services[indexPath.row];
             cell.backgroundColor = .literGray;
             cell.textLabel?.font = .boldSystemFont(ofSize: 14);

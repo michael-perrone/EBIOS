@@ -10,9 +10,9 @@ import UIKit
 
 class MessageViewController: UIViewController {
 
-    var delegate: MessageViewControllerProtocol?
+    weak var delegate: MessageViewControllerProtocol?
     
-    var otherDelegate: MessageViewControllerProtocolForEmployee?
+    weak var otherDelegate: MessageViewControllerProtocolForEmployee?
     
     var message: String?;
     
@@ -82,14 +82,15 @@ class MessageViewController: UIViewController {
                 self.delegate?.answerHit();
                 DispatchQueue.main.async {
                     UIView.animate(withDuration: 0.5) {
-                        self.yesButton.alpha = 0;
+                        self.yesButton.alpha = 0
                         self.noButton.alpha = 0;
                     }
                 }
+                let acceptedAlert = UIAlertController(title: "Success!", message: "You have successfully added " + self.requestAnswerNoti!.fromName! + " as an employee to your business.", preferredStyle: .alert)
+                let acceptedAlertOk = UIAlertAction(title: "Cool!", style: .default, handler: nil);
+                acceptedAlert.addAction(acceptedAlertOk);
                 DispatchQueue.main.async {
-                    UIView.animate(withDuration: 0.5, delay: 0.5, options: UIView.AnimationOptions.transitionFlipFromTop, animations: {
-                        self.answeredYes.alpha = 1;
-                    }, completion: nil)
+                    self.present(acceptedAlert, animated: true, completion: nil);
                 }
             }
         }

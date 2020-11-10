@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserHomeViewController: TabBarSliderController {
+class UserHomeViewController: SlideTabBarController {
     
    
     override func viewDidLoad() {

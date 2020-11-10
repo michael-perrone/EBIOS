@@ -60,7 +60,6 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
     }
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ServicesSelectCell;
         var frame = CGRect.zero
         frame.size.height = .leastNormalMagnitude
@@ -73,6 +72,5 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
         }
         return cell;
     }
-    
-    
+
 }

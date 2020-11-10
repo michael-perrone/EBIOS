@@ -8,7 +8,6 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
     
     func read(notiId: String) {
         API().post(url: myURL + "notifications/employeeRead", dataToSend: ["employeeId" : Utilities().decodeEmployeeToken()!["id"], "notificationId": notiId]) { (res) in
-            print(res["statusCode"] as! Int)
             self.getEmployeeNotis()
         }
     }
@@ -22,7 +21,6 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
     
     var employeeNotifications: [RequestAnswerNotification]? {
         didSet {
-            print("wingowat")
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
@@ -42,7 +40,6 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
-        print("hi")
         getEmployeeNotis()
     }
     
@@ -65,7 +62,6 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let employeeNotifications = self.employeeNotifications {
-            print(employeeNotifications.count)
             return employeeNotifications.count;
         }
         else {return 0};

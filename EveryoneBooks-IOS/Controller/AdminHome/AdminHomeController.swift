@@ -8,20 +8,13 @@
 
 import UIKit
 
-class AdminHomeController: TabBarSliderController {
+class AdminHomeController: SlideTabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTabs()
         configureUI()
         getBusiness()
-    }
-    
-    func configureTabs() {
-        let notifications = Components().createNavBarItemController(image: UIImage(named: "notis"), viewController: AdminNotifications(collectionViewLayout: UICollectionViewFlowLayout()), title: "Notifications")
-        let businessHome = Components().createNavBarItemController(image: UIImage(named: "business-tab-bar"), viewController: AdminBookings(), title: "Service Schedule")
-        let schedule = Components().createNavBarItemController(image: UIImage(named: "calendar"), viewController: AdminShifts(), title: "Shift Schedule")
-        viewControllers = [businessHome, schedule, notifications];
+        setTabs(tab1: AdminBookings(), image1: UIImage(named: "business-tab-bar")!, title1: "Service Schedule", tab2: AdminShifts(), image2: UIImage(named: "calendar")!, title2: "Shift Schedule", tab3: AdminNotifications(collectionViewLayout: UICollectionViewFlowLayout()), image3: UIImage(named: "notis")!, title3: "Notifications")
     }
     
     func configureUI() {
@@ -29,13 +22,10 @@ class AdminHomeController: TabBarSliderController {
     }
     
     func getBusiness() {
-        print(Utilities().getAdminToken())
-        print("PRINTING ADMINTOKEN ABOVE")
         let url = myURL + "businessProfile/myBusinessForProfile";
         API().get(url: url, headerToSend: Utilities().getAdminToken()) { (res) in
             if let profileCreated = res["profileCreated"] as? Bool {
                 if (profileCreated) {
-                    print("DEBUGY   : for now all good")
                 }
                 else {
                     DispatchQueue.main.async {

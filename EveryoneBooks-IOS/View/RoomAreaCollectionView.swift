@@ -8,7 +8,8 @@
 
 import UIKit
 
-class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource
+{
     
     var bookings: [[Booking]]? {
         didSet {
@@ -19,15 +20,10 @@ class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
     }
     
     var timeSlotNum: Int?;
-    
     var openTime: String?;
-    
     var closeTime: String?;
-    
     var bct: String?;
-    
     var bcn: String?;
-    
     var date: String?;
 
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {

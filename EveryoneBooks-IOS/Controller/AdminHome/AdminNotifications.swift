@@ -32,7 +32,6 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
     
     var adminNotifications: [RequestAnswerNotification]? {
         didSet {
-            print("wingowat")
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
@@ -85,7 +84,6 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let adminNotis = self.adminNotifications {
-            print(adminNotis.count)
             return adminNotis.count;
         }
         else {return 0};

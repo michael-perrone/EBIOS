@@ -8,8 +8,7 @@
 
 import UIKit
 
-class EmployeeHomeController: TabBarSliderController {
-    
+class EmployeeHomeController: SlideTabBarController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear( animated);
@@ -18,20 +17,13 @@ class EmployeeHomeController: TabBarSliderController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureView()
+        configureView();
     }
     
-    
     func configureTabs() {
-        print("ANY FUCKN THING")
-        print(Utilities().getEmployeeToken())
         let businessName = Utilities().decodeEmployeeToken()?["businessName"] as? String;
-        print(businessName)
         if businessName == nil {
             API().get(url: myURL + "notifications/employeeHas", headerToSend: Utilities().getEmployeeToken()) { (res) in
-                print(res)
-                print("HI")
                 if res["notis"] as! Bool == false {
                     DispatchQueue.main.async {
                         let home = Components().createNavBarItemController(image: UIImage(named: "calendar"), viewController: SendEmployeeIdViewController(), title: "Home");

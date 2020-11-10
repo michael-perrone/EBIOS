@@ -45,8 +45,6 @@ class BusinessSearchCollection: UICollectionViewController, CollectionViewCellDe
         
     }
     
-    
-    
     var businesses: [Business]? {
         didSet {
             getFollowing()

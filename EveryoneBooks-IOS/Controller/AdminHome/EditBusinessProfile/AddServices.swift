@@ -10,7 +10,7 @@ import UIKit
 
 class AddServices: UIViewController, UITableViewDataSource {
     
-    var services: [[String:Any]] = [] {
+    var services: [[String: Any]] = [] {
         didSet{
             DispatchQueue.main.async {
                 self.servicesList.reloadData();
@@ -102,10 +102,8 @@ class AddServices: UIViewController, UITableViewDataSource {
         
         let data = ["removing": removing]
         API().post(url: "http://localhost:4000/api/services/delete", headerToSend: Utilities().getAdminToken(), dataToSend: data) { (res) in
-            
             if let status = res["statusCode"] as? Int {
                 if status == 200 {
-                    
                     DispatchQueue.main.async {
                        self.success.isHidden = false;
                        self.deleteButton.isHidden = true;

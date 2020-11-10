@@ -52,7 +52,6 @@ class UserBookingSomething: UIViewController, EmployeesTable {
     var services: [Service]? {
         didSet {
             servicesTable.servicesAlreadyHere = self.comingFromBusinessPage;
-            print("dddsds")
             servicesTable.data = self.services;
         }
     }
@@ -292,7 +291,7 @@ class UserBookingSomething: UIViewController, EmployeesTable {
         API().post(url: myURL + "services/getServices", dataToSend: ["businessId": self.business?.id]) { (res) in
             if let services = res["services"] as? [[String: Any]] {
                 if services.count == 0 {
-                    print("no services")
+                    
                     DispatchQueue.main.async {
                         self.servicesTable.isHidden = true;
                         self.noServicesText.isHidden = false;
@@ -371,7 +370,7 @@ class UserBookingSomething: UIViewController, EmployeesTable {
         let costString = String(cost);
         let closeTime = Utilities.itst[Utilities.stit[choosePreferredTime.selectedItem!]! + timeDurationNum];
         API().post(url: myURL + "getBookings", dataToSend: ["businessId": business!.id!, "date": dateChosen, "serviceIds": serviceIds, "timeChosen": choosePreferredTime.selectedItem]) { (res) in
-            print(res)
+            
             if res["statusCode"] as! Int == 409 {
                 let alert = UIAlertController(title: "Invalid Date", message: "The date or time you have chosen has already passed and cannot be scheduled.", preferredStyle: .alert);
                 let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
@@ -386,12 +385,9 @@ class UserBookingSomething: UIViewController, EmployeesTable {
                     let newEmployee = Employee(dic: employee)
                     newEmployeesArray.append(newEmployee);
                 }
-                print(newEmployeesArray);
-                print("DWDDQSDQSDFWDGFWJGKWGJWKDGJDWKGJWDKGJ")
                 self.employeesAvailable = newEmployeesArray;
                 self.servicesChosenTable.servicesChosen = serviceNames;
                 if newEmployeesArray.count > 0 {
-                    print("GREAT!")
                     DispatchQueue.main.async {
                         self.timeDurationText.text = "From: " + self.choosePreferredTime.selectedItem! + "-" + closeTime!;
                         var costStringArray = costString.components(separatedBy: ".");

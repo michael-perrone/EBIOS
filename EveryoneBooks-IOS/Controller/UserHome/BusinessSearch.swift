@@ -119,6 +119,7 @@ class BusinessSearch: UIViewController {
         super.viewDidLoad()
         navigationItem.title = "Business Search";
         view.backgroundColor = .literGray;
+        navigationItem.hidesBackButton = true;
         configureUI()
     }
     

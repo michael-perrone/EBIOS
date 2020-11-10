@@ -28,18 +28,28 @@ class EmployeeBookingsTable: UITableView, UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let bookings = bookings else {return 0};
-        return bookings.count;
+        if let bookings = self.bookings {
+            return bookings.count;
+        }
+        return 0;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = dequeueReusableCell(withIdentifier: cell1, for: indexPath) as! EmployeeBookingsCell;
-        cell.booking = bookings![indexPath.row]
-        cell.configureCell();
-        cell.setHeight(height: 125);
-        cell.setWidth(width: fullWidth);
-        cell.bct = self.bct;
+        if let bookings = self.bookings {
+            cell.booking = bookings[indexPath.row]
+            cell.configureCell();
+            cell.setWidth(width: fullWidth);
+            cell.bct = self.bct;
+            cell.selectionStyle = .none;
+            cell.backgroundColor = .green;
+            return cell;
+        }
         return cell;
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 250;
     }
 
 }

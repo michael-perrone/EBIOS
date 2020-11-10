@@ -12,7 +12,7 @@ class SliderMenuTable: UITableView, UITableViewDataSource, UITableViewDelegate {
  
     var items: [SelectionItem]?
     
-    var otherDelegate: SliderMenuDelegate?;
+   // var otherDelegate: SliderMenuDelegate?;
 
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: UITableView.Style.plain);
@@ -39,9 +39,9 @@ class SliderMenuTable: UITableView, UITableViewDataSource, UITableViewDelegate {
         if let items = items {
             cell.item = items[indexPath.row];
         }
-        if let other = self.otherDelegate {
-            cell.delegate = other;
-        }
+      //  if let other = self.otherDelegate {
+     //       cell.delegate = other;
+     //   }
         return cell;
      }
     

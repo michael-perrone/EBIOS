@@ -8,13 +8,18 @@
 
 import UIKit
 
-
-class AdminBookings: UIViewController {
+protocol ReloadTableAfterBooking: AdminBookings {
+    func reloadTable()
+}
+class AdminBookings: UIViewController, ReloadTableAfterBooking {
+    
+    func reloadTable() {
+        self.roomAreaTable.reloadData();
+    }
     
     var bookings: [[Booking]]? {
         didSet {
             self.roomAreaTable.bookings = self.bookings;
-            print("bookings are above")
         }
     }
     
@@ -56,6 +61,7 @@ class AdminBookings: UIViewController {
     
     @objc func showCreateBooking() {
         let createBooking = CreateBooking();
+        createBooking.delegate = self;
         createBooking.modalPresentationStyle = .fullScreen;
         self.present(createBooking, animated: true, completion: nil);
     }
@@ -74,7 +80,6 @@ class AdminBookings: UIViewController {
         let dateNeeded = df.string(from: datePicker.date);
         getBookings(date: dateNeeded);
         self.roomAreaTable.date = dateNeeded;
-        print("wingowat")
     }
     
     func configureView() {
@@ -130,8 +135,6 @@ class AdminBookings: UIViewController {
                                 i = i + 1;
                             }
                             self.bookings = arrayOfBookingArrays;
-                            print(self.bookings)
-                            print("self.bookings are above")
                         }
                         else {
                             print("No")

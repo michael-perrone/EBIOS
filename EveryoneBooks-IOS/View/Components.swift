@@ -279,8 +279,10 @@ class Components {
         let navBarItem = UINavigationController(rootViewController: viewController);
         navBarItem.tabBarItem.image = image;
         navBarItem.title = title;
+        navBarItem.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Hello", style: UIBarButtonItem.Style.plain, target: nil, action: nil);
         return navBarItem;
     }
+
     
     // MARK: - BARITEM
     
@@ -447,11 +449,8 @@ class Components {
              return uitv;
       }
     
-    func createMenuButton() -> UIButton {
-        let uib = UIButton(type: .system);
-        uib.setBackgroundImage(UIImage(named: "menu"), for: .normal);
-        uib.setHeight(height: 45);
-        uib.setWidth(width: 56);
+    func createMenuButton() -> UIBarButtonItem {
+        let uib = UIBarButtonItem(image: UIImage(named: "menu"), style: UIBarButtonItem.Style.plain, target: nil, action: nil);
         return uib;
     }
 }

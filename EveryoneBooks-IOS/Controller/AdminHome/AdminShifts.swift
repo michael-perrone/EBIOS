@@ -336,8 +336,7 @@ class AdminShifts: UIViewController {
     
     
     
-    @objc func switcherNo() {   
-        print("bye")
+    @objc func switcherNo() {
         noBreakButton.backgroundColor = .darkGray;
         noBreakButton.tintColor = .mainLav;
         yesBreakButton.tintColor = .black;
@@ -539,8 +538,6 @@ class AdminShifts: UIViewController {
     
     func getBookingColumnItem() {
         API().post(url: myURL + "business/bct", dataToSend: ["id": Utilities().decodeAdminToken()!["businessId"]]) { (res) in
-            print(res)
-            print("res Above")
             if let soonToBeSchedule = res["schedule"] as? [[String: String]] {
                 self.schedule = Schedule(dic: soonToBeSchedule)
             }
@@ -550,7 +547,6 @@ class AdminShifts: UIViewController {
                 }
             }
             if let bcn = res["bcn"] as? String {
-                print(String(bcn) + "dwdqwdqwdjqsdkjqskdjqskdjqskdjqskjdqksjdkqsdjkqsjdq")
                 self.oneThroughFifty.bcn = Int(bcn);
             }
             else {

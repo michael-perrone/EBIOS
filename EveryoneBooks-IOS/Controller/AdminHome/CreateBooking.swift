@@ -10,24 +10,39 @@ import UIKit
 
 protocol BookingHit: CreateBooking {
     func bookHit();
+    func noPhone()
 }
 
 class CreateBooking: UIViewController, BookingHit {
     
     func bookHit() {
-          let bookSuccess = UIAlertController(title: "Success!", message: "You're request has been received and accepted.", preferredStyle: .alert);
-          let okayButton = UIAlertAction(title: "Exit!", style: .cancel) { (action: UIAlertAction) in
-              UIView.animate(withDuration: 0.45) {
-                  self.popUp.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.6);
-              }
-          }
-          bookSuccess.addAction(okayButton);
-          DispatchQueue.main.async {
-              self.present(bookSuccess, animated: true, completion: nil);
-          }
-      }
-      
+            let bookSuccess = UIAlertController(title: "Success!", message: "You're request has been received and accepted.", preferredStyle: .alert);
+            let okayButton = UIAlertAction(title: "Exit!", style: .cancel) { (action: UIAlertAction) in
+                UIView.animate(withDuration: 0.45) {
+                    self.popUp.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.6);
+                }
+            }
+            bookSuccess.addAction(okayButton);
+            DispatchQueue.main.async {
+                self.present(bookSuccess, animated: true) {
+                    self.delegate?.reloadTable()
+                }
+            }
+        }
     
+    func noPhone() {
+        let phoneNotFilled = UIAlertController(title: "Oops!", message: "Please enter phone number above.", preferredStyle: .alert);
+        let okayB = UIAlertAction(title: "Got it!", style: .default, handler: nil);
+        phoneNotFilled.addAction(okayB)
+        DispatchQueue.main.async {
+            self.present(phoneNotFilled, animated: true, completion: nil);
+        }
+    }
+        
+        
+      
+    var delegate: ReloadTableAfterBooking?;
+  
     var start: Int?;
     var close: Int? {
         didSet {
@@ -206,6 +221,7 @@ class CreateBooking: UIViewController, BookingHit {
     }
     
     func configureView() {
+        noServicesText.setWidth(width: fullWidth / 1.3);
         employeesTable.otherOtherDelegate = self;
         view.backgroundColor = .literGray;
         view.addSubview(datePickerText);

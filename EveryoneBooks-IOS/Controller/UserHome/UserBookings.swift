@@ -39,7 +39,6 @@ class UserBookings: UICollectionViewController {
             print(res)
             var bookings: [Booking] = [];
             if let bookingsBack = res["bookings"] as? [[String: Any]] {
-                print(bookingsBack)
                 for booking in bookingsBack {
                     let actualBooking = Booking(dic: booking);
                     bookings.append(actualBooking)
