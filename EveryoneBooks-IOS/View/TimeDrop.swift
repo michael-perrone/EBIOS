@@ -11,7 +11,7 @@ import Foundation
 
 class TimeDrop: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    var selected = "Closed";
+    var selected = "";
     var openClose = "";
     
     var timesData = ["12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM", "3:30 AM", "4:00 AM", "4:30 AM", "5:00 AM", "5:30 AM", "6:00 AM", "6:30 AM", "7:00 AM", "7:30 AM", "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM"]
@@ -20,10 +20,11 @@ class TimeDrop: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
         if let openCloseUnwrapped = openClose {
             self.openClose = openCloseUnwrapped;
             super.init(frame: CGRect());
-            timesData.insert("Closed", at: 0)
-            timesData.insert(openCloseUnwrapped, at: 1)
+            timesData.insert(openCloseUnwrapped, at: 0);
+            timesData.insert("Closed", at: 1);
             self.delegate = self;
             self.dataSource = self;
+            self.selected = openCloseUnwrapped;
         }
         else {
             super.init(frame: CGRect());
@@ -49,8 +50,12 @@ class TimeDrop: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-             selected = timesData[row]
-        
+        if timesData[row] == "Open" || timesData[row] == "Close" {
+            selected = "";
+        }
+        else {
+            selected = timesData[row]
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {

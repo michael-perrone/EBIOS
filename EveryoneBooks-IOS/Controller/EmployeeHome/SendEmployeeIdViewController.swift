@@ -66,7 +66,8 @@ class SendEmployeeIdViewController: UIViewController {
         print("Hi")
         let bs = BusinessSearch();
         bs.employeeSearchingForBusiness = true;
-        navigationController?.pushViewController(bs, animated: true);
+        bs.modalPresentationStyle = .overFullScreen;
+        self.present(bs, animated: true, completion: nil)
     }
 
     

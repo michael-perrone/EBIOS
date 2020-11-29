@@ -1,14 +1,54 @@
-//
-//  AddEmployeesViewController.swift
-//  EveryoneBooks-IOS
-//
-//  Created by Michael Perrone on 6/7/20.
-//  Copyright © 2020 Michael Perrone. All rights reserved.
-//
-
 import UIKit
 
-class AddEmployees: UIViewController {
+protocol DeleteEmployeesProtocol: AddEmployees {
+    func deleteEmployeeFromPending(employee: Employee, indexPath: [IndexPath], row: Int);
+    func deleteEmployeeFromWorking(employee: Employee, indexPath: [IndexPath], row: Int);
+    
+}
+
+class AddEmployees: UIViewController, DeleteEmployeesProtocol {
+    
+    func deleteEmployeeFromWorking(employee: Employee, indexPath: [IndexPath], row: Int) {
+        let alert = UIAlertController(title: "Confirm Deletion", message: "Are you sure you would like to delete " + employee.fullName + " as an employee of your business?", preferredStyle: .alert);
+        
+        let action1 = UIAlertAction(title: "Oops, No!", style: .default, handler: nil);
+        let action2 = UIAlertAction(title: "Yes!", style: .destructive) { (UIAlertAction) in
+            API().post(url: "http://localhost:4000/api/businessProfile/employeeDeleteFromBusiness",
+                       headerToSend: Utilities().getAdminToken(), dataToSend: ["employeeId": employee.id]) { (res) in
+                if let status = res["statusCode"] as? Int {
+                    DispatchQueue.main.async {
+                        self.employeesHere.remove(at: row);
+                        self.employeesHereTable.deleteRows(at: indexPath, with: UITableView.RowAnimation.fade);
+                    }
+                }
+            }
+        }
+        alert.addAction(action1);
+        alert.addAction(action2)
+        self.present(alert, animated: true, completion: nil);
+    }
+    
+    func deleteEmployeeFromPending(employee: Employee, indexPath: [IndexPath], row: Int) {
+        let alert = UIAlertController(title: "Confirm Deletion", message: "Are you sure you would like to delete " + employee.fullName + " as an employee of your business?", preferredStyle: .alert);
+        let action1 = UIAlertAction(title: "Oops, No!", style: .default, handler: nil);
+        let action2 = UIAlertAction(title: "Yes!", style: .destructive) { (UIAlertAction) in
+            API().post(url: "http://localhost:4000/api/businessProfile/removeFromPending",
+                       headerToSend: Utilities().getAdminToken(), dataToSend: ["employeeId": employee.id]) { (res) in
+                if let status = res["statusCode"] as? Int {
+                    if status == 200 {
+                        print("WORKED I THINK")
+                        DispatchQueue.main.async {
+                            self.employeesPending.remove(at: row);
+                            self.employeesPendingTable.deleteRows(at: indexPath, with: UITableView.RowAnimation.fade);
+                        }
+                    }
+                }
+            }
+        }
+        alert.addAction(action1);
+        alert.addAction(action2)
+        self.present(alert, animated: true, completion: nil);
+    }
     
     var employeeId: String?;
     
@@ -24,20 +64,12 @@ class AddEmployees: UIViewController {
     var employeesHere: [Employee] = [] {
         didSet {
             self.employeesHereTable.employees = self.employeesHere;
-            self.employeesHereTable.url = "http://localhost:4000/api/businessProfile/employeeDeleteFromBusiness";
-            DispatchQueue.main.async {
-                self.employeesHereTable.table.reloadData()
-            }
         }
     }
     
     var employeesPending: [Employee] = [] {
         didSet {
            self.employeesPendingTable.employees = self.employeesPending;
-            self.employeesPendingTable.url = "http://localhost:4000/api/businessProfile/removeFromPending";
-            DispatchQueue.main.async {
-                self.employeesPendingTable.table.reloadData();
-            }
         }
     }
     
@@ -52,7 +84,7 @@ class AddEmployees: UIViewController {
     }()
     
     private let searchButton: UIButton = {
-        let uib = Components().createAlternateButton(title: "Search")
+        let uib = Components().createAlternateButton(title: "Search");
         uib.addTarget(self, action: #selector(sendEmployeeId), for: .touchUpInside);
         return uib;
     }()
@@ -108,11 +140,15 @@ class AddEmployees: UIViewController {
     
     lazy var employeesPendingTable: EmployeeAddTable = {
         let table = EmployeeAddTable();
+        table.deleteDelegate = self;
+        table.pending = true;
         return table;
     }()
     
     lazy var employeesHereTable: EmployeeAddTable = {
         let table = EmployeeAddTable();
+        table.deleteDelegate = self;
+        table.pending = false;
         return table;
     }()
     
@@ -175,11 +211,11 @@ class AddEmployees: UIViewController {
                 let newEmployee = Employee(dic: ["fullName": self.employeeName, "_id": self.employeeId!]);
                 print(newEmployee)
                 self.employeesPending.append(newEmployee);
-                self.employeesPendingTable.url = "http://localhost:4000/api/businessProfile/removeFromPending";
                 self.employeesPendingTable.employees = self.employeesPending;
+                let alert = Components().createActionAlert(title: "Employee Successfully Added!", message: "You have successfully added this employee to become an employee at your business. Once they confirm your request, you will be able to schedule them.", buttonTitle: "Awesome", handler: nil);
                 DispatchQueue.main.async {
                    self.employeeFound.isHidden = true;
-                   self.success.isHidden = false;
+                    self.present(alert, animated: true, completion: nil);
                 }
             }
             else {
@@ -205,7 +241,7 @@ class AddEmployees: UIViewController {
                 let url = myURL + "employeeList";
                 let dataToSend = ["employeeId": eID];
                 API().post(url: url, dataToSend: dataToSend) { (res) in
-                    
+                    print(res)
                     if let failure = res["fail"] {
                         if failure as! Bool{
                             DispatchQueue.main.async {
@@ -232,7 +268,8 @@ class AddEmployees: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         getEmployees();
     }
     
@@ -280,20 +317,22 @@ class AddEmployees: UIViewController {
         view.addSubview(employeesPendingTable);
         employeesPendingTable.padTop(from: toggleEmployeesPending.bottomAnchor, num: 15);
         employeesPendingTable.centerTo(element: view.centerXAnchor);
-        employeesPendingTable.setWidth(width: view.frame.width);
-        employeesPendingTable.setHeight(height: view.frame.height / 2.3);
+        employeesPendingTable.setWidth(width: fullWidth / 1.12);
+        employeesPendingTable.padBottom(from: view.safeAreaLayoutGuide.bottomAnchor, num: 8);
         
         view.addSubview(employeesHereTable);
         employeesHereTable.padTop(from: toggleEmployeesPending.bottomAnchor, num: 15);
         employeesHereTable.centerTo(element: view.centerXAnchor);
-        employeesHereTable.setWidth(width: view.frame.width);
-        employeesHereTable.setHeight(height: view.frame.height / 2.3);
+        employeesHereTable.setWidth(width: fullWidth / 1.12);
+        employeesHereTable.padBottom(from: view.safeAreaLayoutGuide.bottomAnchor, num: 8);
         employeesHereTable.isHidden = true;
     }
     
     func getEmployees() {
         let url = myURL + "businessProfile/myEmployees";
         API().get(url: url, headerToSend: Utilities().getAdminToken()) { (res) in
+            print(res)
+            print("RES ABOVE")
             let employeesWhoWorkHere = res["employeesHere"] as? [[String: String]];
             var employeesWhoWorkHereArray: [Employee] = [];
             if let employeesWhoWorkHere = employeesWhoWorkHere {
@@ -303,7 +342,11 @@ class AddEmployees: UIViewController {
                 }
                 if employeesWhoWorkHereArray.count > 0 {
                     self.employeesHere = employeesWhoWorkHereArray;
+                    print("EMPLOYEES HERE BELOW");
+                    print(self.employeesHere)
                 }
+                else {
+                    self.employeesHere = [];
             }
             let employeesPendingHere = res["employeesPending"] as? [[String: String]];
             var employeesPendingArray: [Employee] = [];
@@ -314,6 +357,12 @@ class AddEmployees: UIViewController {
                 }
                 if employeesPendingArray.count > 0 {
                     self.employeesPending = employeesPendingArray;
+                    print("EMPLOYEES PENDING BELOW");
+                    print(self.employeesPending)
+                }
+                else {
+                    self.employeesPending = [];
+                    }
                 }
             }
         }

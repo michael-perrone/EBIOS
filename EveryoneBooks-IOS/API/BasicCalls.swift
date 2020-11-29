@@ -28,18 +28,21 @@ class BasicCalls {
                     print(error)
                     return
                 }
-                
+                if let response = response as? HTTPURLResponse {
+                    if response.statusCode == 406 || response.statusCode == 409 {
+                        completion(String(response.statusCode));
+                    }
+                }
                 guard let data = data else {return}
                  do {
-                      let jsonResponse = try JSONSerialization.jsonObject(with:
+                    let jsonResponse = try JSONSerialization.jsonObject(with:
                                              data, options: [])
                     guard let token = jsonResponse as? [String: Any] else {return};
                     
                     guard let actualToken = token["token"] as? String else {return}
-                    
                     completion(actualToken)
                    } catch let parsingError {
-                      print("Error", parsingError)
+                     print(parsingError)
                  }
                
             }

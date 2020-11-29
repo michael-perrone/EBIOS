@@ -73,12 +73,13 @@ class BusinessSearch: UIViewController {
     }()
     
     @objc func goBack() {
-        navigationController?.popViewController(animated: true);
+        self.dismiss(animated: true, completion: nil);
     }
    
     
     @objc func searchBusinesses() {
         if bp.selected != "" || businessNameTextField.text! != "" || cityTextField.text! != "" ||  stateTextField.text! != "" || zipTextField.text! != "" {
+            print(bp.selected + "selected")
             let data = ["typeOfBusiness": bp.selected, "businessName": businessNameTextField.text!, "city": cityTextField.text!, "state": stateTextField.text!, "zip": zipTextField.text!];
             API().post(url: "http://localhost:4000/api/businessList/businessSearch", headerToSend: Utilities().getToken(), dataToSend: data, completion: { (res) in
                 print(res)

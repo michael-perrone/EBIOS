@@ -8,94 +8,47 @@
 
 import UIKit
 
-class EmployeeAddTable: UIView {
-   
-    var url: String?;
+class EmployeeAddTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     
-    var employees: [Employee]?
+    var employees: [Employee]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.reloadData();
+            }
+        }
+    }
     
-    var removing: [String] = [];
+    var pending: Bool?;
+    
+    var deleteDelegate: DeleteEmployeesProtocol?;
     
     private let success: UIView = {
         let uiv = Components().createSuccess(text: "Employee Successfully Deleted");
         return uiv;
     }();
     
-    
-    
     public let table: UITableView = {
         let table = UITableView(frame: CGRect.zero, style: UITableView.Style.insetGrouped);
         return table;
     }();
-    
-    lazy var deleteButton: UIButton = {
-        let uib = Components().createNormalButton(title: "Confirm Delete")
-        uib.addTarget(self, action: #selector(deleteHit), for: .touchUpInside);
-        return uib;
-    }()
-    
-    @objc func deleteHit() {
-        let data = ["employees": removing]
-        API().post(url: url!, headerToSend: Utilities().getAdminToken(), dataToSend: data) { (res) in
-            if let status = res["statusCode"] as? Int {
-                if status == 200 {
-                    DispatchQueue.main.async {
-                       self.success.isHidden = false;
-                       self.deleteButton.isHidden = true;
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    required init() {
-        super.init(frame: CGRect.zero);
-        configureTable()
+
+    override init(frame: CGRect, style: UITableView.Style) {
+        super.init(frame: CGRect.zero, style: UITableView.Style.insetGrouped);
+        dataSource = self;
+        delegate = self;
+        register(UITableViewCell.self, forCellReuseIdentifier: "cell");
+        backgroundColor = .mainLav;
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("init(coder:) has not been implemented");
     }
-    
-    func configureTable() {
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell");
-        table.dataSource = self;
-        table.setHeight(height: UIScreen.main.bounds.height / 3);
-        table.setWidth(width: UIScreen.main.bounds.width);
-        addSubview(table);
-        table.centerTo(element: centerXAnchor);
-        table.padTop(from: topAnchor, num: 0);
-        table.backgroundColor = .clear;
-        addSubview(deleteButton);
-        deleteButton.setHeight(height: 45);
-        deleteButton.setWidth(width: 200);
-        deleteButton.centerTo(element: centerXAnchor);
-        deleteButton.padBottom(from: bottomAnchor, num: 10);
-        deleteButton.isHidden = true;
-        
-        addSubview(success);
-        success.padTop(from: table.bottomAnchor, num: 10);
-        success.padLeft(from: leftAnchor, num: 20)
-        success.isHidden = true;
-        
-        
-    }
-}
 
-extension EmployeeAddTable: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let employees = employees {
-            if employees.count > 0 {
-                return employees.count;
-            }
-            else {
-                return 0;
-            }
+            return employees.count;
         }
-            else {
-                return 0;
-            }
+        return 0;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,13 +64,16 @@ extension EmployeeAddTable: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if let employeesIn = employees {
-            if employeesIn.count > 0 {
-                if editingStyle == .delete {
-                    removing.append(employees![indexPath.row].id)
-                    employees!.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                    deleteButton.isHidden = false;
-                    success.isHidden = true;
+            if let pending = pending {
+                if employeesIn.count > 0 {
+                    if editingStyle == .delete {
+                        if pending {
+                            deleteDelegate?.deleteEmployeeFromPending(employee: employeesIn[indexPath.row], indexPath: [indexPath], row: indexPath.row);
+                        }
+                        else {
+                            deleteDelegate?.deleteEmployeeFromWorking(employee: employeesIn[indexPath.row], indexPath: [indexPath], row: indexPath.row);
+                        }
+                    }
                 }
             }
         }

@@ -24,8 +24,17 @@ class EmployeeBusinessSearchCollection: UICollectionViewController, EmployeeBusi
                 if statusCode == 406 {
                     print("too many ids sent");
                 }
-                if statusCode == 409 {
+                else if statusCode == 409 {
                     print("already requested this business buddy");
+                }
+                else if statusCode == 200 {
+                    let createAlertController = Components().createActionAlert(title: "Success!", message: "You succesfully sent your unique Id to this business! When they respond, we will send you a notification with their response.", buttonTitle: "Cool!") { (UIAlertAction) in
+                        self.dismiss(animated: true, completion: nil);
+                    }
+                    DispatchQueue.main.async {
+                        self.present(createAlertController, animated: true, completion: nil);
+                    }
+                    
                 }
             }
         }
@@ -62,8 +71,7 @@ class EmployeeBusinessSearchCollection: UICollectionViewController, EmployeeBusi
     @objc func goBack() {
         self.dismiss(animated: true, completion: nil);
     }
-    
-    
+
     
     func configureUI() {
         collectionView.register(EmployeeBusinessSearchCell.self, forCellWithReuseIdentifier: "EBSC");
@@ -108,7 +116,7 @@ extension EmployeeBusinessSearchCollection{
 
 extension EmployeeBusinessSearchCollection: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 160);
+        return CGSize(width: UIScreen.main.bounds.width, height: 80);
     }
 }
 

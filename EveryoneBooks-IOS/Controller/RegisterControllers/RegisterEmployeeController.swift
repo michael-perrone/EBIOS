@@ -12,6 +12,25 @@ class RegisterEmployeeController: UIViewController {
     
     // MARK: - Properties
     
+    var error = "" {
+        didSet {
+            if error != "" {
+                errorText.isHidden = false;
+            }
+            else {
+                errorText.isHidden = true;
+            }
+            errorText.text = error;
+        }
+    }
+    
+    private let errorText: UITextView = {
+        let uitv = Components().createSimpleText(text: "");
+        uitv.textColor = .red;
+        uitv.backgroundColor = .mainLav;
+        return uitv;
+    }()
+    
     private let topText: UITextView = {
         let uitv = UITextView();
         uitv.text = "Register As Employee";
@@ -107,25 +126,51 @@ class RegisterEmployeeController: UIViewController {
     
     @objc func employeeRegister() {
         if let fullName = fullNameTextField.text, let email = emailLoginTextField.text, let password = passwordLoginTextField.text, let confirm = confirmPasswordLoginTextField.text {
-            if password == confirm {
-                let dataToSend = ["fullName": fullName,"email": email,"createPassword": password];
-                let url = "http://localhost:4000/api/employeeSignup"
-                BasicCalls().register(urlString: url, dataToSend: dataToSend) { (token) in
-                    if Utilities().setTokenInKeyChain(token: token, key: "employeeToken") {
-                        DispatchQueue.main.async {
-                            let employeeHome = EmployeeHomeController();
-                            employeeHome.modalTransitionStyle = .crossDissolve;
-                            self.navigationController?.pushViewController(employeeHome, animated: true);
+            if fullName != "" && email != "" && password != "" && confirm != "" {
+                if password == confirm {
+                    let dataToSend = ["fullName": fullName,"email": email,"createPassword": password];
+                    let url = "http://localhost:4000/api/employeeSignup"
+                    BasicCalls().register(urlString: url, dataToSend: dataToSend) { (token) in
+                        if token != "406" && token != "409" {
+                            if Utilities().setTokenInKeyChain(token: token, key: "employeeToken") {
+                                DispatchQueue.main.async {
+                                    let employeeHome = EmployeeHomeController();
+                                    employeeHome.modalTransitionStyle = .crossDissolve;
+                                    self.navigationController?.pushViewController(employeeHome, animated: true);
+                                }
+                            }
+                            else {
+                                print("employee signup failed")
+                            }
                         }
-                    }
-                    else {
-                        print("employee signup failed")
+                        else {
+                            if token == "409" {
+                                DispatchQueue.main.async {
+                                    self.errorText.text = "This email is already in use.";
+                                    if self.errorText.isHidden {
+                                        self.errorText.isHidden = false;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
+            else {
+                if fullName == "" {
+                    error = "Please enter full name."
+                }
+                else if email == "" {
+                    error = "Please enter email."
+                }
+                else if password == "" {
+                    error = "Please enter password."
+                }
+                else if confirm == "" {
+                    error = "Please enter password confirm."
+                }
+            }
         }
-        
-        
     }
     
     // MARK: - Lifecycle
@@ -171,6 +216,11 @@ class RegisterEmployeeController: UIViewController {
         registerButton.padTop(from: confirmPasswordInput.bottomAnchor, num: 20);
         registerButton.setWidth(width: view.frame.width / 3.33);
         registerButton.setHeight(height: 45);
+        
+        view.addSubview(errorText);
+        errorText.padTop(from: registerButton.bottomAnchor, num: 30);
+        errorText.centerTo(element: view.centerXAnchor);
+        errorText.isHidden = true;
     }
 
 }

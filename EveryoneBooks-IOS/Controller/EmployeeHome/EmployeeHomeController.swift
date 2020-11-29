@@ -21,9 +21,12 @@ class EmployeeHomeController: SlideTabBarController {
     }
     
     func configureTabs() {
+        print("running")
         let businessName = Utilities().decodeEmployeeToken()?["businessName"] as? String;
+        print(businessName)
         if businessName == nil {
             API().get(url: myURL + "notifications/employeeHas", headerToSend: Utilities().getEmployeeToken()) { (res) in
+                print(res)
                 if res["notis"] as! Bool == false {
                     DispatchQueue.main.async {
                         let home = Components().createNavBarItemController(image: UIImage(named: "calendar"), viewController: SendEmployeeIdViewController(), title: "Home");
@@ -32,12 +35,20 @@ class EmployeeHomeController: SlideTabBarController {
                     }
                 }
                 else {
+                    print("down here")
                     DispatchQueue.main.async {
                         let employeeSchedule = Components().createNavBarItemController(image: UIImage(named: "calendar"), viewController: EmployeeSchedule(), title: "Schedule");
                         let notifications = Components().createNavBarItemController(image: UIImage(named: "notis"), viewController: EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout()), title: "Notifications")
                         self.viewControllers = [employeeSchedule, notifications]
                     }
                 }
+            }
+        }
+        else {
+            DispatchQueue.main.async {
+                let employeeSchedule = Components().createNavBarItemController(image: UIImage(named: "calendar"), viewController: EmployeeSchedule(), title: "Schedule");
+                let notifications = Components().createNavBarItemController(image: UIImage(named: "notis"), viewController: EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout()), title: "Notifications")
+                self.viewControllers = [employeeSchedule, notifications]
             }
         }
     }

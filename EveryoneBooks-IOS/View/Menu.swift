@@ -43,8 +43,7 @@ class Menu: UIView {
             uitv.text = Utilities().decodeUserToken()!["userName"] as! String;
         }
         else if Utilities().getEmployeeToken() != "nil" {
-            uitv.text = Utilities().decodeEmployeeToken()!["fullName"] as! String;
-            print(Utilities().decodeEmployeeToken()!)
+             uitv.text = Utilities().decodeEmployeeToken()!["fullName"] as! String;
         }
         
         return uitv;

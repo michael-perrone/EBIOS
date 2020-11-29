@@ -34,6 +34,12 @@ struct Business {
         self.bookingColumnNumber = dic["bookingColumnNumber"] as? String;
         self.website = dic["website"] as? String;
         self.phone = dic["phoneNumber"] as? String;
-        self.schedule = Schedule(dic: dic["schedule"] as! [[String: String]])
+        if let schedule =  dic["schedule"] as? [[String: String]] {
+            self.schedule = Schedule(dic: schedule);
+        }
+        else {
+            self.schedule = nil;
+        }
+        
     }
 }

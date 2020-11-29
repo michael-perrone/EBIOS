@@ -10,7 +10,17 @@ import UIKit
 
 class RegisterUserController: UIViewController {
     
-    var error = "";
+    var error = "" {
+        didSet {
+            if error != "" {
+                errorText.isHidden = false;
+            }
+            else {
+                errorText.isHidden = true;
+            }
+            errorText.text = error;
+        }
+    }
     
     // MARK: - Properties
     
@@ -100,22 +110,49 @@ class RegisterUserController: UIViewController {
         return uib;
     }()
     
+    private let errorText: UITextView = {
+        let uitv = Components().createSimpleText(text: "");
+        uitv.textColor = .red;
+        uitv.backgroundColor = .mainLav;
+        return uitv;
+    }()
+    
     // MARK: - Selectors
     
     @objc func registerUser() {
         if fullNameTextField.text! != "" && emailLoginTextField.text! != "" && passwordLoginTextField.text! != "" && phoneNumberTextField.text! != "" && passwordLoginTextField.text! == confirmPasswordLoginText.text! {
             let url = "http://localhost:4000/api/usersSignup"
             let datatoSend = ["fullName": fullNameTextField.text!, "email": emailLoginTextField.text!, "createPassword": passwordLoginTextField.text!, "phoneNumber": phoneNumberTextField.text!];
-            BasicCalls().register(urlString:url, dataToSend: datatoSend) { (token) in
-                if Utilities().setTokenInKeyChain(token: token, key: "token") {
-                    DispatchQueue.main.async {
-                        let userHome = UserHomeViewController();
-                        userHome.modalTransitionStyle = .crossDissolve;
-                        self.navigationController?.pushViewController(userHome, animated: true);
+            BasicCalls().register(urlString: url, dataToSend: datatoSend) { (token) in
+                if token != "406" && token != "409" {
+                    if Utilities().setTokenInKeyChain(token: token, key: "token") {
+                        DispatchQueue.main.async {
+                            let userHome = UserHomeViewController();
+                            userHome.modalTransitionStyle = .crossDissolve;
+                            self.navigationController?.pushViewController(userHome, animated: true);
+                            }
+                        }
+                    else {
+                        print("register didnt work")
                     }
                 }
                 else {
-                    print("register didnt work")
+                    if token == "406" {
+                        DispatchQueue.main.async {
+                            self.errorText.text = "Please enter valid phone number.";
+                            if self.errorText.isHidden {
+                                self.errorText.isHidden = false;
+                            }
+                        }
+                    }
+                    else {
+                        DispatchQueue.main.async {
+                            self.errorText.text = "This email is already in use.";
+                            if self.errorText.isHidden {
+                                self.errorText.isHidden = false;
+                            }
+                        }
+                    }
                 }
             }
         } else {
@@ -186,5 +223,10 @@ class RegisterUserController: UIViewController {
         registerButton.padTop(from: phoneNumberInput.bottomAnchor, num: 20);
         registerButton.setWidth(width: view.frame.width / 3.33);
         registerButton.setHeight(height: 45);
+        
+        view.addSubview(errorText);
+        errorText.padTop(from: registerButton.bottomAnchor, num: 30);
+        errorText.centerTo(element: view.centerXAnchor);
+        errorText.isHidden = true;
     }
 }

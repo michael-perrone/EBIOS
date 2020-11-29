@@ -161,13 +161,28 @@ class RegisterAdminController: UIViewController {
                 error = "Passwords do not match"
             }
             else {
-                error = "";
-                regTwoEntered = true;
-                regAdminTwo.isHidden = true;
-                progressBar.progress = 0.3;
-                regAdminThree.isHidden = false;
+                API().post(url: myURL + "auth/checkEmail", dataToSend: ["email": self.email]) { (res) in
+                    if res["statusCode"] as? Int == 200 {
+                        DispatchQueue.main.async {
+                            self.regAdminTwo.isHidden = true;
+                            self.error = "";
+                            self.regTwoEntered = true;
+                            self.progressBar.progress = 0.3;
+                            self.regAdminThree.isHidden = false;
+                            self.errorText.text = "";
+                        }
+                    }
+                    else {
+                        self.error = "This email is already being used";
+                        DispatchQueue.main.async {
+                            self.errorText.text = self.error;
+                            self.errorText.isHidden = false;
+                        }
+                        print("HERE I AM ROCKING LIKE A HURRICANE")
+                    }
+                }
             }
-          }
+        }
         else if !regThreeEntered {
             self.street = regAdminThree.getStreet();
             self.city = regAdminThree.getCity();
@@ -213,10 +228,21 @@ class RegisterAdminController: UIViewController {
             satClose = regAdminFive.getSatClose();
             sunOpen = regAdminFive.getSunOpen();
             sunClose = regAdminFive.getSunClose();
-            regFiveEntered = true;
-            regAdminFive.isHidden = true;
-            regAdminSix.isHidden = false;
-            progressBar.progress = 0.75;
+            var okay = true;
+            [sunOpen, sunClose, satOpen, satClose].forEach { (time) in
+                if time == "Open" || time == "Close" {
+                    let alert = Components().createActionAlert(title: "Time Error", message: "Please make sure the open and close slot for each day is correctly changed to a time or that it is changed to CLOSED if your business is closed that day.", buttonTitle: "Woops, okay!", handler: nil);
+                    self.present(alert, animated: true, completion: nil);
+                    okay = false;
+                }
+            }
+            if okay {
+                regFiveEntered = true;
+                regAdminFive.isHidden = true;
+                regAdminSix.isHidden = false;
+                progressBar.progress = 0.75;
+                error = "";
+            }
         }
         else if !regSixEntered {
             print(regAdminSix.getThuOpen())
@@ -230,11 +256,21 @@ class RegisterAdminController: UIViewController {
             thuClose = regAdminSix.getThuClose();
             friOpen = regAdminSix.getFriOpen();
             friClose = regAdminSix.getFriClose();
-            regSixEntered = true;
-            regAdminSix.isHidden = true;
-            regAdminSeven.isHidden = false;
-            progressBar.progress = 0.9;
-            error = "";
+            var okay = true;
+            [monOpen, monClose, tueOpen, tueClose, wedOpen, wedClose, thuOpen, thuClose, friOpen].forEach { (time) in
+                if time == "Open" || time == "Close" {
+                    let alert = Components().createActionAlert(title: "Time Error", message: "Please make sure the open and close slot for each day is correctly changed to a time or that it is changed to CLOSED if your business is closed that day.", buttonTitle: "Woops, okay!", handler: nil);
+                    self.present(alert, animated: true, completion: nil);
+                    okay = false;
+                }
+            }
+            if okay {
+                regSixEntered = true;
+                regAdminSix.isHidden = true;
+                regAdminSeven.isHidden = false;
+                progressBar.progress = 0.9;
+                error = "";
+            }
         }
         else if !regSevenEntered {
             if let bookingColumnNumber = regAdminSeven.getBookingColumnNumber(), let bookingColumnType = regAdminSeven.getBookingColumnType(), let eq = regAdminSeven.eq {

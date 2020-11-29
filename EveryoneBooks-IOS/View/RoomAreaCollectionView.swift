@@ -8,8 +8,7 @@
 
 import UIKit
 
-class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource
-{
+class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var bookings: [[Booking]]? {
         didSet {

@@ -62,6 +62,13 @@ class Components {
         return uiv;
        }
     
+    func createActionAlert(title: String, message: String, buttonTitle: String, handler: ((UIAlertAction) -> Void)?) -> UIAlertController {
+        let uiac = UIAlertController(title: title, message: message, preferredStyle: .alert);
+        let uiaa = UIAlertAction(title: buttonTitle, style: UIAlertAction.Style.default, handler: handler);
+        uiac.addAction(uiaa);
+        return uiac;
+    }
+    
     func createNoAnswer(answer: String) -> UIView {
         let uiv = UIView();
         let uiiv = UIImageView(image: UIImage(named: "deny"));

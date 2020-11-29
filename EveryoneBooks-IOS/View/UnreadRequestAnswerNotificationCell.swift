@@ -14,7 +14,26 @@ class UnreadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
         if let noti = noti {
             if noti.notificationType == "ESID" {
                 notiMessage.text = noti.fromName! + " has asked to be added as an employee."
-                
+            }
+
+            else if noti.notificationType == "BAE" {
+                notiMessage.text = noti.fromName! + " has added you as an employee to their business."
+            }
+            
+            else if noti.notificationType == "BAR" {
+                notiMessage.text = noti.fromName! + " has accepted your request to join their business as an employee."
+            }
+            
+            else if noti.notificationType == "ERY" {
+                notiMessage.text = noti.fromName! + " has accepted your request to join your business."
+            }
+            
+            else if noti.notificationType == "ELB" {
+                notiMessage.text = noti.fromName! + " has left your business as an employee."
+            }
+            
+            else if noti.notificationType == "BRE" {
+                notiMessage.text = noti.fromName! + " has removed you as an employee from their business."
             }
             addSubview(closeEnv);
             closeEnv.padLeft(from: leftAnchor, num: 10);

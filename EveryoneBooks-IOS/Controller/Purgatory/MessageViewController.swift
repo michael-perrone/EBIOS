@@ -10,9 +10,9 @@ import UIKit
 
 class MessageViewController: UIViewController {
 
-    weak var delegate: MessageViewControllerProtocol?
+    weak var adminDelegate: MessageViewControllerProtocolForAdmin?
     
-    weak var otherDelegate: MessageViewControllerProtocolForEmployee?
+    weak var employeeDelegate: MessageViewControllerProtocolForEmployee?
     
     var message: String?;
     
@@ -79,7 +79,7 @@ class MessageViewController: UIViewController {
     @objc func acceptEmployeeRequest() {
         API().post(url: myURL + "notifications/employerAcceptedEmployee", headerToSend: Utilities().getAdminToken(), dataToSend: ["employeeId": requestAnswerNoti?.fromId, "notificationId": requestAnswerNoti?.id, "businessId": Utilities().decodeAdminToken()!["businessId"]]) { (res) in
             if (res["statusCode"] as! Int == 200) {
-                self.delegate?.answerHit();
+                self.adminDelegate?.answerHit();
                 DispatchQueue.main.async {
                     UIView.animate(withDuration: 0.5) {
                         self.yesButton.alpha = 0
@@ -98,8 +98,7 @@ class MessageViewController: UIViewController {
 
     @objc func denyEmployeeRequest() {
         print("hello");
-        self.delegate?.answerHit();
-        print(self.delegate!)
+        self.adminDelegate?.answerHit();
 //        API().post(url: myURL + "notifications/employerDeniedEmployee", headerToSend: Utilities().getAdminToken(), dataToSend: ["notificationId": adminNoti?.id, "employeeId": adminNoti?.fromId]) { (res) in
 //            if res["statusCode"] as! Int == 200 {
 //
@@ -119,19 +118,45 @@ class MessageViewController: UIViewController {
 //        }
      }
     
+    @objc func acceptEmployerRequest() {
+        let data: [String: Any] = ["employeeId": Utilities().getEmployeeId(), "notificationId": requestAnswerNoti!.id!]
+        API().post(url: myURL + "notifications/employeeClickedYesIos", dataToSend: data) { (res) in
+            if res["statusCode"] as! Int == 200 {
+                self.employeeDelegate?.answerHit();
+                DispatchQueue.main.async {
+                    UIView.animate(withDuration: 0.5) {
+                        self.yesButton.alpha = 0
+                        self.noButton.alpha = 0;
+                    }
+                }
+            }
+            let acceptedAlert = UIAlertController(title: "Success!", message: "You have successfully been added as an employee to " + self.requestAnswerNoti!.fromName! + ". Congratulations!", preferredStyle: .alert)
+            let acceptedAlertOk = UIAlertAction(title: "Cool!", style: .default, handler: nil);
+            acceptedAlert.addAction(acceptedAlertOk);
+            DispatchQueue.main.async {
+                self.present(acceptedAlert, animated: true, completion: nil);
+            }
+        }
+    }
+    
+    @objc func denyEmployerRequest() {
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadMessageView();
-        if requestAnswerNoti!.notificationType == "ERA" && requestAnswerNoti!.answer == nil {
-            otherDelegate?.read(notiId: requestAnswerNoti!.id!)
-        }
+       if requestAnswerNoti!.notificationType == "BRA" {
+           employeeDelegate?.answerHit()
+       }
     }
     
     
     func loadMessageView() {
         view.addSubview(dateView);
-        
         if let noti = requestAnswerNoti {
+            print(noti)
+            print("WHY AM I NOT SHOWING UP")
             dateView.text = noti.date;
             if noti.notificationType! == "ESID" {
                 view.addSubview(yesButton);
@@ -143,7 +168,7 @@ class MessageViewController: UIViewController {
                 yesButton.addTarget(self, action: #selector(acceptEmployeeRequest), for: .touchUpInside);
                 noButton.addTarget(self, action: #selector(denyEmployeeRequest), for: .touchUpInside);
                 header = "Employee Join Request";
-                if noti.answer == nil {
+    
                     message = noti.fromName! + " has requested that they be added as a current working employee to your business. Would you like to add " + noti.fromName! + "? If yes, be aware this employee will be able to be booked on your current schedule unless you go into your settings and specify otherwise.";
                     view.addSubview(answeredYes);
                     answeredYes.padBottom(from: view.bottomAnchor, num: 100);
@@ -151,22 +176,36 @@ class MessageViewController: UIViewController {
                     view.addSubview(answeredNo)
                     answeredNo.padBottom(from: view.bottomAnchor, num: 100);
                     answeredNo.centerTo(element: view.centerXAnchor);
-                }
-                else {
-                    if noti.answer == true {
-                        message = "You accepted " + noti.fromName! + " as a new employe to your business. If this was a mistake, you can remove them in your edit business menu."
-                    }
-                    if noti.answer == false {
-                        message = "You denied " + noti.fromName! + " from becoming an employee at your business. If this was a mistake, you can add them in your edit business menu or have them send another request."
-                    }
-                    yesButton.isHidden = true;
-                    noButton.isHidden = true;
-                }
             }
-            else if noti.notificationType == "ERA" {
-                header = "Employer Accepted"
-                message = noti.fromName! + " has accepted your request to join there business as an employee!"
+            else if noti.notificationType == "BAE" { // business added employee
+                header = "Employer Sent Request";
+                message = noti.fromName! + " has used your unique id to add you as an employee to their business. If you accept this request, this employer will be able to add you to their shift schedule right away. Would you like to confirm youself as an employee?";
+                view.addSubview(yesButton);
+                yesButton.centerTo(element: view.centerXAnchor);
+                yesButton.padBottom(from: view.bottomAnchor, num: 120);
+                yesButton.addTarget(self, action: #selector(acceptEmployerRequest), for: .touchUpInside);
+                view.addSubview(noButton);
+                noButton.centerTo(element: view.centerXAnchor);
+                noButton.padTop(from: yesButton.bottomAnchor, num: 20);
             }
+            else if noti.notificationType == "EAR" {
+                print("okay")
+                header = "Request Accepted";
+                message = "You accepted this request from " + noti.fromName! + " to join there business as an employee! You will now be able to be added to their shift schedule.";
+            }
+            else if noti.notificationType == "ERY" || noti.notificationType == "ERYR" {
+                header = "Employee Accepted";
+                message = noti.fromName! + " has accepted your request to join your business as an employee. You can now add them to your shift schedule!";
+            }
+            else if noti.notificationType == "BAR" || noti.notificationType == "BARR" {
+                header = "Employer Accepted";
+                message = noti.fromName! + " has accepted your request to join their business as an employee. You can now be added to their shift schedule!";
+            }
+            else if noti.notificationType == "YAE" {
+                header = "Employee Accepted";
+                message = "Your business accepted a request from " + noti.fromName! + " to join your business as an employee. They can now be added to your shift schedule.";
+            }
+            
         }
         
         dateView.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 24);

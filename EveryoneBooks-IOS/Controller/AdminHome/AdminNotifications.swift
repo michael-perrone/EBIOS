@@ -13,11 +13,11 @@ protocol RequestAnswerCell {
     
 }
 
-protocol MessageViewControllerProtocol: AdminNotifications {
+protocol MessageViewControllerProtocolForAdmin: AdminNotifications {
     func answerHit();
 }
 
-class AdminNotifications: UICollectionViewController, RequestAnswerCell, MessageViewControllerProtocol {
+class AdminNotifications: UICollectionViewController, RequestAnswerCell, MessageViewControllerProtocolForAdmin {
     
     func answerHit() {
         getAdminNotis()
@@ -26,8 +26,15 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
     func tapped(noti: RequestAnswerNotification) {
         let messageVC = MessageViewController();
         messageVC.requestAnswerNoti = noti;
-        messageVC.delegate = self;
+        messageVC.adminDelegate = self;
         present(messageVC, animated: true, completion: nil);
+        if noti.notificationType == "ERY" {
+            API().post(url: myURL + "notifications/changeToRead", dataToSend: ["notificationId": noti.id]) { (res) in
+                if res["statusCode"] as? Int == 200 {
+                    self.getAdminNotis();
+                }
+            }
+        }
     }
     
     var adminNotifications: [RequestAnswerNotification]? {
@@ -57,12 +64,11 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
         collectionView.register(UnreadRequestAnswerNotificationCell.self, forCellWithReuseIdentifier: "UnreadAdminNotiCell");
         collectionView.register(ReadRequestAnswerNotificationCell.self, forCellWithReuseIdentifier: "ReadAdminNotiCell");
         collectionView.backgroundColor = .mainLav;
-         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
-       getAdminNotis()
+        getAdminNotis()
     }
     
     func getAdminNotis() {
@@ -76,6 +82,7 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
                         adminNotificationsArray.insert(adminNotification, at: 0);
                     }
                     self.adminNotifications = adminNotificationsArray;
+                    print(self.adminNotifications);
                 }
             }
         }
@@ -92,21 +99,21 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let adminNotis = self.adminNotifications {
             let noti = adminNotis[indexPath.row];
-            if noti.answer == nil {
+            if noti.notificationType == "ERY" || noti.notificationType == "ESID" || noti.notificationType == "ELB" {
                 let unreadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UnreadAdminNotiCell", for: indexPath) as! UnreadRequestAnswerNotificationCell;
                 unreadCell.noti = noti;
                 unreadCell.layoutCell();
-                unreadCell.layoutUnreadCell()
+                unreadCell.layoutUnreadCell();
                 unreadCell.delegate = self;
                 return unreadCell;
             }
             else {
                 let readCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReadAdminNotiCell", for: indexPath) as! ReadRequestAnswerNotificationCell;
-                    readCell.noti = noti;
-                    readCell.layoutReadCell()
-                    readCell.layoutCell();
-                    readCell.delegate = self;
-                    return readCell;
+                readCell.noti = noti;
+                readCell.layoutReadCell()
+                readCell.layoutCell();
+                readCell.delegate = self;
+                return readCell;
             }
         }
         return RequestAnswerNotificationCell()

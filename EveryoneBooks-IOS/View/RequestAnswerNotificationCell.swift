@@ -18,7 +18,6 @@ class RequestAnswerNotificationCell: NotificationCell {
            delegate?.tapped(noti: noti!)
     }
     
-    
     func layoutCell() {
         if let noti = noti {
             let tap = UITapGestureRecognizer(target: self, action: #selector(hit));
@@ -38,6 +37,7 @@ class RequestAnswerNotificationCell: NotificationCell {
             dateOfNoti.padTop(from: topAnchor, num: 2);
             dateOfNoti.padRight(from: rightAnchor, num: 20);
             dateOfNoti.setHeight(height: 24);
+            print(noti)
             dateOfNoti.text = noti.date!;
             backgroundColor = .mainLav;
             
