@@ -30,13 +30,16 @@ class UserBookings: UICollectionViewController {
         navigationController?.navigationBar.barTintColor = .mainLav;
         navigationItem.title = "My Bookings";
         collectionView.register(UserBookingsCollectionCell.self, forCellWithReuseIdentifier: "UserBookingsCell");
+        collectionView.register(NoBookingsCell.self, forCellWithReuseIdentifier: "NB");
         collectionView.backgroundColor = .literGray;
     }
     
     
     func getBookings() {
+        print(Utilities().getToken())
         API().get(url: myURL + "getBookings/ios", headerToSend: Utilities().getToken()) { (res) in
             print(res)
+            print("res above")
             var bookings: [Booking] = [];
             if let bookingsBack = res["bookings"] as? [[String: Any]] {
                 for booking in bookingsBack {
@@ -52,26 +55,38 @@ class UserBookings: UICollectionViewController {
 extension UserBookings {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     if let bookings = bookings {
-        return bookings.count;
+        if bookings.count == 0 {
+            return 1;
+        }
+        else {
+            return bookings.count;
+        }
     }
     else {
-        return 0;
+        return 1;
     }
 }
 
-override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserBookingsCell", for: indexPath) as! UserBookingsCollectionCell;
-    if let bookings = bookings {
-        cell.booking = bookings[indexPath.row];
-        cell.configureCell()
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let noBookingsCell = collectionView.dequeueReusableCell(withReuseIdentifier: "NB", for: indexPath) as! NoBookingsCell;
+        if let bookings = bookings {
+            if bookings.count == 0 {
+                noBookingsCell.configureCell();
+                return noBookingsCell;
+            }
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserBookingsCell", for: indexPath) as! UserBookingsCollectionCell;
+            cell.booking = bookings[indexPath.row];
+            cell.configureCell();
+            return cell;
+        } else {
+            return noBookingsCell;
         }
-    return cell;
     }
 }
 
 
 extension UserBookings: UICollectionViewDelegateFlowLayout {
        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 260);
+        return CGSize(width: UIScreen.main.bounds.width, height: 290);
     }
 }

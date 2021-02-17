@@ -13,8 +13,7 @@ class AdminHomeController: SlideTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        getBusiness()
-        setTabs(tab1: AdminBookings(), image1: UIImage(named: "business-tab-bar")!, title1: "Service Schedule", tab2: AdminShifts(), image2: UIImage(named: "calendar")!, title2: "Shift Schedule", tab3: AdminNotifications(collectionViewLayout: UICollectionViewFlowLayout()), image3: UIImage(named: "notis")!, title3: "Notifications")
+        getBusiness();
     }
     
     func configureUI() {
@@ -24,13 +23,19 @@ class AdminHomeController: SlideTabBarController {
     func getBusiness() {
         let url = myURL + "businessProfile/myBusinessForProfile";
         API().get(url: url, headerToSend: Utilities().getAdminToken()) { (res) in
+            print(res)
             if let profileCreated = res["profileCreated"] as? Bool {
-                if (profileCreated) {
+                if profileCreated {
+                    DispatchQueue.main.async {
+                        self.setTabs(tab1: AdminBookings(), image1: UIImage(named: "business-tab-bar")!, title1: "Service Schedule", tab2: AdminShifts(), image2: UIImage(named: "calendar")!, title2: "Shift Schedule", tab3: AdminNotifications(collectionViewLayout: UICollectionViewFlowLayout()), image3: UIImage(named: "notis")!, title3: "Notifications");
+                        
+                    }
                 }
                 else {
                     DispatchQueue.main.async {
+                        self.setTabs(tab1: AdminBookings(), image1: UIImage(named: "business-tab-bar")!, title1: "Service Schedule", tab2: AdminShifts(), image2: UIImage(named: "calendar")!, title2: "Shift Schedule", tab3: AdminNotifications(collectionViewLayout: UICollectionViewFlowLayout()), image3: UIImage(named: "notis")!, title3: "Notifications");
                         let editBusiness = EditBusinessProfile();
-                        editBusiness.message = "Bitch What";
+                        editBusiness.message = "Stop it";
                         editBusiness.modalPresentationStyle = .fullScreen;
                         self.present(editBusiness, animated: true, completion: nil);
                     }

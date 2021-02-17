@@ -276,7 +276,7 @@ class RegisterAdminController: UIViewController {
             if let bookingColumnNumber = regAdminSeven.getBookingColumnNumber(), let bookingColumnType = regAdminSeven.getBookingColumnType(), let eq = regAdminSeven.eq {
                 if bookingColumnNumber != "" && bookingColumnType != "" {
                     let url = "http://localhost:4000/api/adminSignup";
-                    let dataToSend = ["businessName": businessName, "typeOfBusiness": typeOfBusiness, "email": email, "password": password, "address": street, "city": city, "state": state, "zip": zip, "phoneNumber": phone, "website": website, "satOpen": satOpen, "satClose": satClose, "sunOpen": sunOpen, "sunClose": sunClose, "monOpen": monOpen, "monClose": monClose, "tueOpen": tueOpen, "tueClose": tueClose, "wedOpen": wedOpen, "wedClose": wedClose, "thuOpen": thuOpen, "thuClose": thuClose, "friOpen": friOpen, "friClose": friClose, "bookingColumnNumber": bookingColumnNumber, "bookingColumnType": bookingColumnType, "eq": eq]
+                    let dataToSend = ["businessName": businessName, "typeOfBusiness": typeOfBusiness, "email": email, "password": password, "address": street, "city": city, "state": state, "zip": zip, "phoneNumber": phone, "website": website, "satOpen": satOpen, "satClose": satClose, "sunOpen": sunOpen, "sunClose": sunClose, "monOpen": monOpen, "monClose": monClose, "tueOpen": tueOpen, "tueClose": tueClose, "wedOpen": wedOpen, "wedClose": wedClose, "thuOpen": thuOpen, "thuClose": thuClose, "friOpen": friOpen, "friClose": friClose, "bookingColumnNumber": bookingColumnNumber, "bookingColumnType": bookingColumnType, "eq": eq];
                     BasicCalls().register(urlString: url, dataToSend: dataToSend) { (token) in
                         if Utilities().setTokenInKeyChain(token: token, key: "adminToken") {
                             DispatchQueue.main.async {
@@ -291,7 +291,10 @@ class RegisterAdminController: UIViewController {
                     }
                 }
                 else {
-                    print("top two are blank")
+                    let alert = Components().createActionAlert(title: "Please Fill In All Fields", message: "Please enter the item/area to be booked at your business and how many of these items/areas can be booked at your business.", buttonTitle: "Okay!", handler: nil);
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil);
+                    }
                 }
             }
             else {
@@ -321,7 +324,8 @@ class RegisterAdminController: UIViewController {
     
     // MARK: - LIFECYCLE
     override func viewDidLoad() {
-        configureUI()
+        configureUI();
+        hkb();
     }
     
     // MARK: - HELPERS

@@ -123,6 +123,7 @@ class MessageViewController: UIViewController {
         API().post(url: myURL + "notifications/employeeClickedYesIos", dataToSend: data) { (res) in
             if res["statusCode"] as! Int == 200 {
                 self.employeeDelegate?.answerHit();
+                self.employeeDelegate?.alterTabs();
                 DispatchQueue.main.async {
                     UIView.animate(withDuration: 0.5) {
                         self.yesButton.alpha = 0

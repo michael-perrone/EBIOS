@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol CollectionViewCellDelegate: BusinessSearchCollection {
+protocol BusinessSearchDelegate: BusinessSearchCollection {
     func showBusiness(bpId: String)
     func followBusiness(index: Int)
     func unFollowBusiness(idParameter: String)
     func goToBook(business: Business)
 }
 
-class BusinessSearchCollection: UICollectionViewController, CollectionViewCellDelegate  {
+class BusinessSearchCollection: UICollectionViewController, BusinessSearchDelegate  {
     
     func showBusiness(bpId: String) {
         let bpController = BusinessPageController();
@@ -29,7 +29,7 @@ class BusinessSearchCollection: UICollectionViewController, CollectionViewCellDe
     func goToBook(business: Business) {
         let userBookingSomething = UserBookingSomething();
         userBookingSomething.comingFromBusinessPage = false;
-        userBookingSomething.business = business; 
+        userBookingSomething.business = business;
         navigationController?.pushViewController(userBookingSomething, animated: true);
     }
     
@@ -38,11 +38,9 @@ class BusinessSearchCollection: UICollectionViewController, CollectionViewCellDe
     }
     
     func unFollowBusiness(idParameter: String) {
-        
         businessesFollowing?.removeAll(where: { (id) -> Bool in
             return id == idParameter;
         })
-        
     }
     
     var businesses: [Business]? {
@@ -76,7 +74,8 @@ class BusinessSearchCollection: UICollectionViewController, CollectionViewCellDe
     }
     
     func configureUI() {
-        collectionView.register(BusinesSearchCell.self, forCellWithReuseIdentifier: "BusinessSearchCell");
+        collectionView.register(BusinessSearchCell.self, forCellWithReuseIdentifier: "BusinessSearchCell");
+        collectionView.register(NoBusinessSearchCell.self, forCellWithReuseIdentifier: "NF");
         collectionView.backgroundColor = .literGray;
         navigationController?.navigationBar.backgroundColor = .mainLav;
         navigationController?.navigationBar.barTintColor = .mainLav;
@@ -108,17 +107,25 @@ class BusinessSearchCollection: UICollectionViewController, CollectionViewCellDe
 extension BusinessSearchCollection {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    if let businesses = businesses {
-        return businesses.count;
+        if let businesses = businesses {
+            if businesses.count == 0 {
+                return 1;
+            }
+            else {
+                return businesses.count;
+            }
     }
-    else {
-        return 0;
-    }
+        return 1;
 }
 
 override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BusinessSearchCell", for: indexPath) as! BusinesSearchCell;
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BusinessSearchCell", for: indexPath) as! BusinessSearchCell;
     if let businesses = businesses {
+        if businesses.count == 0 {
+            let notFollowingCell = collectionView.dequeueReusableCell(withReuseIdentifier: "NF", for: indexPath) as! NoBusinessSearchCell;
+            notFollowingCell.configureCell();
+            return notFollowingCell;
+        }
         if let businessesFollowing = self.businessesFollowing {
             if businessesFollowing.count == 0 {
                 cell.following = false;
@@ -133,7 +140,6 @@ override func collectionView(_ collectionView: UICollectionView, cellForItemAt i
                 }
             }
         }
-        
         cell.webText.text = businesses[indexPath.row].website;
         cell.phoneText.text = businesses[indexPath.row].phone;
         cell.businessName.text = businesses[indexPath.row].nameOfBusiness;

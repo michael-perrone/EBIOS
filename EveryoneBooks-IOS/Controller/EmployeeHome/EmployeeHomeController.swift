@@ -8,20 +8,29 @@
 
 import UIKit
 
-class EmployeeHomeController: SlideTabBarController {
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear( animated);
-        configureTabs();
-    }
+protocol DoesThisStillWork: EmployeeHomeController {
+    func changeTabs()
+}
+
+class EmployeeHomeController: SlideTabBarController, DoesThisStillWork {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView();
+        configureTabs();
+    }
+    
+    func changeTabs() {
+        DispatchQueue.main.async {
+            let employeeSchedule = Components().createNavBarItemController(image: UIImage(named: "calendar"), viewController: EmployeeSchedule(), title: "Schedule");
+            let notifications = EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout());
+            let notificationsTab = Components().createNavBarItemController(image: UIImage(named: "notis"), viewController: notifications, title: "Notifications");
+            
+            self.viewControllers = [employeeSchedule, notificationsTab]
+        }
     }
     
     func configureTabs() {
-        print("running")
         let businessName = Utilities().decodeEmployeeToken()?["businessName"] as? String;
         print(businessName)
         if businessName == nil {
@@ -30,16 +39,20 @@ class EmployeeHomeController: SlideTabBarController {
                 if res["notis"] as! Bool == false {
                     DispatchQueue.main.async {
                         let home = Components().createNavBarItemController(image: UIImage(named: "calendar"), viewController: SendEmployeeIdViewController(), title: "Home");
-                        let notifications = Components().createNavBarItemController(image: UIImage(named: "notis"), viewController: EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout()), title: "Notifications")
-                        self.viewControllers = [home, notifications]
+                        let notifications = EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout());
+                        notifications.delegateFromHome = self;
+                        let notificationsTab = Components().createNavBarItemController(image: UIImage(named: "notis"), viewController: notifications, title: "Notifications");
+                        self.viewControllers = [home, notificationsTab]
                     }
                 }
                 else {
                     print("down here")
                     DispatchQueue.main.async {
                         let employeeSchedule = Components().createNavBarItemController(image: UIImage(named: "calendar"), viewController: EmployeeSchedule(), title: "Schedule");
-                        let notifications = Components().createNavBarItemController(image: UIImage(named: "notis"), viewController: EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout()), title: "Notifications")
-                        self.viewControllers = [employeeSchedule, notifications]
+                        let notifications = EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout());
+                        notifications.delegateFromHome = self;
+                        let notificationsTab = Components().createNavBarItemController(image: UIImage(named: "notis"), viewController: notifications, title: "Notifications");
+                        self.viewControllers = [employeeSchedule, notificationsTab]
                     }
                 }
             }
@@ -47,8 +60,10 @@ class EmployeeHomeController: SlideTabBarController {
         else {
             DispatchQueue.main.async {
                 let employeeSchedule = Components().createNavBarItemController(image: UIImage(named: "calendar"), viewController: EmployeeSchedule(), title: "Schedule");
-                let notifications = Components().createNavBarItemController(image: UIImage(named: "notis"), viewController: EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout()), title: "Notifications")
-                self.viewControllers = [employeeSchedule, notifications]
+                let notifications = EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout());
+                notifications.delegateFromHome = self;
+                let notificationsTab = Components().createNavBarItemController(image: UIImage(named: "notis"), viewController: notifications, title: "Notifications");
+                self.viewControllers = [employeeSchedule, notificationsTab];
             }
         }
     }

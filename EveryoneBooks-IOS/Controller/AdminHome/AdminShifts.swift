@@ -54,7 +54,6 @@ class AdminShifts: UIViewController {
     
     private let scheduleText: UITextView = {
         let uitv = Components().createSimpleText(text: "Schedule for: ");
-        uitv.font = .boldSystemFont(ofSize: 28);
         uitv.backgroundColor = .mainLav;
         return uitv;
     }()
@@ -422,10 +421,10 @@ class AdminShifts: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: businessEditButton);
         view.addSubview(scheduleText);
         scheduleText.centerTo(element: view.centerXAnchor);
-        scheduleText.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 20);
+        scheduleText.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 10);
         view.addSubview(datePicker);
         datePicker.centerTo(element: view.centerXAnchor);
-        datePicker.padTop(from: scheduleText.bottomAnchor, num: 0);
+        datePicker.padTop(from: scheduleText.bottomAnchor, num: 7);
         view.addSubview(specialTable);
         specialTable.setHeight(height: 300);
         specialTable.setWidth(width: view.frame.width);

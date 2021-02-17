@@ -124,7 +124,8 @@ class RegisterUserController: UIViewController {
             let url = "http://localhost:4000/api/usersSignup"
             let datatoSend = ["fullName": fullNameTextField.text!, "email": emailLoginTextField.text!, "createPassword": passwordLoginTextField.text!, "phoneNumber": phoneNumberTextField.text!];
             BasicCalls().register(urlString: url, dataToSend: datatoSend) { (token) in
-                if token != "406" && token != "409" {
+                print(token)
+                if token != "406" && token != "409" && token != "405" {
                     if Utilities().setTokenInKeyChain(token: token, key: "token") {
                         DispatchQueue.main.async {
                             let userHome = UserHomeViewController();
@@ -145,9 +146,18 @@ class RegisterUserController: UIViewController {
                             }
                         }
                     }
-                    else {
+                    else if token == "409" {
                         DispatchQueue.main.async {
                             self.errorText.text = "This email is already in use.";
+                            if self.errorText.isHidden {
+                                self.errorText.isHidden = false;
+                            }
+                        }
+                    }
+                    else if token == "405" {
+                        print("hello")
+                        DispatchQueue.main.async {
+                            self.errorText.text = "This phone is already in use.";
                             if self.errorText.isHidden {
                                 self.errorText.isHidden = false;
                             }
@@ -157,16 +167,59 @@ class RegisterUserController: UIViewController {
             }
         } else {
             if fullNameTextField.text! == "" {
+                if emailLoginTextField.text! == "" {
+                    error = "Please fill in forms above"
+                    return;
+                }
+                if passwordLoginTextField.text! == "" {
+                    error = "Please fill in forms above";
+                    return;
+                }
+                if confirmPasswordLoginText.text! == "" {
+                    error = "Please fill in forms above";
+                    return;
+                }
+                if phoneNumberTextField.text! == "" {
+                    error = "Please fill in forms above";
+                    return;
+                }
                 error = "Please Enter Full Name";
             }
             else if emailLoginTextField.text! == "" {
+                if passwordLoginTextField.text! == "" {
+                    error = "Please fill in forms above";
+                    return;
+                }
+                if confirmPasswordLoginText.text! == "" {
+                    error = "Please fill in forms above";
+                    return;
+                }
+                if phoneNumberTextField.text! == "" {
+                    error = "Please fill in forms above";
+                    return;
+                }
                 error = "Please Enter Email";
             }
             else if passwordLoginTextField.text! == "" {
+                if confirmPasswordLoginText.text! == "" {
+                    error = "Please fill in forms above";
+                    return;
+                }
+                if phoneNumberTextField.text! == "" {
+                    error = "Please fill in forms above";
+                    return;
+                }
                 error = "Please Enter Password"
             }
             else if passwordLoginTextField.text! != confirmPasswordLoginText.text! {
                 error = "Passwords do not match"
+            }
+            if phoneNumberTextField.text! == "" {
+                if confirmPasswordLoginText.text! == "" {
+                    error = "Please fill in forms above";
+                    return;
+                }
+                error = "Please Enter Phone Number";
             }
         }
     }
@@ -182,6 +235,7 @@ class RegisterUserController: UIViewController {
         super.viewDidLoad();
         view.backgroundColor = .mainLav;
         configureUI();
+        hkb();
     }
     
     

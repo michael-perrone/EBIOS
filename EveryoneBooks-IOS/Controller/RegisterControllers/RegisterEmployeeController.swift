@@ -179,6 +179,7 @@ class RegisterEmployeeController: UIViewController {
         super.viewDidLoad();
         view.backgroundColor = .mainLav;
         configureUI();
+        hkb();
     }
     
     

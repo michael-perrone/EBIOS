@@ -26,6 +26,7 @@ class UserHomeViewController: SlideTabBarController {
      func configureTabs() {
         let businessSearch = Components().createNavBarItemController(image: UIImage(named: "business-search"), viewController: BusinessSearch(), title: "Search");
         let businessesFollowing = BusinessesFollowingCollection(collectionViewLayout: UICollectionViewFlowLayout());
+        businessesFollowing.delto = self;
         let businessFollowing = Components().createNavBarItemController(image: UIImage(named: "business-tab-bar"), viewController: businessesFollowing, title: "Following");
         let userBookingsCollection = UserBookings(collectionViewLayout: UICollectionViewFlowLayout());
         let userBookings = Components().createNavBarItemController(image: UIImage(named: "service-bell-tab-bar"), viewController: userBookingsCollection, title: "Bookings")

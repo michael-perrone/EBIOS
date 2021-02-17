@@ -87,8 +87,8 @@ class BusinessPageController: UIViewController {
     @objc func goToBook() {
         let userBookingSomethingController = UserBookingSomething();
         userBookingSomethingController.comingFromBusinessPage = true;
-        userBookingSomethingController.services = self.services;
         userBookingSomethingController.business = self.business;
+        userBookingSomethingController.services = self.services;
         navigationController?.pushViewController(userBookingSomethingController, animated: true);
     }
     
@@ -101,7 +101,6 @@ class BusinessPageController: UIViewController {
     private var streetText: UITextView = {
         let uitv = Components().createSimpleText(text: "");
         uitv.font = .boldSystemFont(ofSize: 14);
-        
         uitv.backgroundColor = .literGray;
         return uitv;
     }()
@@ -110,7 +109,6 @@ class BusinessPageController: UIViewController {
         let uitv = Components().createSimpleText(text: "");
         uitv.font = .boldSystemFont(ofSize: 14);
         uitv.backgroundColor = .literGray;
-        
         return uitv;
     }()
     
@@ -118,7 +116,6 @@ class BusinessPageController: UIViewController {
         let uitv = Components().createSimpleText(text: "");
         uitv.font = .boldSystemFont(ofSize: 14);
         uitv.backgroundColor = .literGray;
-        
         return uitv;
     }()
     
@@ -126,7 +123,6 @@ class BusinessPageController: UIViewController {
         let uitv = Components().createSimpleText(text: "");
         uitv.font = .boldSystemFont(ofSize: 14);
         uitv.backgroundColor = .literGray;
-        
         return uitv;
     }()
     
@@ -134,7 +130,6 @@ class BusinessPageController: UIViewController {
         let uitv = Components().createSimpleText(text: "");
         uitv.font = .boldSystemFont(ofSize: 14);
         uitv.backgroundColor = .literGray;
-        
         return uitv;
     }()
     
@@ -142,7 +137,6 @@ class BusinessPageController: UIViewController {
         let uitv = Components().createSimpleText(text: "");
         uitv.font = .boldSystemFont(ofSize: 14);
         uitv.backgroundColor = .literGray;
-        
         return uitv;
     }()
     
@@ -208,6 +202,13 @@ class BusinessPageController: UIViewController {
         return table;
     }()
     
+    private let servicesDontExistText: UITextView = {
+        let uitv = Components().createSimpleText(text: "This business has not listed any services they are able to perform at this time.");
+        uitv.font = .systemFont(ofSize: 18);
+        uitv.setWidth(width: fullWidth / 1.25);
+        return uitv;
+    }()
+    
     private let serviceText: UITextView = {
         let uitv = Components().createSimpleText(text: "Services");
         return uitv;
@@ -235,6 +236,12 @@ class BusinessPageController: UIViewController {
                 self.business = Business(dic: business);
             }
             if let services = res["services"] as? [[String:Any]] {
+                if services.count == 0 {
+                    DispatchQueue.main.async {
+                        self.table.isHidden = true;
+                        self.servicesDontExistText.isHidden = false;
+                    }
+                }
                 var servicesArray: [Service] = []
                 for service in services {
                     servicesArray.append(Service(dic: service));
@@ -284,7 +291,10 @@ class BusinessPageController: UIViewController {
         view.addSubview(table);
         table.centerTo(element: view.centerXAnchor);
         table.padTop(from: scheduleView.bottomAnchor, num: 90);
-        
+        servicesDontExistText.isHidden = true;
+        view.addSubview(servicesDontExistText);
+        servicesDontExistText.padTop(from: serviceText.bottomAnchor, num: 8);
+        servicesDontExistText.centerTo(element: view.centerXAnchor);
     }
 
 }

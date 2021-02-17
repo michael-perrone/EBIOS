@@ -14,7 +14,6 @@ class BusinessSearch: UIViewController {
     
     var employeeSearchingForBusiness: Bool?
             
-
     private let businessNameTextField: UITextField = {
         let uitf = Components().createTextField(placeHolder: "Business Name", fontSize: 18);
         return uitf;
@@ -76,7 +75,6 @@ class BusinessSearch: UIViewController {
         self.dismiss(animated: true, completion: nil);
     }
    
-    
     @objc func searchBusinesses() {
         if bp.selected != "" || businessNameTextField.text! != "" || cityTextField.text! != "" ||  stateTextField.text! != "" || zipTextField.text! != "" {
             print(bp.selected + "selected")

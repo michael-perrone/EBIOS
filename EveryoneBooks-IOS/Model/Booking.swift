@@ -22,13 +22,14 @@ struct Booking {
     let bct: String?;
     let businessName: String?;
     let employeeName: String?
+    let id: String?;
     
     init(dic: [String: Any]) {
         self.employeeName = dic["employeeName"] as? String;
         self.time = dic["time"] as? String;
         self.employeeBooked = dic["employeeBooked"] as? String;
         self.businessId = dic["businessId"] as? String;
-        self.serviceTypes = dic["serviceTypes"] as? [String];
+        self.serviceTypes = dic["serviceType"] as? [String];
         self.serviceNames  = dic["serviceNames"] as? [String];
         self.date = dic["date"] as? String;
         self.cost = dic["cost"] as? String;
@@ -37,6 +38,7 @@ struct Booking {
         self.bcn = dic["bcn"] as? String;
         self.bct = dic["bct"] as? String;
         self.businessName = dic["business"] as? String;
+        self.id = dic["_id"] as? String;
     }
 }
 

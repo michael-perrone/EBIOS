@@ -21,6 +21,7 @@ struct Business {
     let website: String?
     let phone: String?
     let schedule: Schedule?
+    let eq: Bool?;
     
     init(dic: [String:Any]) {
         self.street = dic["address"] as? String;
@@ -34,6 +35,13 @@ struct Business {
         self.bookingColumnNumber = dic["bookingColumnNumber"] as? String;
         self.website = dic["website"] as? String;
         self.phone = dic["phoneNumber"] as? String;
+        if dic["eq"] as? String == "n" {
+            self.eq = false;
+        }
+        else {
+            print(dic)
+            self.eq = true;
+        }
         if let schedule =  dic["schedule"] as? [[String: String]] {
             self.schedule = Schedule(dic: schedule);
         }

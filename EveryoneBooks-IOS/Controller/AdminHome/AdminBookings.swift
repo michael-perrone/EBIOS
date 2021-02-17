@@ -11,10 +11,28 @@ import UIKit
 protocol ReloadTableAfterBooking: AdminBookings {
     func reloadTable()
 }
-class AdminBookings: UIViewController, ReloadTableAfterBooking {
+
+protocol BookingClickedProtocol: AdminBookings {
+    func viewBookingInfo(booking: Booking);
+}
+
+class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedProtocol {
+    
+    func viewBookingInfo(booking: Booking) {
+        DispatchQueue.main.async {
+            let vbvc = ViewBookingViewController();
+            vbvc.booking = booking;
+            vbvc.modalPresentationStyle = .fullScreen;
+            self.navigationController?.pushViewController(vbvc, animated: true);
+        }
+    }
     
     func reloadTable() {
-        self.roomAreaTable.reloadData();
+        let df = DateFormatter();
+        df.dateFormat = "MMM dd, yyyy";
+        let dateNeeded = df.string(from: datePicker.date);
+        getBookings(date: dateNeeded);
+        self.roomAreaTable.date = dateNeeded;
     }
     
     var bookings: [[Booking]]? {
@@ -83,6 +101,7 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking {
     }
     
     func configureView() {
+        roomAreaTable.bookingClickedDelegate = self;
         view.addSubview(chooseDateText);
         chooseDateText.centerTo(element: view.centerXAnchor);
         chooseDateText.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 10);
@@ -101,6 +120,7 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking {
     
     func getBookings(date: String) {
         let dateToSend: [String: String] = ["date": date];
+        print("SHOULD BE PRINTING")
         API().post(url: myURL + "adminSchedule", headerToSend: Utilities().getAdminToken(), dataToSend: dateToSend) { (res) in
             if res["statusCode"] as? Int == 200 {
                 if let bct = res["bct"] as? String {

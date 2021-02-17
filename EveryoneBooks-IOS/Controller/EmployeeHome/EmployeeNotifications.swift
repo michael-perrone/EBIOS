@@ -2,9 +2,16 @@ import UIKit
 
 protocol MessageViewControllerProtocolForEmployee: EmployeeNotifications {
     func answerHit();
+    func alterTabs();
 }
 
 class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, MessageViewControllerProtocolForEmployee {
+    
+    weak var delegateFromHome: DoesThisStillWork?;
+    
+    func alterTabs() {
+        delegateFromHome?.changeTabs() 
+    }
     
     func answerHit() {
         self.getEmployeeNotis()
@@ -12,6 +19,7 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
     
     func tapped(noti: RequestAnswerNotification) {
         let messageVC = MessageViewController();
+        
         messageVC.requestAnswerNoti = noti;
         messageVC.employeeDelegate = self;
         present(messageVC, animated: true, completion: nil);

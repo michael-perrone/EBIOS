@@ -25,12 +25,12 @@ class API {
             let task = URLSession.shared.uploadTask(with: request, from: jsonData) { (data, response, error) in
                 if let error = error {
                     print(error)
+                    print("there was an error");
                     return
                 }
                 
                 guard let data = data else {return}
                 if let response = response as? HTTPURLResponse {
-                    
                 do {
                     let jsonResponse = try JSONSerialization.jsonObject(with:
                         data, options: [] )
@@ -39,11 +39,14 @@ class API {
                     completion(res);
                 }
                 catch let error {
+                    print(error)
+                    print("error hit")
                     if response.statusCode == 200 {
                         completion(["statusCode": response.statusCode])
                     }
                     else {
-                        completion(["fail": true, "statusCode": response.statusCode])
+                        print(response.statusCode)
+                        completion(["fail": true, "statusCode": response.statusCode]);
                         }
                     }
                 }
@@ -56,19 +59,15 @@ class API {
         let url = URL(string: url);
         guard let guardedUrl = url else {return}
         var request = URLRequest(url: guardedUrl);
-        
         request.httpMethod = "GET";
-        
         if let value = headerToSend {
             request.setValue(value, forHTTPHeaderField: "x-auth-token");
         }
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
-               
                 return
             }
             if let response = response as? HTTPURLResponse {
-            
                 guard let data = data else {print("no data"); return}
                 do {
                     let mydata = String(data: data, encoding: .utf8);
@@ -76,10 +75,10 @@ class API {
                     guard var res = jsonResponse as? [String: Any] else {return}
                     res["statusCode"] = response.statusCode
                     completion(res);
-                    
                 }
                 catch let parsingEror{
-                    completion(["fail": true])
+                    print(parsingEror)
+                    completion(["fail": true, "statusCode": response.statusCode])
                 }
             }
         }

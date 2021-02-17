@@ -17,8 +17,26 @@ protocol MenuCellClicked: SlideTabBarProtocol {
     func cellClicked(vc: UIViewController)
 }
 
-class SlideTabBarController: UITabBarController, SlideTabBarProtocol, MenuCellClicked {
+protocol HideWheel {
+    func hideWheel()
+    
+    func showWheel()
+}
+
+class SlideTabBarController: UITabBarController, SlideTabBarProtocol, MenuCellClicked, HideWheel {
   
+    func hideWheel() {
+        DispatchQueue.main.async {
+            self.fmb.isHidden = true;
+        }
+    }
+    
+    func showWheel() {
+        DispatchQueue.main.async {
+            self.fmb.isHidden = false;
+        }
+    }
+    
     func logout() {
         if Utilities().getAdminToken() != "nil" {
             Utilities().logout(key: "adminToken");
@@ -63,21 +81,23 @@ class SlideTabBarController: UITabBarController, SlideTabBarProtocol, MenuCellCl
     
     lazy var menu: Menu = {
         if Utilities().getAdminToken() != "nil" {
-            let uiv = Menu(selectionItems: [SelectionItem(vc: BusinessProfileController(), title: "Business Info", image: "🏢"), SelectionItem(vc: EditBusinessProfile(), title: "Edit Business", image: "📎"), SelectionItem(vc: BusinessPerformanceController(), title: "Business Performance", image: "💰"), SelectionItem(vc: AdminEmployeePerformanceViewController(), title: "Employee Performance", image: "👥"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
+            let uiv = Menu(selectionItems: [SelectionItem(vc: BusinessProfileController(), title: "Business Info", image: "🏢"), SelectionItem(vc: EditBusinessProfile(), title: "Edit Business", image: "📎"), SelectionItem(vc: EmployeeBusinessPerformanceController(), title: "Business Performance", image: "💰"), SelectionItem(vc: AdminEmployeePerformanceViewController(), title: "Employee Performance", image: "👥"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
             uiv.cancelDelegate = self;
             uiv.cellClickedDelegate = self;
             uiv.frame = CGRect(x: -(fullWidth / 1.45), y: 0, width: fullWidth / 1.45, height: fullHeight)
             return uiv;
         }
         else if Utilities().getEmployeeToken() != "nil" {
-            let uiv = Menu(selectionItems: [SelectionItem(vc: EmployeeProfileController(), title: "Profile", image: "👩‍🦲"), SelectionItem(vc: EmployeePerf(), title: "Performance", image: "💰"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
+            let ebpc = EmployeeBusinessPerformanceController();
+            ebpc.employee = true;
+            let uiv = Menu(selectionItems: [SelectionItem(vc: EmployeeProfileController(), title: "Profile", image: "👩‍🦲"), SelectionItem(vc: ebpc, title: "Performance", image: "💰"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
             uiv.cancelDelegate = self;
             uiv.cellClickedDelegate = self;
             uiv.frame = CGRect(x: -(fullWidth / 1.45), y: 0, width: fullWidth / 1.45, height: fullHeight)
             return uiv;
         }
         else {
-            let uiv = Menu(selectionItems: [SelectionItem(vc: EmployeeProfileController(), title: "Profile", image: "👩‍🦲"), SelectionItem(vc: BusinessPerformanceController(), title: "History", image: "🧧"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
+            let uiv = Menu(selectionItems: [SelectionItem(vc: UserProfileController(), title: "Profile", image: "👩‍🦲"), SelectionItem(vc: UserHistoryController(), title: "History", image: "💰"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
             uiv.cancelDelegate = self;
             uiv.cellClickedDelegate = self;
             uiv.frame = CGRect(x: -(fullWidth / 1.45), y: 0, width: fullWidth / 1.45, height: fullHeight)

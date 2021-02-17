@@ -29,7 +29,7 @@ class BasicCalls {
                     return
                 }
                 if let response = response as? HTTPURLResponse {
-                    if response.statusCode == 406 || response.statusCode == 409 {
+                    if response.statusCode == 406 || response.statusCode == 409 || response.statusCode == 405 {
                         completion(String(response.statusCode));
                     }
                 }

@@ -15,7 +15,7 @@ class HelpRegModal: UIViewController {
         sv.setWidth(width: fullWidth);
         sv.setHeight(height: fullHeight);
         sv.backgroundColor = .literGray;
-        sv.contentSize = CGSize(width: fullWidth, height: 1650)
+        sv.contentSize = CGSize(width: fullWidth, height: 1870);
         return sv;
     }()
 
@@ -116,17 +116,17 @@ class HelpRegModal: UIViewController {
     }();
     
     private let details9: UITextView = {
-        let uitv = Components().createDetailText(text: "Enter the number of items which you listed above. For example, if your massage parlor has 8 rooms to take appointments in. Scroll down to 8 in the drop-down menu. If your wax center has 6 rooms to take appointments in, choose 6.");
+        let uitv = Components().createDetailText(text: "Enter the number of items/areas that you listed above that will be available to be booked. For example, if your massage parlor has 8 rooms to take appointments in, scroll down to 8 in the drop-down menu. If your wax center has 6 rooms to take appointments in, choose 6.");
         return uitv;
     }();
     
     private let title10: UITextView = {
-           let uitv = Components().createTitleText(text: "Step 10: Enter if Employees Stay in Same Thing/Area");
+           let uitv = Components().createTitleText(text: "Step 10: Choose how your employees will be scheduled for work.");
            return uitv;
        }();
        
        private let details10: UITextView = {
-           let uitv = Components().createDetailText(text: "Choose yes or no depending on whether your business will have it's employees moving from different rooms during one shift. If your employee will be on the same area you specified above for the whole shift, click yes, otherwise click no.");
+           let uitv = Components().createDetailText(text: "Choose yes or no depending on if your employees hours will be calculated by the amount of services they complete, or the amount of shift hours they are scheduled for. For example: At a tennis club a shift schedule may not be used and an employee's hours might only be calculated by the amount of time spent teaching on the court. This type of business would want to choose no for this answer. An example of a business that would want to click yes is a wax center that schedules their employees for individual shifts from one set time to another. This waxer would only be able to be scheduled for bookings during their pretedetermined shift times. Please note if you click yes, an employee will only be able to be scheduled in one of the items/areas above during their shift duration. If no is clicked, an employee will be able to be scheduled in a different item/area at any time.");
            return uitv;
        }();
     
@@ -158,7 +158,7 @@ class HelpRegModal: UIViewController {
         title1.padTop(from: scrollView.topAnchor, num: 8);
         title1.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(details1);
-        details1.padTop(from: title1.bottomAnchor, num: 8);
+        details1.padTop(from: title1.bottomAnchor, num: 6);
         details1.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(b1);
         b1.padTop(from: details1.bottomAnchor, num: 4);
@@ -166,7 +166,7 @@ class HelpRegModal: UIViewController {
         title2.padTop(from: b1.bottomAnchor, num: 8);
         title2.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(details2);
-        details2.padTop(from: title2.bottomAnchor, num: 8);
+        details2.padTop(from: title2.bottomAnchor, num: 6);
         details2.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(b2);
         b2.padTop(from: details2.bottomAnchor, num: 4);
@@ -174,7 +174,7 @@ class HelpRegModal: UIViewController {
         title3.padTop(from: b2.bottomAnchor, num: 8);
         title3.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(details3);
-        details3.padTop(from: title3.bottomAnchor, num: 8);
+        details3.padTop(from: title3.bottomAnchor, num: 6);
         details3.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(b3);
         b3.padTop(from: details3.bottomAnchor, num: 4);
@@ -182,7 +182,7 @@ class HelpRegModal: UIViewController {
         title4.padTop(from: b3.bottomAnchor, num: 8);
         title4.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(details4);
-        details4.padTop(from: title4.bottomAnchor, num: 8);
+        details4.padTop(from: title4.bottomAnchor, num: 6);
         details4.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(b4);
         b4.padTop(from: details4.bottomAnchor, num: 4);
@@ -190,7 +190,7 @@ class HelpRegModal: UIViewController {
         title5.padTop(from: b4.bottomAnchor, num: 8);
         title5.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(details5);
-        details5.padTop(from: title5.bottomAnchor, num: 8);
+        details5.padTop(from: title5.bottomAnchor, num: 6);
         details5.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(b5);
         b5.padTop(from: details5.bottomAnchor, num: 4);
@@ -198,7 +198,7 @@ class HelpRegModal: UIViewController {
         title6.padTop(from: b5.bottomAnchor, num: 8);
         title6.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(details6);
-        details6.padTop(from: title6.bottomAnchor, num: 8);
+        details6.padTop(from: title6.bottomAnchor, num: 6);
         details6.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(b6);
         b6.padTop(from: details6.bottomAnchor, num: 4);
@@ -206,7 +206,7 @@ class HelpRegModal: UIViewController {
         title7.padTop(from: b6.bottomAnchor, num: 8);
         title7.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(details7);
-        details7.padTop(from: title7.bottomAnchor, num: 8);
+        details7.padTop(from: title7.bottomAnchor, num: 6);
         details7.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(b7);
         b7.padTop(from: details7.bottomAnchor, num: 4);
@@ -214,7 +214,7 @@ class HelpRegModal: UIViewController {
         title8.padTop(from: b7.bottomAnchor, num: 8);
         title8.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(details8);
-        details8.padTop(from: title8.bottomAnchor, num: 8);
+        details8.padTop(from: title8.bottomAnchor, num: 6);
         details8.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(b8);
         b8.padTop(from: details8.bottomAnchor, num: 4);
@@ -222,12 +222,12 @@ class HelpRegModal: UIViewController {
         title9.padTop(from: b8.bottomAnchor, num: 8);
         title9.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(details9);
-        details9.padTop(from: title9.bottomAnchor, num: 8);
+        details9.padTop(from: title9.bottomAnchor, num: 6);
         details9.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(b9);
         b9.padTop(from: details9.bottomAnchor, num: 4);
         scrollView.addSubview(title10);
-        title10.padTop(from: b9.bottomAnchor, num: 8);
+        title10.padTop(from: b9.bottomAnchor, num: 6);
         title10.centerTo(element: scrollView.centerXAnchor);
         scrollView.addSubview(details10);
         details10.padTop(from: title10.bottomAnchor, num: 4);

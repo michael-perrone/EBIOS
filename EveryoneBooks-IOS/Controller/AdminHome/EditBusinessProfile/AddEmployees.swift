@@ -331,6 +331,7 @@ class AddEmployees: UIViewController, DeleteEmployeesProtocol {
     func getEmployees() {
         let url = myURL + "businessProfile/myEmployees";
         API().get(url: url, headerToSend: Utilities().getAdminToken()) { (res) in
+            print("res below")
             print(res)
             print("RES ABOVE")
             let employeesWhoWorkHere = res["employeesHere"] as? [[String: String]];
