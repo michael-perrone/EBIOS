@@ -17,17 +17,18 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
     func getBookingInfo(time: String) {
         API().post(url: myURL + "getBookings/individual", dataToSend: ["time": time, "bcn": self.bcn!, "businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.date!]) { (res) in
             if let booking = res["booking"] as? [String: Any] {
-                print(booking)
+            
                 let realBooking = Booking(dic: booking);
                 self.bookingClickedDelegate?.viewBookingInfo(booking: realBooking);
             }
         }
     }
     
-    weak var bookingClickedDelegate: BookingClickedProtocol?
+    weak var bookingClickedDelegate: BookingClickedProtocol?;
     
     private var bookings: [Booking] = [] {
         didSet {
+            print(bookings)
             for booking in self.bookings {
                 let times = booking.time?.components(separatedBy: "-");
                 startTimes.append(times![0]);
@@ -87,7 +88,7 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
     
     private var timeSlotNum: Int?
     
-    private var times: [String]?;
+    private var times: [String]?
     
     private var bcn: String?;
     
@@ -107,7 +108,7 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
         var times: [String] = [];
         guard var startNum = Utilities.stit[open] else {return}
         guard let closeNum = Utilities.stit[close] else {return}
-        while startNum < closeNum {
+        while startNum <= closeNum {
             guard let time = Utilities.itst[startNum] else {return}
             times.append(time);
             startNum = startNum + 1;
@@ -130,6 +131,7 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
         register(BookedCell.self, forCellReuseIdentifier: "3");
         register(TopBookedCell.self, forCellReuseIdentifier: "4");
         register(BottomBookedCell.self, forCellReuseIdentifier: "5");
+        register(OneCellBooked.self, forCellReuseIdentifier: "6");
         dataSource = self;
         delegate = self;
     }
@@ -152,17 +154,22 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let times = times {
-                    if startTimes.contains(times[indexPath.row]) {
+                if startTimes.contains(times[indexPath.row]) {
                         let topBookedCell = dequeueReusableCell(withIdentifier: "4", for:  indexPath) as! TopBookedCell;
                         topBookedCell.booked = false;
+                    if endTimes.contains(times[indexPath.row + 1]) {
+                        topBookedCell.setTime(time: times[indexPath.row] + "-" + times[indexPath.row + 1]);
+                    }
+                    else {
                         topBookedCell.setTime(time: times[indexPath.row]);
+                    }
                         topBookedCell.selectionStyle = .none;
                         topBookedCell.delegate = self;
                         topBookedCell.booked = true;
                         topBookedCell.configureCell();
                         return topBookedCell;
                     }
-                    else if indexPath.row + 2 <= times.count {
+                    else if indexPath.row <= times.count || indexPath.row == times.count {
                         if endTimes.contains(times[indexPath.row + 1]) {
                             let bottomBookedCell = dequeueReusableCell(withIdentifier: "5", for:  indexPath) as! BottomBookedCell;
                             bottomBookedCell.booked = false;
@@ -175,6 +182,7 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
                         }
                    else if otherTimes.contains(times[indexPath.row]) {
                             let bookedCell = dequeueReusableCell(withIdentifier: "3", for:  indexPath) as! BookedCell;
+                    bookedCell.potato = self;
                         bookedCell.booked = false;
                             bookedCell.setTime(time: times[indexPath.row]);
                             bookedCell.selectionStyle = .none;
@@ -182,19 +190,20 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
                             bookedCell.booked = true;
                             return bookedCell;
                         }
-                        
-                        
-                  }
+                    }
+            
             let bookingCell = dequeueReusableCell(withIdentifier: "2", for: indexPath) as! BookingCell;
             bookingCell.booked = false;
             bookingCell.setTime(time: times[indexPath.row]);
             bookingCell.configureCell();
             bookingCell.selectionStyle = .none;
             return bookingCell;
-        }
+            }
+        
         let bookingCell = dequeueReusableCell(withIdentifier: "2", for: indexPath) as! BookingCell;
-        bookingCell.configureCell();
         bookingCell.booked = false;
+        bookingCell.setTime(time: times![indexPath.row]);
+        bookingCell.configureCell();
         bookingCell.selectionStyle = .none;
         return bookingCell;
     }

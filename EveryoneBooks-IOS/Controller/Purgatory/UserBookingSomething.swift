@@ -269,7 +269,7 @@ class UserBookingSomething: UIViewController, EmployeesTable {
         costText.padTop(from: timeDurationText.bottomAnchor, num: 10);
         costText.padLeft(from: popUp.leftAnchor, num: 20);
         popUp.addSubview(servicesChosenText);
-        servicesChosenText.padTop(from: costText.bottomAnchor, num: 6);
+        servicesChosenText.padTop(from: costText.bottomAnchor, num: 10);
         servicesChosenText.padLeft(from: popUp.leftAnchor, num: 20);
         popUp.addSubview(servicesChosenTable);
         servicesChosenTable.padTop(from: servicesChosenText.bottomAnchor, num: 6);

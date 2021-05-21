@@ -23,6 +23,7 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
     
     func addService(service: Service) {
         selectedServices.append(service)
+        print(selectedServices)
     }
 
     var selectedServices: [Service] = [];

@@ -63,6 +63,11 @@ class BasicCalls {
                     print(error)
                     return
                 }
+                if let response = response as? HTTPURLResponse {
+                    if response.statusCode == 400 {
+                        completion("", "none");
+                        return;
+                    }
                 guard let data = data else {return}
                  do {
                       let jsonResponse = try JSONSerialization.jsonObject(with:
@@ -72,13 +77,14 @@ class BasicCalls {
                     guard let actualToken = res["token"] as? String else {return}
                     
                     guard let loggingIn = res["loggingIn"] as? String else {return}
-                    print(loggingIn)
+                    
                     
                     completion(actualToken, loggingIn)
                    } catch let parsingError {
                       print("Error", parsingError)
+                    print(response.statusCode)
                  }
-               
+                }
             }
             task.resume()
         }

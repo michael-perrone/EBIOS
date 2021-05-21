@@ -9,6 +9,7 @@
 import UIKit
 
 class BookingCell: UITableViewCell {
+
     
     private var time: String? {
         didSet {

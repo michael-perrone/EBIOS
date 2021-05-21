@@ -112,6 +112,18 @@ class Utilities {
         return nil;
     }
     
+    func slimString(stringToSlim: String) -> String {
+        var stringToReturn: String;
+        if stringToSlim.count > 22 {
+            var correctString = stringToSlim[0..<19];
+            correctString += "...";
+             stringToReturn = correctString;
+        }
+        else {
+            stringToReturn = stringToSlim;
+        }
+        return stringToReturn;
+    }
     
     func doubleIntoDollar(num: Double) -> String {
         let numString = String(num);

@@ -13,13 +13,14 @@ class BottomBookedCell: UITableViewCell {
     var booked = false {
          didSet {
             let tap = UITapGestureRecognizer(target: self, action: #selector(hit));
-             if booked {
-                 addGestureRecognizer(tap);
+            if booked {
+                addGestureRecognizer(tap);
                 addSubview(bottomBorder);
                 bottomBorder.padBottom(from: bottomAnchor, num: 0);
                 bottomBorder.centerTo(element: centerXAnchor);
-                    backgroundColor = UIColor.init(red: 300, green: 0, blue: 0, alpha: 0.3);
+                backgroundColor = UIColor.init(red: 300, green: 0, blue: 0, alpha: 0.3);
              } else {
+                tap.numberOfTapsRequired = 2;
                 removeGestureRecognizer(tap);
                 addSubview(bottomBorder);
                 bottomBorder.padBottom(from: bottomAnchor, num: 0);
@@ -66,6 +67,7 @@ class BottomBookedCell: UITableViewCell {
     
     func configureCell() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(hit));
+        tap.numberOfTapsRequired = 2;
         timeText.addGestureRecognizer(tap);
         addSubview(timeText);
         timeText.padTop(from: topAnchor, num: 4);

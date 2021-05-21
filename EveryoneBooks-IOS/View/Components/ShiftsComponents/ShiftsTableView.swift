@@ -55,7 +55,20 @@ class ShiftsTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if let shifts = shifts {
             if editingStyle == .delete {
-                print(shifts[indexPath.row].id)
+                removeShift(shiftId: shifts[indexPath.row].id, index: indexPath.row);
+            }
+        }
+    }
+    
+    // MARK: - Helper
+    
+    func removeShift(shiftId: String, index: Int) {
+        API().post(url: myURL + "shifts/deleteOne", headerToSend: Utilities().getAdminToken(), dataToSend: ["shiftId": shiftId]) { (res) in
+            if res["statusCode"] as! Int == 200 { 
+                self.shifts?.remove(at: index);
+            }
+            else {
+                print("uh oh")
             }
         }
     }

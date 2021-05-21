@@ -12,14 +12,8 @@ class ShiftsTableViewCell: UITableViewCell {
     
     var shift: Shift? {
         didSet {
-            if shift!.employeeName.count > 22 {
-                var name = shift!.employeeName[0..<19];
-                name+="...";
-                shiftName.text = name;
-            }
-            else {
-                shiftName.text = shift!.employeeName;
-            }
+            let name = Utilities().slimString(stringToSlim: shift!.employeeName);
+            shiftName.text = name;
             shiftTime.text = shift!.timeStart + "-" + shift!.timeEnd;
         }
     }
@@ -37,6 +31,7 @@ class ShiftsTableViewCell: UITableViewCell {
         uitv.backgroundColor = .mainLav;
         return uitv;
     }()
+    
       
     
 
@@ -46,7 +41,7 @@ class ShiftsTableViewCell: UITableViewCell {
         shiftName.padTop(from: topAnchor, num: 5);
         shiftName.setWidth(width: 190);
         addSubview(shiftTime);
-        shiftTime.padLeft(from: shiftName.rightAnchor, num: 25);
+        shiftTime.padRight(from: rightAnchor, num: 15);
         shiftTime.padTop(from: topAnchor, num: 5);
         backgroundColor = .mainLav;
     }

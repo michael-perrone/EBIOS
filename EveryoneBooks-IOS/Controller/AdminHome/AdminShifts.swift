@@ -271,7 +271,6 @@ class AdminShifts: UIViewController {
                                             }, completion: nil)
                                         }
                                     }
-                                    
                                 }
                             }
                         }

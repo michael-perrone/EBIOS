@@ -24,9 +24,9 @@ class EditServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource
         super.init(frame: frame, style: UITableView.Style.plain);
         delegate = self;
         dataSource = self;
-        isScrollEnabled = false;
         
         register(EditingServicesCell.self, forCellReuseIdentifier: "H");
+        backgroundColor = .literGray;
     }
     
     required init?(coder: NSCoder) {
@@ -42,7 +42,7 @@ class EditServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource
             print("below services")
             return services.count;
         }
-        return 0;
+        return 4;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,9 +57,9 @@ class EditServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource
         return cell;
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-           return 40;
-    }
+    //func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+          // return 40;
+    //}
 
 
 }

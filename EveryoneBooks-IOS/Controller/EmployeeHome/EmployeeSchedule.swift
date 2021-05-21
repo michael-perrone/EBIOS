@@ -69,16 +69,16 @@ class EmployeeSchedule: UIViewController, EmployeeBookingCellProtocol {
     }()
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad();
         bookingsCollection.employeeCellDelegate = self;
         handleLogo()
         configureView()
         getTodaysDate()
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated);
+        super.viewWillAppear(true);
+        getNewBookings();
         
     }
     
@@ -113,8 +113,11 @@ class EmployeeSchedule: UIViewController, EmployeeBookingCellProtocol {
             self.bct = res["bct"] as? String;
             var emptyBookingsArray: [Booking] = [];
             if let bookingsBack = res["bookings"] as? [[String: Any]] {
+                print(bookingsBack);
                 for individualBooking in bookingsBack {
                     let newBooking = Booking(dic: individualBooking);
+                    print(newBooking)
+                    print("newBooking above");
                     emptyBookingsArray.append(newBooking);
                 }
                 self.bookings = emptyBookingsArray;
@@ -162,5 +165,11 @@ class EmployeeSchedule: UIViewController, EmployeeBookingCellProtocol {
         df.dateFormat = "MMM dd, yyyy";
         let dateString = df.string(from: Date());
         getBookings(date: dateString)
+    }
+    
+    func getNewBookings() {
+        let df = DateFormatter();
+        df.dateFormat = "MMM dd, yyyy";
+        getBookings(date: df.string(from: datePickerForShiftAdd.date));
     }
 }

@@ -65,8 +65,9 @@ class ServicesSelectCell: UITableViewCell {
         serviceName.setHeight(height: 30);
         serviceName.padLeft(from: leftAnchor, num: 16);
         addSubview(addService);
-        addService.padRight(from: rightAnchor, num: 15);
+        addService.padRight(from: rightAnchor, num: 0);
         addService.padTop(from: topAnchor, num: 1);
+        serviceName.padRight(from: addService.leftAnchor, num: 0);
         if added {
             backgroundColor = .darkGray;
         }

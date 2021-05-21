@@ -75,7 +75,7 @@ class SlideTabBarController: UITabBarController, SlideTabBarProtocol, MenuCellCl
         let uib = UIButton(type: .system);
         uib.addTarget(self, action: #selector(slideOver), for: .touchUpInside);
         uib.setTitle("⚙️", for: .normal);
-        uib.titleLabel?.font = .systemFont(ofSize: 38);
+        uib.titleLabel?.font = .systemFont(ofSize: 32);
         return uib;
     }()
     

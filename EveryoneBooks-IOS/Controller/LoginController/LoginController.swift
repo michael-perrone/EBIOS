@@ -5,6 +5,24 @@ class LoginController: UIViewController {
     var selected = "";
     // MARK: - Properties
     
+    lazy var invalidLoginText: UITextView = {
+        let uitv = Components().createError(view: view);
+        uitv.text = "Invalid Email/Password Combination";
+        return uitv;
+    }()
+    
+    lazy var invalidEmailText: UITextView = {
+        let uitv = Components().createError(view: view);
+        uitv.text = "Please Enter an Email Above";
+        return uitv;
+    }()
+    
+    lazy var invalidPasswordText: UITextView = {
+        let uitv = Components().createError(view: view);
+        uitv.text = "Please Enter a Password Above";
+        return uitv;
+    }()
+    
     private let logoText: UIImageView = {
         let uiiv = UIImageView();
         uiiv.image = UIImage(named: "logo-medium");
@@ -68,11 +86,60 @@ class LoginController: UIViewController {
     //MARK: - Selectors
     
     @objc func login() {
+        if emailLoginText.text == "" && passwordLoginText.text == "" {
+            if !invalidEmailText.isHidden {
+                self.invalidEmailText.isHidden = true;
+            }
+            if !invalidPasswordText.isHidden {
+                    self.invalidPasswordText.isHidden = true;
+            }
+                self.invalidLoginText.isHidden = false;
+            return;
+        }
+        else if emailLoginText.text != "" && passwordLoginText.text == "" {
+            if !invalidLoginText.isHidden {
+                    self.invalidLoginText.isHidden = true;
+            }
+            if !invalidEmailText.isHidden {
+                    self.invalidEmailText.isHidden = true;
+                }
+                self.invalidPasswordText.isHidden = false;
+            return;
+        }
+        else if emailLoginText.text == "" && passwordLoginText.text != "" {
+            print("here peterr")
+            if !invalidLoginText.isHidden {
+                    self.invalidLoginText.isHidden = true;
+            }
+            if !self.invalidPasswordText.isHidden {
+                    self.invalidPasswordText.isHidden = true;
+            }
+            self.invalidEmailText.isHidden = false;
+            print("here peterr")
+            return;
+        }
         if let email = emailLoginText.text, let password = passwordLoginText.text {
-           
+            print("hello")
+
             let credentials = ["email": email, "password": password];
            
             BasicCalls().login(credentials: credentials) { (token, loggingIn) in
+                print(loggingIn + "Dwdw")
+                if loggingIn == "none" {
+                    print("hello mate");
+                    DispatchQueue.main.async {
+                        print(self.invalidPasswordText.isHidden)
+                            if !self.invalidEmailText.isHidden {
+                                self.invalidEmailText.isHidden = true;
+                            }
+                            if !self.invalidPasswordText.isHidden {
+                                self.invalidPasswordText.isHidden = true;
+                                print("here peter")
+                            }
+                            self.invalidLoginText.isHidden = false;
+                        }
+                        return;
+                }
                 if loggingIn == "admin" {
                     if Utilities().setTokenInKeyChain(token: token, key: "adminToken") {
                         DispatchQueue.main.async {
@@ -145,6 +212,10 @@ class LoginController: UIViewController {
         loginButton.centerTo(element: view.centerXAnchor);
         loginButton.setWidth(width: 120);
         
+        createView(textView: invalidLoginText);
+        createView(textView: invalidEmailText);
+        createView(textView: invalidPasswordText);
+        
         view.addSubview(registerAsUserButton);
         registerAsUserButton.padTop(from: loginButton.bottomAnchor, num: view.frame.height / 6);
         registerAsUserButton.centerTo(element: view.centerXAnchor);
@@ -159,4 +230,12 @@ class LoginController: UIViewController {
         
     }
     
+    func createView(textView: UITextView) {
+        view.addSubview(textView);
+        textView.setWidth(width: fullWidth);
+        textView.setHeight(height: 28);
+        textView.padTop(from: loginButton.bottomAnchor, num: 40);
+        textView.centerTo(element: view.centerXAnchor);
+        textView.isHidden = true;
+    }
 }

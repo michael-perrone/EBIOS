@@ -79,6 +79,7 @@ class API {
                 catch let parsingEror{
                     print(parsingEror)
                     completion(["fail": true, "statusCode": response.statusCode])
+                    
                 }
             }
         }

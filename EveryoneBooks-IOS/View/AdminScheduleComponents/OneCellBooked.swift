@@ -1,26 +1,14 @@
 //
-//  TopBookedCell.swift
+//  OneCellBooked.swift
 //  EveryoneBooks-IOS
 //
-//  Created by Michael Perrone on 9/19/20.
-//  Copyright © 2020 Michael Perrone. All rights reserved.
+//  Created by Michael Perrone on 5/14/21.
+//  Copyright © 2021 Michael Perrone. All rights reserved.
 //
 
 import UIKit
 
-class TopBookedCell: UITableViewCell {
-
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        // Initialization code
-//    }
-//
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//
-//        // Configure the view for the selected state
-//    }
-    
+class OneCellBooked: UITableViewCell {
     var booked: Bool? {
          didSet {
              if booked! {
@@ -31,6 +19,9 @@ class TopBookedCell: UITableViewCell {
                 addSubview(topBorder);
                 topBorder.padTop(from: topAnchor, num: 0);
                 topBorder.centerTo(element: centerXAnchor);
+                addSubview(bottomBorder);
+                bottomBorder.padTop(from: bottomAnchor, num: 0);
+                bottomBorder.centerTo(element: centerXAnchor);
              }
          }
      }
@@ -44,10 +35,11 @@ class TopBookedCell: UITableViewCell {
     weak var delegate: GetBookingInfo?;
     
     private let topBorder = Components().createBorder(height: 0.5, width: fullWidth - 20, color: .black);
+    private let bottomBorder = Components().createBorder(height: 0.5, width: fullWidth - 20, color: .black);
 
     private let timeText: UITextView = {
         let uitv = Components().createSimpleText(text: "");
-        uitv.font = .boldSystemFont(ofSize: 18);
+        uitv.font = .boldSystemFont(ofSize: 16);
         uitv.backgroundColor = UIColor.init(red: 300, green: 0, blue: 0, alpha: 0.011);
         return uitv;
     }()

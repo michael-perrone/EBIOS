@@ -84,8 +84,13 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
         self.present(createBooking, animated: true, completion: nil);
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated);
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated);
+        let df = DateFormatter();
+        df.dateFormat = "MMM dd, yyyy";
+        let dateNeeded = df.string(from: datePicker.date);
+        getBookings(date: dateNeeded);
+        self.roomAreaTable.date = dateNeeded;
     }
     
     override func viewDidLoad() {
@@ -93,11 +98,7 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
         navigationItem.title = "Schedule";
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createBookingButton);
         configureView()
-        let df = DateFormatter();
-        df.dateFormat = "MMM dd, yyyy";
-        let dateNeeded = df.string(from: datePicker.date);
-        getBookings(date: dateNeeded);
-        self.roomAreaTable.date = dateNeeded;
+      
     }
     
     func configureView() {
