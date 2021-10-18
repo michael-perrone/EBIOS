@@ -19,11 +19,12 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
         selectedServices.removeAll(where: { (eachService) -> Bool in
            return service.id == eachService.id
         })
+        reloadData();
     }
     
     func addService(service: Service) {
-        selectedServices.append(service)
-        print(selectedServices)
+        selectedServices.append(service);
+        reloadData();
     }
 
     var selectedServices: [Service] = [];
@@ -40,7 +41,8 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
         super.init(frame: frame, style: UITableView.Style.grouped)
         delegate = self;
         dataSource = self;
-        register(ServicesSelectCell.self, forCellReuseIdentifier: "Cell");
+        register(ServiceSelectedTableCell.self, forCellReuseIdentifier: "SC");
+        register(ServiceUnselectedTableCell.self, forCellReuseIdentifier: "UC");
     }
     
     required init?(coder: NSCoder) {
@@ -58,17 +60,35 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
     }
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ServicesSelectCell;
         var frame = CGRect.zero
         frame.size.height = .leastNormalMagnitude
         tableView.tableHeaderView = UIView(frame: frame)
         if let data = data {
-            cell.service = data[indexPath.row];
-            cell.delegate = self;
-            cell.configureCell()
-            cell.selectionStyle = .none;
+            print(selectedServices);
+            if selectedServices.contains(where: { (service) -> Bool in
+                service.id == data[indexPath.row].id
+            }) {
+                let unSelectedCell = dequeueReusableCell(withIdentifier: "SC", for: indexPath) as! ServiceSelectedTableCell;
+                unSelectedCell.service = data[indexPath.row];
+                unSelectedCell.delegate = self;
+                unSelectedCell.configureName();
+                unSelectedCell.configureColor();
+                unSelectedCell.selectionStyle = .none;
+                return unSelectedCell;
+            }
+            else {
+                let selectedCell = dequeueReusableCell(withIdentifier: "UC", for: indexPath) as! ServiceUnselectedTableCell;
+                selectedCell.service = data[indexPath.row];
+                selectedCell.delegate = self;
+                selectedCell.configureName();
+                selectedCell.configureColor();
+                selectedCell.selectionStyle = .none;
+                return selectedCell;
+            }
         }
-        return cell;
+        else {
+            return UITableViewCell();
+        }
     }
 
 }

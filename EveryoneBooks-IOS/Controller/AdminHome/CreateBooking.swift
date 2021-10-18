@@ -33,21 +33,21 @@ class CreateBooking: UIViewController, BookingHit {
     }
     
     func bookHit() {
-            let bookSuccess = UIAlertController(title: "Success!", message: "You're request has been received and accepted.", preferredStyle: .alert);
-            let okayButton = UIAlertAction(title: "Exit!", style: .cancel) { (action: UIAlertAction) in
-                UIView.animate(withDuration: 0.45) {
-                    self.popUp.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.6);
-                    self.dismiss(animated: true, completion: nil);
-                    self.delegate?.reloadTable();
-                }
-            }
-            bookSuccess.addAction(okayButton);
-            DispatchQueue.main.async {
-                self.present(bookSuccess, animated: true) {
-                   
-                }
+        let bookSuccess = UIAlertController(title: "Success!", message: "You're request has been received and accepted.", preferredStyle: .alert);
+        let okayButton = UIAlertAction(title: "Exit!", style: .cancel) { (action: UIAlertAction) in
+            UIView.animate(withDuration: 0.45) {
+                self.popUp.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.6);
+                self.dismiss(animated: true, completion: nil);
+                self.delegate?.reloadTable();
             }
         }
+        bookSuccess.addAction(okayButton);
+        DispatchQueue.main.async {
+            self.present(bookSuccess, animated: true) {
+                
+            }
+        }
+    }
     
     func noPhone() {
         let phoneNotFilled = UIAlertController(title: "Oops!", message: "Please enter phone number above.", preferredStyle: .alert);
@@ -214,7 +214,7 @@ class CreateBooking: UIViewController, BookingHit {
     }
     
     weak var delegate: ReloadTableAfterBooking?;
-  
+    
     var start: Int?;
     var close: Int? {
         didSet {
@@ -521,66 +521,148 @@ class CreateBooking: UIViewController, BookingHit {
         }
     }
     
+    
+    
     func getAvailableEmployees() {
         var serviceIds: [String] = [];
+        var smallTimesShouldRun: Bool = false;
         var serviceNames: [String] = []
         var timeDurationNum = 0;
         var cost: Double = 0;
-        for selectedService in servicesTable.selectedServices {
-            serviceIds.append(selectedService.id);
-            serviceNames.append(selectedService.serviceName);
-            timeDurationNum = timeDurationNum + Utilities.timeDurationStringToInt[selectedService.timeDuration]!;
-            cost = cost + selectedService.cost;
+        var servicesArray: [String] = [];
+        for service in servicesTable.selectedServices {
+            servicesArray.append(service.id);
         }
-        let costString = String(cost);
-        let closeTime = Utilities.itst[Utilities.stit[timePicker.selectedItem!]! + timeDurationNum];
-        API().post(url: myURL + "getBookings", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": dateChosen, "serviceIds": serviceIds, "timeChosen": timePicker.selectedItem]) { (res) in
-            if res["statusCode"] as! Int == 409 {
-                let alert = UIAlertController(title: "Invalid Date", message: "The date or time you have chosen has already passed and cannot be scheduled.", preferredStyle: .alert);
-                let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
-                alert.addAction(woops);
-                DispatchQueue.main.async {
-                    self.present(alert, animated: true, completion: nil);
-                }
+        for ss in servicesTable.selectedServices {
+            if ss.timeDuration == "10 Minutes" || ss.timeDuration == "5 Minutes" {
+                smallTimesShouldRun = true;
             }
-            if let employees = res["employees"] as? [[String: String]] {
-                var newEmployeesArray: [Employee] = [];
-                for employee in employees {
-                    let newEmployee = Employee(dic: employee)
-                    newEmployeesArray.append(newEmployee);
-                }
-                self.employeesAvailable = newEmployeesArray;
-                self.servicesChosenTable.servicesChosen = serviceNames;
-                if newEmployeesArray.count > 0 {
-                    DispatchQueue.main.async {
-                        self.timeDurationText.text = "From: " + self.timePicker.selectedItem! + "-" + closeTime!;
-                        var costStringArray = costString.components(separatedBy: ".");
-                        if costStringArray[1].count == 1 {
-                            costStringArray[1] = costStringArray[1] + "0";
-                            self.costText.text = "Cost: " + "$" + costStringArray[0] + "." +  costStringArray[1];
+        }
+        if smallTimesShouldRun {
+            for selectedServices in servicesTable.selectedServices {
+                serviceIds.append(selectedServices.id);
+                serviceNames.append(selectedServices.serviceName);
+                cost = cost + selectedServices.cost;
+            }
+            API().post(url: myURL + "getBookings/smallTimes", dataToSend: ["services": servicesArray, "timeChosen": timePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"], "date": dateChosen]) { (res) in
+                if res["statusCode"] as! Int == 200 {
+                    print("POTATO STICKS")
+                    timeDurationNum = res["timeDurationNum"] as! Int;
+                    print(cost)
+                    print(timeDurationNum);
+                    let costString = String(cost);
+                    let closeTime = Utilities.itst[Utilities.stit[self.timePicker.selectedItem!]! + timeDurationNum];
+                    API().post(url: myURL + "getBookings", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum]) { (res) in
+                        if res["statusCode"] as! Int == 409 {
+                            let alert = UIAlertController(title: "Invalid Date", message: "The date or time you have chosen has already passed and cannot be scheduled.", preferredStyle: .alert);
+                            let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                            alert.addAction(woops);
+                            DispatchQueue.main.async {
+                                self.present(alert, animated: true, completion: nil);
+                            }
                         }
-                        else {
-                            self.costText.text = "Cost: " + "$" + costString;
+                        if let employees = res["employees"] as? [[String: String]] {
+                            var newEmployeesArray: [Employee] = [];
+                            for employee in employees {
+                                let newEmployee = Employee(dic: employee)
+                                newEmployeesArray.append(newEmployee);
+                            }
+                            self.employeesAvailable = newEmployeesArray;
+                            self.servicesChosenTable.servicesChosen = serviceNames;
+                            if newEmployeesArray.count > 0 {
+                                DispatchQueue.main.async {
+                                    self.timeDurationText.text = "From: " + self.timePicker.selectedItem! + "-" + closeTime!;
+                                    var costStringArray = costString.components(separatedBy: ".");
+                                    if costStringArray[1].count == 1 {
+                                        costStringArray[1] = costStringArray[1] + "0";
+                                        self.costText.text = "Cost: " + "$" + costStringArray[0] + "." +  costStringArray[1];
+                                    }
+                                    else {
+                                        self.costText.text = "Cost: " + "$" + costString;
+                                    }
+                                    UIView.animate(withDuration: 0.4) {
+                                        self.popUp.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.00);
+                                    }
+                                }
+                            }
                         }
-                        UIView.animate(withDuration: 0.4) {
-                            self.popUp.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.00);
+                        else if res["statusCode"] as! Int == 406 {
+                            // do the alert here
+                            let alert = UIAlertController(title: "Time Unavailable", message: "Your business does not have any availability at this time. Want us to check for other nearby times on this date?", preferredStyle: .alert);
+                            let searchOthers = UIAlertAction(title: "Yes", style: .default) { (action: UIAlertAction) in
+                                print("gotta go find the others")
+                            }
+                            alert.addAction(searchOthers);
+                            let noThanks = UIAlertAction(title: "Nope", style: .cancel) { (action: UIAlertAction) in
+                                print("lol")
+                            }
+                            alert.addAction(noThanks)
+                            DispatchQueue.main.async {
+                                self.present(alert, animated: true, completion: nil);
+                            }
                         }
                     }
                 }
             }
-            else if res["statusCode"] as! Int == 406 {
-                // do the alert here
-                let alert = UIAlertController(title: "Time Unavailable", message: "Your business does not have any availability at this time. Want us to check for other nearby times on this date?", preferredStyle: .alert);
-                let searchOthers = UIAlertAction(title: "Yes", style: .default) { (action: UIAlertAction) in
-                    print("gotta go find the others")
+        }
+        else {
+            for selectedService in servicesTable.selectedServices {
+                serviceIds.append(selectedService.id);
+                serviceNames.append(selectedService.serviceName);
+                timeDurationNum = timeDurationNum + Utilities.timeDurationStringToInt[selectedService.timeDuration]!;
+                cost = cost + selectedService.cost;
+            }
+            let costString = String(cost);
+            let closeTime = Utilities.itst[Utilities.stit[self.timePicker.selectedItem!]! + timeDurationNum];
+            
+            API().post(url: myURL + "getBookings", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum]) { (res) in
+                if res["statusCode"] as! Int == 409 {
+                    let alert = UIAlertController(title: "Invalid Date", message: "The date or time you have chosen has already passed and cannot be scheduled.", preferredStyle: .alert);
+                    let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                    alert.addAction(woops);
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil);
+                    }
                 }
-                alert.addAction(searchOthers);
-                let noThanks = UIAlertAction(title: "Nope", style: .cancel) { (action: UIAlertAction) in
-                    print("lol")
+                if let employees = res["employees"] as? [[String: String]] {
+                    var newEmployeesArray: [Employee] = [];
+                    for employee in employees {
+                        let newEmployee = Employee(dic: employee)
+                        newEmployeesArray.append(newEmployee);
+                    }
+                    self.employeesAvailable = newEmployeesArray;
+                    self.servicesChosenTable.servicesChosen = serviceNames;
+                    if newEmployeesArray.count > 0 {
+                        DispatchQueue.main.async {
+                            self.timeDurationText.text = "From: " + self.timePicker.selectedItem! + "-" + closeTime!;
+                            var costStringArray = costString.components(separatedBy: ".");
+                            if costStringArray[1].count == 1 {
+                                costStringArray[1] = costStringArray[1] + "0";
+                                self.costText.text = "Cost: " + "$" + costStringArray[0] + "." +  costStringArray[1];
+                            }
+                            else {
+                                self.costText.text = "Cost: " + "$" + costString;
+                            }
+                            UIView.animate(withDuration: 0.4) {
+                                self.popUp.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.00);
+                            }
+                        }
+                    }
                 }
-                alert.addAction(noThanks)
-                DispatchQueue.main.async {
-                    self.present(alert, animated: true, completion: nil);
+                else if res["statusCode"] as! Int == 406 {
+                    // do the alert here
+                    let alert = UIAlertController(title: "Time Unavailable", message: "Your business does not have any availability at this time. Want us to check for other nearby times on this date?", preferredStyle: .alert);
+                    let searchOthers = UIAlertAction(title: "Yes", style: .default) { (action: UIAlertAction) in
+                        print("gotta go find the others")
+                    }
+                    alert.addAction(searchOthers);
+                    let noThanks = UIAlertAction(title: "Nope", style: .cancel) { (action: UIAlertAction) in
+                        print("lol")
+                    }
+                    alert.addAction(noThanks)
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil);
+                    }
                 }
             }
         }

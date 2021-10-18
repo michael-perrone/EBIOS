@@ -15,7 +15,6 @@ class AddServices: UIViewController, UITableViewDataSource {
             DispatchQueue.main.async {
                 self.servicesList.reloadData();
             }
-            
         }
     }
     

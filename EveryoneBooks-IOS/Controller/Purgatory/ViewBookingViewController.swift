@@ -37,8 +37,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate {
         self.present(alertController, animated: true, completion: nil);
     }
     
-  
-    
     var booking: Booking? {
         didSet {
             API().post(url: myURL + "getBookings/moreBookingInfo", dataToSend: ["serviceIds" : booking?.serviceTypes, "customerId": booking!.customerId, "employeeId": booking?.employeeBooked]) { (res) in
@@ -187,7 +185,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate {
     }
     
     @objc func addService() {
-        print(servicesTable.selectedServices)
         if servicesTable.selectedServices.count == 0 {
             let actionError = Components().createActionAlert(title: "Please Select a Service", message: "Please choose at least one service above to add to this booking.", buttonTitle: "Got it!", handler: nil);
             self.present(actionError, animated: true, completion: nil);
@@ -250,31 +247,31 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate {
         employeeNameText.padTop(from: employeeNameHeader.bottomAnchor, num: -10);
         employeeNameText.padLeft(from: view.leftAnchor, num: 4);
         view.addSubview(customerNameHeader);
-        customerNameHeader.padTop(from: employeeNameText.bottomAnchor, num: 24);
+        customerNameHeader.padTop(from: employeeNameText.bottomAnchor, num: 16);
         customerNameHeader.padLeft(from: view.leftAnchor, num: 4);
         view.addSubview(customerNameText);
         customerNameText.padTop(from: customerNameHeader.bottomAnchor, num: -10);
         customerNameText.padLeft(from: view.leftAnchor, num: 4);
         view.addSubview(customerPhoneHeader);
-        customerPhoneHeader.padTop(from: customerNameText.bottomAnchor, num:24);
+        customerPhoneHeader.padTop(from: customerNameText.bottomAnchor, num: 16);
         customerPhoneHeader.padLeft(from: view.leftAnchor, num: 4);
         view.addSubview(customerPhoneText);
         customerPhoneText.padTop(from: customerPhoneHeader.bottomAnchor, num: -10);
         customerPhoneText.padLeft(from: view.leftAnchor, num: 4);
         view.addSubview(timeOfServiceHeader);
-        timeOfServiceHeader.padTop(from: customerPhoneText.bottomAnchor, num: 24);
+        timeOfServiceHeader.padTop(from: customerPhoneText.bottomAnchor, num: 16);
         timeOfServiceHeader.padLeft(from: view.leftAnchor, num: 4);
         view.addSubview(timeOfServiceText);
         timeOfServiceText.padTop(from: timeOfServiceHeader.bottomAnchor, num: -10);
         timeOfServiceText.padLeft(from: view.leftAnchor, num: 4);
         view.addSubview(dateHeader);
-        dateHeader.padTop(from: timeOfServiceText.bottomAnchor, num: 24);
+        dateHeader.padTop(from: timeOfServiceText.bottomAnchor, num: 16);
         dateHeader.padLeft(from: view.leftAnchor, num: 4);
         view.addSubview(dateText);
         dateText.padTop(from: dateHeader.bottomAnchor, num: -10);
         dateText.padLeft(from: view.leftAnchor, num: 4);
         view.addSubview(costHeader);
-        costHeader.padTop(from: dateText.bottomAnchor, num: 24);
+        costHeader.padTop(from: dateText.bottomAnchor, num: 16);
         costHeader.padLeft(from: view.leftAnchor, num: 4);
         view.addSubview(costText);
         costText.padTop(from: costHeader.bottomAnchor, num: -10);
@@ -294,13 +291,14 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate {
         servicesTable.padTop(from: addServicesText.bottomAnchor, num: 10);
         servicesTable.padRight(from: view.rightAnchor, num: 20);
         servicesTable.setWidth(width: 200);
+        servicesTable.setHeight(height: fullHeight / 3.5);
         view.addSubview(addServicesButton);
-        addServicesButton.padTop(from: servicesTable.bottomAnchor, num: 40);
+        addServicesButton.padBottom(from: view.safeAreaLayoutGuide.bottomAnchor, num: 10);
         addServicesButton.padRight(from: servicesTable.rightAnchor, num: 0);
         addServicesButton.setWidth(width: 172);
         editServicesTable.setHeight(height: 160);
         view.addSubview(cancelBookingButton);
-        cancelBookingButton.padTop(from: costText.bottomAnchor, num: 40);
+        cancelBookingButton.padBottom(from: view.safeAreaLayoutGuide.bottomAnchor, num: 10);
         cancelBookingButton.padLeft(from: view.leftAnchor, num: 4);
         cancelBookingButton.setWidth(width: 172);
         cancelBookingButton.setHeight(height: 160);

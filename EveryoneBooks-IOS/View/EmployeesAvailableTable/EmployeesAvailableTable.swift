@@ -45,6 +45,7 @@ class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDe
         for service in services! {
             serviceIdsArray.append(service.id);
         }
+        print(serviceIdsArray)
         if let timeStart = self.timeChosen, let date = self.dateChosen, let businessId = businessId {
             if let fromBusiness = fromBusiness {
                 if let phone = phone {
@@ -65,7 +66,6 @@ class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDe
                         }
                     }
                     else {
-                        print("IT GOT HIT")
                         API().post(url: myURL + "iosBooking/admin/newGuest", dataToSend: ["phone": phone, "name": fullName, "timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"]]) { (res) in
                             if res["statusCode"] as! Int == 200 {
                                 self.otherOtherDelegate?.bookHit();

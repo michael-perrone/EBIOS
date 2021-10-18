@@ -10,7 +10,7 @@ import UIKit
 
 class TimePicker: UIPickerView,UIPickerViewDelegate, UIPickerViewDataSource {
     
-    let choices = ["Service Duration", "15 Minutes", "30 Minutes", "45 Minutes", "1 Hour", "1 Hour 15 Minutes", "1 Hour 30 Minutes", "1 Hour 45 Minutes", "2 Hours", "2 Hours 15 Minutes", "2 Hours 30 Minutes", "2 Hours 45 Minutes", "3 Hours", "3 Hours 15 Minutes", "3 Hours 30 Minutes", "3 Hours 45 Minutes", "4 Hours", "4 Hours 15 Minutes", "4 Hours 30 Minutes", "4 Hours 45 Minutes", "5 Hours"]
+    let choices = ["Service Duration", "5 Minutes", "10 Minutes", "15 Minutes", "20 Minutes", "30 Minutes", "45 Minutes", "1 Hour", "1 Hour 15 Minutes", "1 Hour 30 Minutes", "1 Hour 45 Minutes", "2 Hours", "2 Hours 15 Minutes", "2 Hours 30 Minutes", "2 Hours 45 Minutes", "3 Hours", "3 Hours 15 Minutes", "3 Hours 30 Minutes", "3 Hours 45 Minutes", "4 Hours", "4 Hours 15 Minutes", "4 Hours 30 Minutes", "4 Hours 45 Minutes", "5 Hours"]
     
     private var timeSelected = "";
     

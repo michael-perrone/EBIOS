@@ -270,6 +270,11 @@ class AdminShifts: UIViewController {
                                                 self.cancelButton.alpha = 0;
                                             }, completion: nil)
                                         }
+                                    } else if statusCode == 406 {
+                                        let inputDataError = Components().createActionAlert(title: "Shift Add Error", message: "There was an error trying to add this shift to your business schedule. Please check that this employee is not already working on this day or check if this area has already been booked for an employee on this day and time.", buttonTitle: "Woops, okay!", handler: nil);
+                                        DispatchQueue.main.async {
+                                            self.present(inputDataError, animated: true, completion: nil);
+                                        }
                                     }
                                 }
                             }
@@ -310,11 +315,24 @@ class AdminShifts: UIViewController {
                                     }
                                     
                                 }
+                                else if statusCode == 406 {
+                                    let inputDataError = Components().createActionAlert(title: "Shift Add Error", message: "There was an error trying to add this shift to your business schedule. Please check that this employee is not already working on this day or check if this area has already been booked for an employee on this day and time.", buttonTitle: "Woops, okay!", handler: nil);
+                                    DispatchQueue.main.async {
+                                        self.present(inputDataError, animated: true, completion: nil);
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
+        }
+        else {
+            let dataAlertError = Components().createActionAlert(title: "Information Error", message: "Please click if this employee has a shift during this break and please check if this shift should be cloned into future dates on this weekday at this time.", buttonTitle: "Woops, okay!", handler: nil);
+            DispatchQueue.main.async {
+                self.present(dataAlertError, animated: true, completion: nil);
+            }
+            
         }
     }
     
