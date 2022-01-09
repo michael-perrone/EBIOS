@@ -1,11 +1,19 @@
 import UIKit
 
 class ServicesSelectCell: UITableViewCell {
+    
+    var shortText: Bool? {
+        didSet {
+            if shortText! {
+                serviceName.text = String(service!.serviceName.prefix(12) + "...");
+            }
+        }
+    }
 
     var service: Service? {
         didSet {
             serviceName.text = service?.serviceName;
-            print("debugy", service!.serviceName)
+            print("debugy", service!.serviceName);
         }
     }
     

@@ -28,7 +28,7 @@ class ServicesTextTable: UITableView, UITableViewDelegate, UITableViewDataSource
         if let services = services {
             print(services)
             cell.textLabel?.text = services[indexPath.row];
-            cell.backgroundColor = .literGray;
+            cell.backgroundColor = .mainLav;
             cell.textLabel?.font = .boldSystemFont(ofSize: 14);
             cell.selectionStyle = .none;
         }
@@ -38,7 +38,7 @@ class ServicesTextTable: UITableView, UITableViewDelegate, UITableViewDataSource
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: UITableView.Style.plain);
         register(UITableViewCell.self, forCellReuseIdentifier: "Cell");
-        backgroundColor = .literGray;
+        backgroundColor = .mainLav;
         delegate = self;
         dataSource = self;
     }

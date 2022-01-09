@@ -66,8 +66,4 @@ class CustomNumberPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSo
              selected = data[row]
         
     }
-      
-    
-    
-
 }

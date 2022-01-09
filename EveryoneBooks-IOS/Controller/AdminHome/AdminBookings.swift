@@ -38,22 +38,20 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
     var bookings: [[Booking]]? {
         didSet {
             self.roomAreaTable.bookings = self.bookings;
+            self.roomAreaTable.bookingClickedDelegate = self;
         }
     }
     
     var timeSlots: Int?;
     
-    private let chooseDateText: UITextView = {
-        let uitv = Components().createSimpleText(text: "Choose Date:");
-        uitv.backgroundColor = .mainLav;
-        return uitv;
-    }()
-    
-    private let datePicker: MyDatePicker = {
+    private let datePicker: UIDatePicker = {
         let dp = MyDatePicker();
+        //  if #available(iOS 13.4, *) {
+        //    dp.preferredDatePickerStyle = .wheels;
+        //}
         dp.addTarget(self, action: #selector(dateChanged), for: .valueChanged);
         return dp;
-    }()
+    }() 
     
     private let roomAreaTable: RoomAreaCollectionView = {
         let ratv = RoomAreaCollectionView();
@@ -102,44 +100,40 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
     }
     
     func configureView() {
-        roomAreaTable.bookingClickedDelegate = self;
-        view.addSubview(chooseDateText);
-        chooseDateText.centerTo(element: view.centerXAnchor);
-        chooseDateText.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 10);
         view.addSubview(datePicker);
-        datePicker.padTop(from: chooseDateText.bottomAnchor, num: 7);
+        datePicker.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 10);
         datePicker.centerTo(element: view.centerXAnchor);
+        datePicker.setHeight(height: 70);
         view.addSubview(roomAreaTable);
         roomAreaTable.setWidth(width: fullWidth);
-        roomAreaTable.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: (datePicker.frame.height / 1.7));
+        roomAreaTable.padTop(from: datePicker.bottomAnchor, num: 20);
         roomAreaTable.padBottom(from: view.safeAreaLayoutGuide.bottomAnchor, num: 0);
         roomAreaTable.centerTo(element: view.centerXAnchor);
         view.addSubview(border);
         border.padTop(from: roomAreaTable.topAnchor, num: -2);
         border.centerTo(element: view.centerXAnchor);
+        navigationController?.navigationBar.barTintColor = .mainLav;
     }
     
     func getBookings(date: String) {
         let dateToSend: [String: String] = ["date": date];
-        print("SHOULD BE PRINTING")
         API().post(url: myURL + "adminSchedule", headerToSend: Utilities().getAdminToken(), dataToSend: dateToSend) { (res) in
             if res["statusCode"] as? Int == 200 {
                 if let bct = res["bct"] as? String {
-                    self.roomAreaTable.bct = bct;
+                    self.roomAreaTable.bct = bct; // getting bookingColumnType
                 }
                 if let open = res["open"] as? String, let close = res["close"] as? String {
                     let num = Utilities().getTimeNum(startTime: open, endTime: close);
-                    
                     self.roomAreaTable.openTime = open;
                     self.roomAreaTable.closeTime = close;
                     self.roomAreaTable.timeSlotNum = num;
                 }
                 if let bcn = res["bcn"] as? String {
                     if let bookings = res["bookings"] as? [[String: Any]] {
-                        var bookingsArray: [Booking] = [];
+                        var bookingsArray: [Booking] = []; // empty bookings array
                         for booking in bookings {
                             let newBooking = Booking(dic: booking);
-                            bookingsArray.append(newBooking)
+                            bookingsArray.append(newBooking);
                         }
                         let bcnInt = Int(bcn)
                         var i = 1;

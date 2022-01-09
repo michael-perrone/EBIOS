@@ -45,10 +45,16 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
         navigationItem.title = "Notifications";
         collectionView.register(UnreadRequestAnswerNotificationCell.self, forCellWithReuseIdentifier: "UnreadRequestAnswernNotiCell");
         collectionView.register(ReadRequestAnswerNotificationCell.self, forCellWithReuseIdentifier: "ReadRequestAnswerNotiCell");
-        collectionView.backgroundColor = .literGray;
-        navigationController?.navigationBar.backgroundColor = .mainLav;
+        collectionView.backgroundColor = .mainLav;
         navigationController?.navigationBar.barTintColor = .mainLav;
+        view.addSubview(testText);
+        testText.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 30);
+        testText.padLeft(from: view.leftAnchor, num: 20);
+        testText.padRight(from: view.rightAnchor, num: 20);
+        testText.isHidden = true;
     }
+    
+    private let testText = Components().createSimpleText(text: "You do not have any notifications at this time. We will let you know when you do!");
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
@@ -67,6 +73,16 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
                         employeeNotificationsArray.insert(employeeNotification, at: 0);
                     }
                     self.employeeNotifications = employeeNotificationsArray;
+                    if employeeNotificationsArray.count == 0 {
+                        DispatchQueue.main.async {
+                            self.testText.isHidden = false;
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        if employeeNotificationsArray.count > 0 && self.testText.isHidden == false {
+                            self.testText.isHidden = true;
+                        }
+                    }
                     print(employeeNotificationsArray)
                 }
             }

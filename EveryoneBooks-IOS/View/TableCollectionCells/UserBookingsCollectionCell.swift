@@ -30,6 +30,8 @@ class UserBookingsCollectionCell: UICollectionViewCell {
         return sct;
     }()
     
+    weak var viewClickedDelegate: UserBookingViewClicked?;
+    
     private let timeText = Components().createLittleText(text: "");
     
     private let businessText = Components().createLittleText(text: "");
@@ -63,7 +65,8 @@ class UserBookingsCollectionCell: UICollectionViewCell {
     }()
     
     @objc func viewBooking() {
-        print("hi");
+        viewClickedDelegate?.viewBooking(booking: booking!);
+        
     }
     
     @objc func cancelBooking() {

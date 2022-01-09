@@ -9,11 +9,9 @@
 /* Begin PBXBuildFile section */
 		8906EDCD24C20A9C0040BCCA /* GenericDropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8906EDCC24C20A9C0040BCCA /* GenericDropDown.swift */; };
 		8907BC34258005FB0049C213 /* NoBusinessesFollowingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8907BC33258005FB0049C213 /* NoBusinessesFollowingCell.swift */; };
-		89082EA12493EBE400A04284 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89082EA02493EBE400A04284 /* Schedule.swift */; };
 		89082EA32493F2B000A04284 /* EmployeeAddTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89082EA22493F2B000A04284 /* EmployeeAddTable.swift */; };
 		8912385325597A98006220E8 /* EditServicesTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8912385225597A98006220E8 /* EditServicesTable.swift */; };
 		8912385625597C13006220E8 /* EditingServicesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8912385525597C13006220E8 /* EditingServicesCell.swift */; };
-		8917D87426A7BD0300599B59 /* TestSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8917D87326A7BD0300599B59 /* TestSchedule.swift */; };
 		8932B9C92582ED4200B5AAAF /* NoBookingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8932B9C82582ED4200B5AAAF /* NoBookingsCell.swift */; };
 		8937C66724BBEF34001BB785 /* ShiftsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937C66624BBEF34001BB785 /* ShiftsTableView.swift */; };
 		8937C66924BBFEAA001BB785 /* ShiftsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937C66824BBFEAA001BB785 /* ShiftsTableViewCell.swift */; };
@@ -102,7 +100,19 @@
 		89926A9A25379931002601B2 /* EmployeeBusinessPerformanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89926A9925379931002601B2 /* EmployeeBusinessPerformanceController.swift */; };
 		8995D39224B10C5000533154 /* UserBookingSomething.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995D39124B10C5000533154 /* UserBookingSomething.swift */; };
 		8995D39424B116E700533154 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995D39324B116E700533154 /* Service.swift */; };
+		89A39BD5273FF268002830D3 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A39BD4273FF268002830D3 /* Schedule.swift */; };
 		89A78F5724C13A82006DDEB9 /* ServicesTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A78F5624C13A82006DDEB9 /* ServicesTable.swift */; };
+		89ADB28C277A4D9A00A22D63 /* ProductsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB28B277A4D9A00A22D63 /* ProductsTable.swift */; };
+		89ADB28E277A504B00A22D63 /* ProductsSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB28D277A504B00A22D63 /* ProductsSelectCell.swift */; };
+		89ADB290277A511D00A22D63 /* ProductSelectedTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB28F277A511D00A22D63 /* ProductSelectedTableCell.swift */; };
+		89ADB292277A571F00A22D63 /* ProductUnselectedTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB291277A571F00A22D63 /* ProductUnselectedTableCell.swift */; };
+		89ADB295277B7D8400A22D63 /* EditProductsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB294277B7D8400A22D63 /* EditProductsTable.swift */; };
+		89ADB297277B7EC300A22D63 /* EditingProductsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB296277B7EC300A22D63 /* EditingProductsCell.swift */; };
+		89B5FEEA278431AE0009F1D1 /* RemoveServicesTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B5FEE9278431AE0009F1D1 /* RemoveServicesTable.swift */; };
+		89B5FEEC278435AB0009F1D1 /* RemoveServicesTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B5FEEB278435AB0009F1D1 /* RemoveServicesTableCell.swift */; };
+		89B5FEEE278674810009F1D1 /* ColumnScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B5FEED278674810009F1D1 /* ColumnScrollView.swift */; };
+		89B5FEF02786E9AC0009F1D1 /* BookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B5FEEF2786E9AC0009F1D1 /* BookingView.swift */; };
+		89B5FEF62787EBF80009F1D1 /* HolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B5FEF52787EBF80009F1D1 /* HolderCell.swift */; };
 		89B65FAD2539249C00299CB2 /* BusinessProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B65FAC2539249C00299CB2 /* BusinessProfileController.swift */; };
 		89B65FB4253A1ECC00299CB2 /* EditableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B65FB3253A1ECC00299CB2 /* EditableText.swift */; };
 		89B65FB8253AB38200299CB2 /* AdminEmployeePerformanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B65FB7253AB38200299CB2 /* AdminEmployeePerformanceViewController.swift */; };
@@ -137,11 +147,9 @@
 		3D0B633D076267F359243F35 /* Pods-EveryoneBooks-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EveryoneBooks-IOS.debug.xcconfig"; path = "Target Support Files/Pods-EveryoneBooks-IOS/Pods-EveryoneBooks-IOS.debug.xcconfig"; sourceTree = "<group>"; };
 		8906EDCC24C20A9C0040BCCA /* GenericDropDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericDropDown.swift; sourceTree = "<group>"; };
 		8907BC33258005FB0049C213 /* NoBusinessesFollowingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoBusinessesFollowingCell.swift; sourceTree = "<group>"; };
-		89082EA02493EBE400A04284 /* Schedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Schedule.swift; path = ../../../TwitterHopefully/TwitterHopefully/Model/Schedule.swift; sourceTree = "<group>"; };
 		89082EA22493F2B000A04284 /* EmployeeAddTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeAddTable.swift; sourceTree = "<group>"; };
 		8912385225597A98006220E8 /* EditServicesTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditServicesTable.swift; sourceTree = "<group>"; };
 		8912385525597C13006220E8 /* EditingServicesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingServicesCell.swift; sourceTree = "<group>"; };
-		8917D87326A7BD0300599B59 /* TestSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSchedule.swift; sourceTree = "<group>"; };
 		8932B9C82582ED4200B5AAAF /* NoBookingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoBookingsCell.swift; sourceTree = "<group>"; };
 		8937C66624BBEF34001BB785 /* ShiftsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsTableView.swift; sourceTree = "<group>"; };
 		8937C66824BBFEAA001BB785 /* ShiftsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsTableViewCell.swift; sourceTree = "<group>"; };
@@ -232,7 +240,19 @@
 		89926A9925379931002601B2 /* EmployeeBusinessPerformanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeBusinessPerformanceController.swift; sourceTree = "<group>"; };
 		8995D39124B10C5000533154 /* UserBookingSomething.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBookingSomething.swift; sourceTree = "<group>"; };
 		8995D39324B116E700533154 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		89A39BD4273FF268002830D3 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		89A78F5624C13A82006DDEB9 /* ServicesTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesTable.swift; sourceTree = "<group>"; };
+		89ADB28B277A4D9A00A22D63 /* ProductsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTable.swift; sourceTree = "<group>"; };
+		89ADB28D277A504B00A22D63 /* ProductsSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSelectCell.swift; sourceTree = "<group>"; };
+		89ADB28F277A511D00A22D63 /* ProductSelectedTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSelectedTableCell.swift; sourceTree = "<group>"; };
+		89ADB291277A571F00A22D63 /* ProductUnselectedTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUnselectedTableCell.swift; sourceTree = "<group>"; };
+		89ADB294277B7D8400A22D63 /* EditProductsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProductsTable.swift; sourceTree = "<group>"; };
+		89ADB296277B7EC300A22D63 /* EditingProductsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProductsCell.swift; sourceTree = "<group>"; };
+		89B5FEE9278431AE0009F1D1 /* RemoveServicesTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveServicesTable.swift; sourceTree = "<group>"; };
+		89B5FEEB278435AB0009F1D1 /* RemoveServicesTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveServicesTableCell.swift; sourceTree = "<group>"; };
+		89B5FEED278674810009F1D1 /* ColumnScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnScrollView.swift; sourceTree = "<group>"; };
+		89B5FEEF2786E9AC0009F1D1 /* BookingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingView.swift; sourceTree = "<group>"; };
+		89B5FEF52787EBF80009F1D1 /* HolderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderCell.swift; sourceTree = "<group>"; };
 		89B65FAC2539249C00299CB2 /* BusinessProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessProfileController.swift; sourceTree = "<group>"; };
 		89B65FB3253A1ECC00299CB2 /* EditableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableText.swift; sourceTree = "<group>"; };
 		89B65FB7253AB38200299CB2 /* AdminEmployeePerformanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminEmployeePerformanceViewController.swift; sourceTree = "<group>"; };
@@ -295,7 +315,9 @@
 		8917D87226A7BC8000599B59 /* Test Group */ = {
 			isa = PBXGroup;
 			children = (
-				8917D87326A7BD0300599B59 /* TestSchedule.swift */,
+				89B5FEED278674810009F1D1 /* ColumnScrollView.swift */,
+				89B5FEEF2786E9AC0009F1D1 /* BookingView.swift */,
+				89B5FEF52787EBF80009F1D1 /* HolderCell.swift */,
 			);
 			path = "Test Group";
 			sourceTree = "<group>";
@@ -341,19 +363,23 @@
 		8944DCE4244F53EA004A2819 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				89B5FEE82784319B0009F1D1 /* RemoveServicesTable */,
+				89809EDD257EB328000703A4 /* BusinessPicker */,
+				89809EE7257EB64F000703A4 /* RandomDatePicker */,
+				89809EEA257EB74D000703A4 /* GenericDropDown */,
+				89809EF2257EB898000703A4 /* CustomNumPicker */,
+				89809EF5257EB971000703A4 /* EditableText */,
 				89809EEB257EB765000703A4 /* EmployeesAvailableTable */,
 				89809EF6257EB98E000703A4 /* ProductTable */,
 				89809EE9257EB6D2000703A4 /* ServicesTable */,
 				89809EDA257EB2C2000703A4 /* RegAdmins */,
 				89809EFA257EBA57000703A4 /* BusinessesWorkingCurrently */,
 				89809EF9257EBA1A000703A4 /* EditServices */,
-				89809EF8257EBA08000703A4 /* EmployeeBookings */,
 				89809EF4257EB92A000703A4 /* MenuStuff */,
 				89809EF3257EB8E3000703A4 /* NotUsing */,
 				89809EE6257EB573000703A4 /* TablesWithoutCustomCells */,
 				89809EE4257EB53F000703A4 /* TableCollectionCells */,
 				89809EDB257EB2FD000703A4 /* Components */,
-				89809EF0257EB826000703A4 /* AdminScheduleComponents */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -362,7 +388,6 @@
 			isa = PBXGroup;
 			children = (
 				893E71B0248BE168001C66E9 /* Business.swift */,
-				89082EA02493EBE400A04284 /* Schedule.swift */,
 				893E71B8248D72C5001C66E9 /* Booking.swift */,
 				893E71BA248D76C6001C66E9 /* Employee.swift */,
 				89476E892493284000A424BE /* BusinessProfile.swift */,
@@ -372,6 +397,7 @@
 				898AA1B82527E43400FE0A75 /* SelectionItem.swift */,
 				89C343432548888300149F46 /* Product.swift */,
 				89742FFE259BABF7000C8E0D /* Customer.swift */,
+				89A39BD4273FF268002830D3 /* Schedule.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -412,11 +438,13 @@
 		8948559E248EAF800048C7CF /* EmployeeHome */ = {
 			isa = PBXGroup;
 			children = (
+				89809EF8257EBA08000703A4 /* EmployeeBookings */,
 				8948559F248EAFA60048C7CF /* EmployeeHomeController.swift */,
 				894855A1248EB0210048C7CF /* EmployeeNotifications.swift */,
 				894855A3248EB0310048C7CF /* EmployeeSchedule.swift */,
 				89E93AB624D5114A0042E46E /* SendEmployeeIdViewController.swift */,
 				89E93AB824D5FE030042E46E /* EmployeeBusinessSearchCollection.swift */,
+				89E93ABA24D6003D0042E46E /* EmployeeBusinessSearchCell.swift */,
 			);
 			path = EmployeeHome;
 			sourceTree = "<group>";
@@ -444,6 +472,8 @@
 		894ED9E424A7D83600A24858 /* Purgatory */ = {
 			isa = PBXGroup;
 			children = (
+				89ADB293277B7D6E00A22D63 /* EditProductsTable */,
+				89ADB28A277A4D8400A22D63 /* ProductsTable */,
 				8995D39124B10C5000533154 /* UserBookingSomething.swift */,
 				894ED9E524A7D87C00A24858 /* BusinessPageController.swift */,
 				89C32CAF24F1FDAF006709C3 /* MessageViewController.swift */,
@@ -490,14 +520,6 @@
 			isa = PBXGroup;
 			children = (
 				8944DCEC244F560C004A2819 /* Components.swift */,
-				89809EF5257EB971000703A4 /* EditableText */,
-				89809EF2257EB898000703A4 /* CustomNumPicker */,
-				89809EEA257EB74D000703A4 /* GenericDropDown */,
-				89809EE8257EB694000703A4 /* ShiftsComponents */,
-				89809EE7257EB64F000703A4 /* RandomDatePicker */,
-				89809EE3257EB4EA000703A4 /* AdminProfileCreateComponents */,
-				89809EE2257EB4BC000703A4 /* AdminSignupComponents */,
-				89809EDD257EB328000703A4 /* BusinessPicker */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -561,7 +583,6 @@
 				894634F824A0282E0043A6EA /* BusinesSearchCell.swift */,
 				89742FFA25944400000C8E0D /* NoBusinessSearchCell.swift */,
 				8957A7EB24A8E8A000C250FF /* BusinessesFollowingCellCollectionViewCell.swift */,
-				89E93ABA24D6003D0042E46E /* EmployeeBusinessSearchCell.swift */,
 				8907BC32258005DA0049C213 /* NoFollowingOrBookingsCells */,
 				89809EEF257EB7F2000703A4 /* NotificationCells */,
 			);
@@ -725,6 +746,8 @@
 		8981B1B32488926300A6AAE1 /* AdminHome */ = {
 			isa = PBXGroup;
 			children = (
+				89809EE8257EB694000703A4 /* ShiftsComponents */,
+				89809EF0257EB826000703A4 /* AdminScheduleComponents */,
 				897F45D1248DC8DA00080381 /* EditBusinessProfile */,
 				8981B1B4248892E200A6AAE1 /* AdminNotifications.swift */,
 				8981B1B62488931D00A6AAE1 /* AdminBookings.swift */,
@@ -735,15 +758,46 @@
 			path = AdminHome;
 			sourceTree = "<group>";
 		};
+		89ADB28A277A4D8400A22D63 /* ProductsTable */ = {
+			isa = PBXGroup;
+			children = (
+				89ADB28B277A4D9A00A22D63 /* ProductsTable.swift */,
+				89ADB28D277A504B00A22D63 /* ProductsSelectCell.swift */,
+				89ADB28F277A511D00A22D63 /* ProductSelectedTableCell.swift */,
+				89ADB291277A571F00A22D63 /* ProductUnselectedTableCell.swift */,
+			);
+			path = ProductsTable;
+			sourceTree = "<group>";
+		};
+		89ADB293277B7D6E00A22D63 /* EditProductsTable */ = {
+			isa = PBXGroup;
+			children = (
+				89ADB294277B7D8400A22D63 /* EditProductsTable.swift */,
+				89ADB296277B7EC300A22D63 /* EditingProductsCell.swift */,
+			);
+			path = EditProductsTable;
+			sourceTree = "<group>";
+		};
 		89B18F422506F3D8000CAC20 /* RegisterControllers */ = {
 			isa = PBXGroup;
 			children = (
+				89809EE3257EB4EA000703A4 /* AdminProfileCreateComponents */,
+				89809EE2257EB4BC000703A4 /* AdminSignupComponents */,
 				894B09CB2450F0C4009D2A5E /* RegisterUserController.swift */,
 				894B09CD2451341A009D2A5E /* RegisterEmployeeController.swift */,
 				89D8D1F4247A04EC00060B53 /* RegisterAdminController.swift */,
 				89B660672483F42100DD79E5 /* HelpRegModal.swift */,
 			);
 			path = RegisterControllers;
+			sourceTree = "<group>";
+		};
+		89B5FEE82784319B0009F1D1 /* RemoveServicesTable */ = {
+			isa = PBXGroup;
+			children = (
+				89B5FEE9278431AE0009F1D1 /* RemoveServicesTable.swift */,
+				89B5FEEB278435AB0009F1D1 /* RemoveServicesTableCell.swift */,
+			);
+			path = RemoveServicesTable;
 			sourceTree = "<group>";
 		};
 		89D8357F2550830800FF23B9 /* AdminMenuControllers */ = {
@@ -914,13 +968,13 @@
 				895C716D25564F0F00999EE6 /* EmployeeBookingCollectionCell.swift in Sources */,
 				893F401B25139F3300EDFAE2 /* RoomAreaCollectionView.swift in Sources */,
 				8937C66724BBEF34001BB785 /* ShiftsTableView.swift in Sources */,
+				89ADB295277B7D8400A22D63 /* EditProductsTable.swift in Sources */,
 				89D4047D25771652007C9DF3 /* UserProfileController.swift in Sources */,
 				89E93AB924D5FE030042E46E /* EmployeeBusinessSearchCollection.swift in Sources */,
 				898AA1B92527E43400FE0A75 /* SelectionItem.swift in Sources */,
 				8932B9C92582ED4200B5AAAF /* NoBookingsCell.swift in Sources */,
 				89B65FB8253AB38200299CB2 /* AdminEmployeePerformanceViewController.swift in Sources */,
 				8945975E24B2438F0027BDBB /* MyDatePicker.swift in Sources */,
-				8917D87426A7BD0300599B59 /* TestSchedule.swift in Sources */,
 				893F401D25139FF400EDFAE2 /* RoomAreaColumn.swift in Sources */,
 				895C716A25564C7600999EE6 /* EmployeeBookingsCollection.swift in Sources */,
 				89C343442548888300149F46 /* Product.swift in Sources */,
@@ -952,10 +1006,14 @@
 				89E93ABB24D6003D0042E46E /* EmployeeBusinessSearchCell.swift in Sources */,
 				89A78F5724C13A82006DDEB9 /* ServicesTable.swift in Sources */,
 				89742FFF259BABF7000C8E0D /* Customer.swift in Sources */,
+				89B5FEF62787EBF80009F1D1 /* HolderCell.swift in Sources */,
 				8944DCD1244F53B7004A2819 /* AppDelegate.swift in Sources */,
 				89742FFB25944400000C8E0D /* NoBusinessSearchCell.swift in Sources */,
 				8937C66924BBFEAA001BB785 /* ShiftsTableViewCell.swift in Sources */,
+				89ADB28E277A504B00A22D63 /* ProductsSelectCell.swift in Sources */,
 				893F40212515187F00EDFAE2 /* BookingCell.swift in Sources */,
+				89ADB292277A571F00A22D63 /* ProductUnselectedTableCell.swift in Sources */,
+				89ADB28C277A4D9A00A22D63 /* ProductsTable.swift in Sources */,
 				8944DCEB244F5559004A2819 /* LoginController.swift in Sources */,
 				89DC5804253649F7005326A1 /* MenuCell.swift in Sources */,
 				893E71BB248D76C6001C66E9 /* Employee.swift in Sources */,
@@ -971,11 +1029,13 @@
 				894B09CE2451341A009D2A5E /* RegisterEmployeeController.swift in Sources */,
 				8947C6F0247CB6550082D390 /* RegAdminTwo.swift in Sources */,
 				8942102C2550CF3B006BEF0A /* AdminEmployeePerformanceCell.swift in Sources */,
-				89082EA12493EBE400A04284 /* Schedule.swift in Sources */,
 				8981B1B72488931D00A6AAE1 /* AdminBookings.swift in Sources */,
+				89B5FEEC278435AB0009F1D1 /* RemoveServicesTableCell.swift in Sources */,
 				89B65FB4253A1ECC00299CB2 /* EditableText.swift in Sources */,
 				8957A7EA24A8E51E00C250FF /* BusinessesFollowingController.swift in Sources */,
+				89B5FEF02786E9AC0009F1D1 /* BookingView.swift in Sources */,
 				8912385625597C13006220E8 /* EditingServicesCell.swift in Sources */,
+				89A39BD5273FF268002830D3 /* Schedule.swift in Sources */,
 				897DD784264E34BB0087AF9C /* OneCellBooked.swift in Sources */,
 				8995D39224B10C5000533154 /* UserBookingSomething.swift in Sources */,
 				89E93ABF24D7BB080042E46E /* NotificationCell.swift in Sources */,
@@ -994,9 +1054,11 @@
 				8944EDC324B2AC8A003CD86C /* Shift.swift in Sources */,
 				89E7B51B250C46F5003A2426 /* ServicesTextTable.swift in Sources */,
 				8944E9A6247BFFF1003B20D3 /* RegAdminOne.swift in Sources */,
+				89B5FEEA278431AE0009F1D1 /* RemoveServicesTable.swift in Sources */,
 				8974E6C3247F4A3F0066528E /* RegAdminFour.swift in Sources */,
 				894DA4952577177D003EEAA5 /* UserHistoryController.swift in Sources */,
 				89644ED3249DAB6A001D28B3 /* TimePicker.swift in Sources */,
+				89B5FEEE278674810009F1D1 /* ColumnScrollView.swift in Sources */,
 				898A1562268BA79000A75723 /* ServiceSelectedTableCell.swift in Sources */,
 				893F402B251DAD8F00EDFAE2 /* CreateBooking.swift in Sources */,
 				89C32CB024F1FDAF006709C3 /* MessageViewController.swift in Sources */,
@@ -1007,6 +1069,8 @@
 				8944DCD3244F53B7004A2819 /* SceneDelegate.swift in Sources */,
 				89B660682483F42100DD79E5 /* HelpRegModal.swift in Sources */,
 				89C32CB224F48518006709C3 /* RequestAnswerNotificationCell.swift in Sources */,
+				89ADB297277B7EC300A22D63 /* EditingProductsCell.swift in Sources */,
+				89ADB290277A511D00A22D63 /* ProductSelectedTableCell.swift in Sources */,
 				8974E6C5247F56C40066528E /* RegAdminFive.swift in Sources */,
 				89E93AB724D5114A0042E46E /* SendEmployeeIdViewController.swift in Sources */,
 				894C5007256AD48700FB2DD1 /* EmployeeProfileController.swift in Sources */,

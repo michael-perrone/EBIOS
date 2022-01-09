@@ -69,7 +69,7 @@ class EmployeeHomeController: SlideTabBarController, DoesThisStillWork {
     }
     
     func configureView() {
-        view.backgroundColor = .literGray;
+        view.backgroundColor = .mainLav;
         navigationController?.navigationBar.barTintColor = .mainLav;
         tabBar.backgroundColor = .mainLav;
         tabBar.barTintColor = .mainLav;

@@ -117,7 +117,7 @@ class BusinessSearch: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Business Search";
-        view.backgroundColor = .literGray;
+        view.backgroundColor = .mainLav;
         navigationItem.hidesBackButton = true;
         configureUI()
     }

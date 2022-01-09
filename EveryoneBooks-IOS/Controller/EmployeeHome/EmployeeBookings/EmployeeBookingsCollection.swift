@@ -28,7 +28,7 @@ class EmployeeBookingsCollection: UICollectionView, UICollectionViewDelegate, UI
         register(EmployeeBookingCollectionCell.self, forCellWithReuseIdentifier: "EBC");
         delegate = self;
         dataSource = self;
-        backgroundColor = .literGray;
+        backgroundColor = .mainLav;
     }
     
     required init?(coder: NSCoder) {

@@ -29,23 +29,29 @@ class Components {
         return uitv;
     }
     
-    func createSimpleText(text: String) -> UITextView {
+    func createSimpleText(text: String, color: UIColor? = .mainLav) -> UITextView {
         let uitv = UITextView();
         uitv.isEditable = false;
         uitv.isScrollEnabled = false;
         uitv.text = text;
         uitv.font = .systemFont(ofSize: 22);
-        uitv.backgroundColor = .literGray;
+        uitv.backgroundColor = color;
         return uitv;
     }
     
-    func createNotAsSmallText(text: String) -> UITextView {
+    func createNotAsSmallText(text: String, color: UIColor? = .literGray) -> UITextView {
         let uitv = UITextView();
         uitv.isEditable = false;
         uitv.isScrollEnabled = false;
         uitv.text = text;
         uitv.font = .systemFont(ofSize: 14);
-        uitv.backgroundColor = .literGray;
+        if let colorComingIn = color {
+            uitv.backgroundColor = colorComingIn;
+        }
+        else {
+            uitv.backgroundColor = .literGray;
+        }
+        
         return uitv;
     }
     
@@ -351,14 +357,14 @@ class Components {
         return uib;
     }
     
-    func createBorder(view: UIView) -> UIView {
-        let uiv = UIView();
-        uiv.setWidth(width: view.frame.width);
-        uiv.setHeight(height: 2);
-        uiv.backgroundColor = .black;
-        return uiv;
-    }
-    
+//    func createBorder(view: UIView) -> UIView {
+//        let uiv = UIView();
+//        uiv.setWidth(width: view.frame.width);
+//        uiv.setHeight(height: 2);
+//        uiv.backgroundColor = .black;
+//        return uiv;
+//    }
+//    
     func createLittleGuy() -> UIImageView {
         let uiiv = UIImageView();
         uiiv.image = UIImage(named: "logo-small");
@@ -450,23 +456,29 @@ class Components {
             return uib;
     }
     
-    func createLittleText(text: String) -> UITextView {
-           let uitv = UITextView();
-           uitv.isEditable = false;
-           uitv.isScrollEnabled = false;
-           uitv.text = text;
-           uitv.font = .boldSystemFont(ofSize: 14);
-           uitv.backgroundColor = .literGray;
+    func createLittleText(text: String, color: UIColor? = .mainLav) -> UITextView {
+        let uitv = UITextView();
+        uitv.isEditable = false;
+        uitv.isScrollEnabled = false;
+        uitv.text = text;
+        uitv.font = .boldSystemFont(ofSize: 14);
+        uitv.backgroundColor = color;
            return uitv;
     }
     
-    func createNotAsLittleText(text: String) -> UITextView {
+    func createNotAsLittleText(text: String, color: UIColor? = .literGray) -> UITextView {
              let uitv = UITextView();
              uitv.isEditable = false;
              uitv.isScrollEnabled = false;
              uitv.text = text;
              uitv.font = .boldSystemFont(ofSize: 16);
              uitv.backgroundColor = .literGray;
+        if let colorComingIn = color {
+            uitv.backgroundColor = colorComingIn;
+        }
+        else {
+            uitv.backgroundColor = .literGray;
+        }
              return uitv;
       }
     

@@ -15,7 +15,7 @@ class EmployeePerformanceTableView: UITableView, UITableViewDelegate, UITableVie
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: CGRect.zero, style: UITableView.Style.plain);
         register(AdminEmployeePerformanceCell.self, forCellReuseIdentifier: "dc");
-        backgroundColor = .literGray;
+        backgroundColor = .mainLav;
         delegate = self;
         dataSource = self;
     }

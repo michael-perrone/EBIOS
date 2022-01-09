@@ -11,7 +11,7 @@ import UIKit
 class MyDatePicker: UIDatePicker {
     
     override init(frame: CGRect) {
-        super.init(frame:frame);
+        super.init(frame: CGRect(x:0, y: 0, width: 300, height: 200));
         configureView();
     }
     
@@ -21,7 +21,5 @@ class MyDatePicker: UIDatePicker {
     
     func configureView() {
         datePickerMode = .date;
-        setHeight(height: 50);
-        setWidth(width: 300);
     }
 }

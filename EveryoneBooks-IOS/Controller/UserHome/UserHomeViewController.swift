@@ -20,7 +20,9 @@ class UserHomeViewController: SlideTabBarController {
     
 
     func configureUI() {
-        view.backgroundColor = .literGray;
+        view.backgroundColor = .mainLav;
+        tabBar.backgroundColor = .mainLav;
+        tabBar.barTintColor = .mainLav;
      }
      
      func configureTabs() {
@@ -32,9 +34,7 @@ class UserHomeViewController: SlideTabBarController {
         let userBookings = Components().createNavBarItemController(image: UIImage(named: "service-bell-tab-bar"), viewController: userBookingsCollection, title: "Bookings")
         viewControllers = [businessSearch, userBookings, businessFollowing];
         view.setHeight(height: UIScreen.main.bounds.height);
-        view.setWidth(width: UIScreen.main.bounds.width)
-        tabBar.backgroundColor = .mainLav;
-        tabBar.barTintColor = .mainLav;
+        view.setWidth(width: UIScreen.main.bounds.width);
     }
 }
 

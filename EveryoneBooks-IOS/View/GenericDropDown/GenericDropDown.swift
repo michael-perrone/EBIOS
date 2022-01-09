@@ -64,6 +64,7 @@ class GenericDropDown: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSourc
     
     func configureView() {
         setHeight(height: 90);
+        setWidth(width: 300)
     }
     
     

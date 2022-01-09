@@ -75,7 +75,7 @@ class BusinessSearchCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
            super.init(frame:frame);
-           backgroundColor = .literGray;
+           backgroundColor = .mainLav;
            configureView();
        }
     
@@ -104,7 +104,6 @@ class BusinessSearchCell: UICollectionViewCell {
                             self.following = false;
                             self.delegate?.unFollowBusiness(idParameter: self.bID!)
                         }
-                        
                     }
                 }
             }
@@ -117,7 +116,6 @@ class BusinessSearchCell: UICollectionViewCell {
                             self.following = true;
                             self.delegate?.followBusiness(index: self.index_!);
                         }
-                        
                     }
                 }
             }

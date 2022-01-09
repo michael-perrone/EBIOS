@@ -331,9 +331,6 @@ class AddEmployees: UIViewController, DeleteEmployeesProtocol {
     func getEmployees() {
         let url = myURL + "businessProfile/myEmployees";
         API().get(url: url, headerToSend: Utilities().getAdminToken()) { (res) in
-            print("res below")
-            print(res)
-            print("RES ABOVE")
             let employeesWhoWorkHere = res["employeesHere"] as? [[String: String]];
             var employeesWhoWorkHereArray: [Employee] = [];
             if let employeesWhoWorkHere = employeesWhoWorkHere {
@@ -343,8 +340,6 @@ class AddEmployees: UIViewController, DeleteEmployeesProtocol {
                 }
                 if employeesWhoWorkHereArray.count > 0 {
                     self.employeesHere = employeesWhoWorkHereArray;
-                    print("EMPLOYEES HERE BELOW");
-                    print(self.employeesHere)
                 }
                 else {
                     self.employeesHere = [];

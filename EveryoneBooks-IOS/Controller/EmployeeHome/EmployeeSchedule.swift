@@ -49,14 +49,14 @@ class EmployeeSchedule: UIViewController, EmployeeBookingCellProtocol {
     
     private let scheduleText: UITextView = {
         let uitv = Components().createSimpleText(text: "Schedule Date: ");
-        uitv.backgroundColor = .literGray;
-        uitv.font = .boldSystemFont(ofSize: 28);
+        uitv.backgroundColor = .mainLav;
+        uitv.font = .boldSystemFont(ofSize: 20);
         return uitv;
     }()
     
     private let bookingsShiftText: UITextView = {
         let uitv = Components().createSimpleText(text: "");
-        uitv.backgroundColor = .literGray;
+        uitv.backgroundColor = .mainLav;
         uitv.font = .boldSystemFont(ofSize: 18);
         uitv.setWidth(width: fullWidth / 1.2);
         return uitv;

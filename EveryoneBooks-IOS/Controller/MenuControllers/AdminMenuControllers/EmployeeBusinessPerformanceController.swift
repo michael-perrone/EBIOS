@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EmployeeBusinessPerformanceController: UIViewController {
+class BusinessPerformanceController: UIViewController {
     
     var employee = false;
     
@@ -200,29 +200,26 @@ class EmployeeBusinessPerformanceController: UIViewController {
     
     
     func configureView() {
-        view.backgroundColor = .literGray;
+        view.backgroundColor = .mainLav;
         view.addSubview(businessPerformanceTextView);
-        businessPerformanceTextView.padTop(from: view.topAnchor, num: 0);
+        businessPerformanceTextView.padTop(from: view.topAnchor, num: 10);
         businessPerformanceTextView.centerTo(element: view.centerXAnchor);
-        view.addSubview(startDayPicker);
-        startDayPicker.padTop(from: businessPerformanceTextView.bottomAnchor, num: 40);
-        startDayPicker.centerTo(element: view.centerXAnchor);
         view.addSubview(startText);
-        startText.padLeft(from: startDayPicker.leftAnchor, num: 0);
-        startText.padBottom(from: startDayPicker.topAnchor, num: -5)
-        view.addSubview(endDayPicker);
-        endDayPicker.padTop(from: startDayPicker.bottomAnchor, num: 30);
-        endDayPicker.centerTo(element: view.centerXAnchor);
+        startText.padLeft(from: view.leftAnchor, num: 20);
+        startText.padTop(from: businessPerformanceTextView.bottomAnchor, num: 10)
+        view.addSubview(startDayPicker);
+        startDayPicker.padTop(from: startText.bottomAnchor, num: -5);
+        startDayPicker.padLeft(from: view.leftAnchor, num: 20)
         view.addSubview(endText);
-        endText.padLeft(from: endDayPicker.leftAnchor, num: 0);
-        endText.padBottom(from: endDayPicker.topAnchor, num: -5);
+        endText.padRight(from: view.rightAnchor, num: 20);
+        endText.padTop(from: startText.topAnchor, num: 0);
+        view.addSubview(endDayPicker);
+        endDayPicker.padTop(from: endText.bottomAnchor, num: -5);
+        endDayPicker.padRight(from: view.rightAnchor, num: 20);
         configureOtherViews();
     }
     
     func configureOtherViews() {
-        view.addSubview(sep);
-        sep.padTop(from: endDayPicker.bottomAnchor, num: 18);
-        sep.centerTo(element: view.centerXAnchor);
         view.addSubview(scrollView);
         scrollView.padTop(from: endDayPicker.bottomAnchor, num: 20);
         scrollView.padLeft(from: view.leftAnchor, num: 0);

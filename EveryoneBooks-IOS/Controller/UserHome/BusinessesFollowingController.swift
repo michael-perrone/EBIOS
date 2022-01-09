@@ -76,7 +76,7 @@ class BusinessesFollowingCollection: UICollectionViewController, OtherCollection
     func configureUI() {
         collectionView.register(BusinessesFollowingCollectionViewCell.self, forCellWithReuseIdentifier: "BusinessFollowingCell");
         collectionView.register(NoBusinessesFollowingCell.self, forCellWithReuseIdentifier: "NoFollowingCell");
-        collectionView.backgroundColor = .literGray;
+        collectionView.backgroundColor = .mainLav;
         navigationController?.navigationBar.backgroundColor = .mainLav;
         navigationController?.navigationBar.barTintColor = .mainLav;
         navigationItem.title = "Following";

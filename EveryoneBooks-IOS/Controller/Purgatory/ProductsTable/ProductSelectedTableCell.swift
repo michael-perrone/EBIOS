@@ -1,16 +1,16 @@
 //
-//  ServiceSelectedTableCell.swift
+//  ProductSelectedTableCell.swift
 //  EveryoneBooks-IOS
 //
-//  Created by Michael Perrone on 6/29/21.
+//  Created by Michael Perrone on 12/27/21.
 //  Copyright © 2021 Michael Perrone. All rights reserved.
 //
 
 import UIKit
 
-class ServiceSelectedTableCell: ServicesSelectCell {
+class ProductSelectedTableCell: ProductsSelectCell {
     
-    lazy var minusServiceButton: UIButton = {
+    lazy var minusProductButton: UIButton = {
         let uib = UIButton(type: .system);
         uib.setAttributedTitle(NSAttributedString(string: "-", attributes: [NSAttributedString.Key.foregroundColor : UIColor.mainLav, NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 30)]), for: .normal);
         uib.setHeight(height: 34);
@@ -23,14 +23,14 @@ class ServiceSelectedTableCell: ServicesSelectCell {
     
     func configureColor() {
         backgroundColor = .darkGray;
-        addSubview(minusServiceButton);
-        minusServiceButton.padTop(from: topAnchor, num: 1);
-        minusServiceButton.padRight(from: rightAnchor, num: 0);
-        serviceName.textColor = .mainLav;
-        serviceName.backgroundColor = .darkGray;
+        addSubview(minusProductButton);
+        minusProductButton.padTop(from: topAnchor, num: 1);
+        minusProductButton.padRight(from: rightAnchor, num: 0);
+        productName.textColor = .mainLav;
+        productName.backgroundColor = .darkGray;
     }
     
     @objc func minusThisService() {
-        delegate?.minusService(service: self.service!);
+        delegate?.minusProduct(product: self.product!);
     }
 }

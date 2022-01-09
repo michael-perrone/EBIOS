@@ -12,19 +12,17 @@ class BookedCell: UITableViewCell {
     var booked: Bool? {
         didSet {
             if booked! {
+                myDel = delegate;
                 let tap = UITapGestureRecognizer(target: self, action: #selector(hit));
                 tap.numberOfTapsRequired = 2;
                 addGestureRecognizer(tap);
-                print(tap)
                 backgroundColor = UIColor.init(red: 300, green: 0, blue: 0, alpha: 0.3);
-                print(potato);
-                print("booked");
-                delegate = potato;
+                
             }
         }
     }
     
-    var potato: GetBookingInfo?
+    var myDel: GetBookingInfo?
     
     private var time: String?;
     
@@ -37,15 +35,13 @@ class BookedCell: UITableViewCell {
         return time;
     }
     
-    weak var delegate: GetBookingInfo? {
-        didSet {
-            print(delegate!);
-            print("I WAS SET");
-        }
-    }
+    weak var delegate: GetBookingInfo?;
+//        didSet {
+//            print(delegate!);
+//            print("I WAS SET");
+//        }
     
     @objc func hit(_ sender: UITapGestureRecognizer? = nil) {
-        print("HIT")
         delegate?.getBookingInfo(time: self.time!)
     }
     

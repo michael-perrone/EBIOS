@@ -110,30 +110,32 @@ class AdminEmployeePerformanceViewController: UIViewController {
     }
     
     func configureView() {
-        view.backgroundColor = .literGray;
+        view.backgroundColor = .mainLav;
         view.addSubview(employeePerformanceTextView);
-        employeePerformanceTextView.padTop(from: view.topAnchor, num: 0);
+        employeePerformanceTextView.padTop(from: view.topAnchor, num: 10);
         employeePerformanceTextView.centerTo(element: view.centerXAnchor);
-        view.addSubview(startDayPicker);
-        startDayPicker.padTop(from: employeePerformanceTextView.bottomAnchor, num: 40);
-        startDayPicker.centerTo(element: view.centerXAnchor);
         view.addSubview(startText);
-        startText.padLeft(from: startDayPicker.leftAnchor, num: 0);
-        startText.padBottom(from: startDayPicker.topAnchor, num: -5)
-        view.addSubview(endDayPicker);
-        endDayPicker.padTop(from: startDayPicker.bottomAnchor, num: 30);
-        endDayPicker.centerTo(element: view.centerXAnchor);
+        startText.padLeft(from: view.leftAnchor, num: 20);
+        startText.padTop(from: employeePerformanceTextView.bottomAnchor, num: 10)
+        view.addSubview(startDayPicker);
+        startDayPicker.padTop(from: startText.bottomAnchor, num: 5);
+        startDayPicker.padLeft(from: view.leftAnchor, num: 20);
         view.addSubview(endText);
-        endText.padLeft(from: endDayPicker.leftAnchor, num: 0);
-        endText.padBottom(from: endDayPicker.topAnchor, num: -5);
-        view.addSubview(sep);
-        sep.padTop(from: endDayPicker.bottomAnchor, num: 18);
-        sep.centerTo(element: view.centerXAnchor);
+        endText.padRight(from: view.rightAnchor, num: 20);
+        endText.padTop(from: startText.topAnchor, num: 0);
+        view.addSubview(endDayPicker);
+        endDayPicker.padTop(from: startDayPicker.topAnchor, num: 0);
+        endDayPicker.padRight(from: view.rightAnchor, num: 20);
         view.addSubview(performanceTableView);
-        performanceTableView.padTop(from: sep.bottomAnchor, num: 0);
+        performanceTableView.padTop(from: endDayPicker.bottomAnchor, num: 20);
         performanceTableView.centerTo(element: view.centerXAnchor);
         performanceTableView.setWidth(width: fullWidth);
-        performanceTableView.setHeight(height: 400);
+        if view.frame.height > 800 {
+            performanceTableView.setHeight(height: view.frame.height / 1.5);
+        }
+        else if view.frame.height > 600 && view.frame.height < 700 {
+            performanceTableView.setHeight(height: view.frame.height / 1.7);
+        }
     }
     
     

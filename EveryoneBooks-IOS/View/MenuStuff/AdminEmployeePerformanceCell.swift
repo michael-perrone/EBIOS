@@ -43,7 +43,7 @@ class AdminEmployeePerformanceCell: UITableViewCell {
  
     
     func configureCell() {
-        backgroundColor = .literGray;
+        backgroundColor = .mainLav;
         contentView.addSubview(employeeName);
         employeeName.centerTo(element: contentView.centerXAnchor);
         employeeName.padTop(from: contentView.topAnchor, num: 4);

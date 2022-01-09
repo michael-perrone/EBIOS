@@ -1,39 +1,42 @@
 //
-//  DropDown.swift
+//  ProductsTable.swift
 //  EveryoneBooks-IOS
 //
-//  Created by Michael Perrone on 7/16/20.
-//  Copyright © 2020 Michael Perrone. All rights reserved.
+//  Created by Michael Perrone on 12/27/21.
+//  Copyright © 2021 Michael Perrone. All rights reserved.
 //
+
 
 import UIKit
 
-protocol ServicesTableDelegate: ServicesTable {
-    func addService(service: Service)
-    func minusService(service: Service)
+protocol ProductsTableDelegate: ProductsTable {
+    func addProduct(product: Product)
+    func minusProduct(product: Product)
 }
 
-class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, ServicesTableDelegate  {
+class ProductsTable: UITableView, UITableViewDelegate, UITableViewDataSource, ProductsTableDelegate  {
    
-    func minusService(service: Service) {
-        selectedServices.removeAll(where: { (eachService) -> Bool in
-           return service.id == eachService.id
+    func minusProduct(product: Product) {
+        selectedProducts.removeAll(where: { (eachProduct) -> Bool in
+           return product.id == eachProduct.id
         })
         reloadData();
     }
     
-    func addService(service: Service) {
-        selectedServices.append(service);
+    func addProduct(product: Product) {
+        selectedProducts.append(product);
         reloadData();
     }
     /// Delegate Functions
     
     var shortText: Bool = false;
 
-    var selectedServices: [Service] = [];
+    var selectedProducts: [Product] = [];
     
-    var data: [Service]? {
+    var data: [Product]? {
         didSet {
+            print(data);
+            print("BELOW DATA")
             DispatchQueue.main.async {
                 self.reloadData()
             }
@@ -48,8 +51,8 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
         super.init(frame: frame, style: UITableView.Style.grouped)
         delegate = self;
         dataSource = self;
-        register(ServiceSelectedTableCell.self, forCellReuseIdentifier: "SC");
-        register(ServiceUnselectedTableCell.self, forCellReuseIdentifier: "UC");
+        register(ProductSelectedTableCell.self, forCellReuseIdentifier: "PSC");
+        register(ProductUnselectedTableCell.self, forCellReuseIdentifier: "UPC");
     }
     
     required init?(coder: NSCoder) {
@@ -68,12 +71,11 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let data = data {
-            print(selectedServices);
-            if selectedServices.contains(where: { (service) -> Bool in
-                service.id == data[indexPath.row].id
+            if selectedProducts.contains(where: { (product) -> Bool in
+                product.id == data[indexPath.row].id
             }) {
-                let unSelectedCell = dequeueReusableCell(withIdentifier: "SC", for: indexPath) as! ServiceSelectedTableCell;
-                unSelectedCell.service = data[indexPath.row];
+                let unSelectedCell = dequeueReusableCell(withIdentifier: "PSC", for: indexPath) as! ProductSelectedTableCell;
+                unSelectedCell.product = data[indexPath.row];
                 unSelectedCell.delegate = self;
                 if shortText {
                     unSelectedCell.shortText = true;
@@ -84,15 +86,17 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
                 return unSelectedCell;
             }
             else {
-                let selectedCell = dequeueReusableCell(withIdentifier: "UC", for: indexPath) as! ServiceUnselectedTableCell;
+                let selectedCell = dequeueReusableCell(withIdentifier: "UPC", for: indexPath) as! ProductUnselectedTableCell;
                 if let bColorComingIn = unselectedCellBackgroundColor {
                     selectedCell.bColor = bColorComingIn;
+                    print(bColorComingIn);
+                    print("BACKGROUND COLOR");
                 }
                 if let tColorComingIn = unselectedCellTextColor {
                     selectedCell.tColor = tColorComingIn;
                 }
                 
-                selectedCell.service = data[indexPath.row];
+                selectedCell.product = data[indexPath.row];
                 selectedCell.delegate = self;
                 if shortText {
                     selectedCell.shortText = true;
@@ -109,13 +113,13 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if selectedServices.contains(where: { service in
+        if selectedProducts.contains(where: { service in
             service.id == data![indexPath.row].id
         }) {
-            minusService(service: data![indexPath.row]);
+            minusProduct(product: data![indexPath.row]);
         }
         else {
-            addService(service: data![indexPath.row])
+            addProduct(product: data![indexPath.row])
         }
     }
 }

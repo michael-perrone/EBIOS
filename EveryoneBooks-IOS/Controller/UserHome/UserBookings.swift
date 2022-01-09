@@ -8,7 +8,21 @@
 
 import UIKit
 
-class UserBookings: UICollectionViewController {
+protocol UserBookingViewClicked: UserBookings {
+    func viewBooking(booking: Booking);
+}
+
+class UserBookings: UICollectionViewController, UserBookingViewClicked {
+    
+    func viewBooking(booking: Booking) {
+        DispatchQueue.main.async {
+            let vbvc = ViewBookingViewController();
+            vbvc.booking = booking;
+            vbvc.modalPresentationStyle = .fullScreen;
+            self.navigationController?.pushViewController(vbvc, animated: true);
+        }
+    }
+    
     
     var bookings: [Booking]? {
         didSet {
@@ -17,6 +31,7 @@ class UserBookings: UICollectionViewController {
             }
         }
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
@@ -31,7 +46,7 @@ class UserBookings: UICollectionViewController {
         navigationItem.title = "My Bookings";
         collectionView.register(UserBookingsCollectionCell.self, forCellWithReuseIdentifier: "UserBookingsCell");
         collectionView.register(NoBookingsCell.self, forCellWithReuseIdentifier: "NB");
-        collectionView.backgroundColor = .literGray;
+        collectionView.backgroundColor = .mainLav;
     }
     
     
@@ -76,6 +91,7 @@ extension UserBookings {
             }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserBookingsCell", for: indexPath) as! UserBookingsCollectionCell;
             cell.booking = bookings[indexPath.row];
+            cell.viewClickedDelegate = self;
             cell.configureCell();
             return cell;
         } else {

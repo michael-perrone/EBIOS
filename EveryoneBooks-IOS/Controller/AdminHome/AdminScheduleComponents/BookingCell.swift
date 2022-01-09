@@ -24,7 +24,7 @@ class BookingCell: UITableViewCell {
 
 
     private let timeText: UITextView = {
-        let uitv = Components().createSimpleText(text: "");
+        let uitv = Components().createSimpleText(text: "", color: .literGray);
         uitv.font = .boldSystemFont(ofSize: 18);
         return uitv;
     }()

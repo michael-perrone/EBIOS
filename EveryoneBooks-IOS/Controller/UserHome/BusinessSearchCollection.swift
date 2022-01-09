@@ -76,14 +76,14 @@ class BusinessSearchCollection: UICollectionViewController, BusinessSearchDelega
     func configureUI() {
         collectionView.register(BusinessSearchCell.self, forCellWithReuseIdentifier: "BusinessSearchCell");
         collectionView.register(NoBusinessSearchCell.self, forCellWithReuseIdentifier: "NF");
-        collectionView.backgroundColor = .literGray;
-        navigationController?.navigationBar.backgroundColor = .mainLav;
+        collectionView.backgroundColor = .mainLav;
         navigationController?.navigationBar.barTintColor = .mainLav;
         let logoView = UIImageView(image: UIImage(named: "logo-small"));
         logoView.setHeight(height: 36);
         logoView.setWidth(width: 36);
         navigationItem.titleView = logoView;
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: xButton)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: xButton);
+        
     }
 
     func getFollowing() {

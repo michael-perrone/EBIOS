@@ -1,16 +1,8 @@
-//
-//  EditServicesTable.swift
-//  EveryoneBooks-IOS
-//
-//  Created by Michael Perrone on 11/9/20.
-//  Copyright © 2020 Michael Perrone. All rights reserved.
-//
-
 import UIKit
 
-class EditServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource {
+class EditProductsTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     
-    var services: [Service]? {
+    var products: [Product]? {
         didSet {
             DispatchQueue.main.async {
                 self.reloadData();
@@ -18,13 +10,13 @@ class EditServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource
         }
     }
     
-    weak var otherDelegate: EditServicesDelegate?
+    weak var otherDelegate: EditProductsDelegate?
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: UITableView.Style.plain);
         delegate = self;
         dataSource = self;
-        register(EditingServicesCell.self, forCellReuseIdentifier: "H");
+        register(EditingProductsCell.self, forCellReuseIdentifier: "EPC");
         backgroundColor = .mainLav;
     }
     
@@ -35,24 +27,25 @@ class EditServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource
     var any = "D";
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let services = services {
+        if let products = self.products {
             print("INSIDE OF EDITSERVICESTABLE");
-            print(services)
+            print(products)
             print("below services")
-            return services.count;
+            return products.count;
         }
         return 4;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = dequeueReusableCell(withIdentifier: "H", for: indexPath) as! EditingServicesCell;
+        let cell = dequeueReusableCell(withIdentifier: "EPC", for: indexPath) as! EditingProductsCell;
         cell.selectionStyle = .none;
-        if let services = self.services {
-            if indexPath.row < services.count {
-            cell.delegate = otherDelegate;
-            cell.neededIndex = indexPath.row;
-            cell.service = services[indexPath.row];
-            cell.configureCell()
+        if let products = self.products {
+            if indexPath.row < products.count {
+                cell.delegate = otherDelegate;
+                print(products[indexPath.row])
+                cell.neededIndex = indexPath.row;
+                cell.product = products[indexPath.row];
+                cell.configureCell()
           
             }
         }

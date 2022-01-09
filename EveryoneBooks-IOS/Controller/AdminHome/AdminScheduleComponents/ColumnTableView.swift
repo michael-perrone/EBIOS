@@ -17,18 +17,21 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
     func getBookingInfo(time: String) {
         API().post(url: myURL + "getBookings/individual", dataToSend: ["time": time, "bcn": self.bcn!, "businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.date!]) { (res) in
             if let booking = res["booking"] as? [String: Any] {
-            
                 let realBooking = Booking(dic: booking);
                 self.bookingClickedDelegate?.viewBookingInfo(booking: realBooking);
             }
         }
     }
     
-    weak var bookingClickedDelegate: BookingClickedProtocol?;
+    weak var bookingClickedDelegate: BookingClickedProtocol? {
+        didSet {
+            print("BOOKING CLICKED DELEGATE WAS SET")
+            print(bookingClickedDelegate)
+        }
+    }
     
     private var bookings: [Booking] = [] {
         didSet {
-            print(bookings)
             for booking in self.bookings {
                 let times = booking.time?.components(separatedBy: "-");
                 startTimes.append(times![0]);
@@ -182,8 +185,8 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
                         }
                    else if otherTimes.contains(times[indexPath.row]) {
                             let bookedCell = dequeueReusableCell(withIdentifier: "3", for:  indexPath) as! BookedCell;
-                    bookedCell.potato = self;
-                        bookedCell.booked = false;
+                            bookedCell.myDel = self;
+                            bookedCell.booked = false;
                             bookedCell.setTime(time: times[indexPath.row]);
                             bookedCell.selectionStyle = .none;
                             bookedCell.delegate = self;

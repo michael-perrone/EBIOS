@@ -22,11 +22,6 @@ class EmployeeAddTable: UITableView, UITableViewDataSource, UITableViewDelegate 
     
     var deleteDelegate: DeleteEmployeesProtocol?;
     
-    private let success: UIView = {
-        let uiv = Components().createSuccess(text: "Employee Successfully Deleted");
-        return uiv;
-    }();
-    
     public let table: UITableView = {
         let table = UITableView(frame: CGRect.zero, style: UITableView.Style.insetGrouped);
         return table;

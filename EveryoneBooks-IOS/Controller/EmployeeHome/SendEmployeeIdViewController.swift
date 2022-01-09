@@ -19,7 +19,7 @@ class SendEmployeeIdViewController: UIViewController {
         super.viewDidLoad()
         configureView()
         navigationController?.navigationBar.backgroundColor = .mainLav;
-        view.backgroundColor = .literGray;
+        view.backgroundColor = .mainLav;
         navigationController?.navigationItem.hidesBackButton = true;
         navigationController?.navigationBar.barTintColor = .mainLav;
     }

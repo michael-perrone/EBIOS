@@ -1,19 +1,18 @@
 import UIKit
 
-class EditingServicesCell: UITableViewCell {
+class EditingProductsCell: UITableViewCell {
 
-    var service: Service? {
+    var product: Product? {
         didSet {
-            serviceName.text = service?.serviceName;
-            print("debugy", service!.serviceName)
+            productName.text = product!.name;
         }
     }
     
-    weak var delegate: EditServicesDelegate?;
+    weak var delegate: EditProductsDelegate?
     
     var neededIndex: Int?;
     
-    let serviceName: UITextView = {
+    let productName: UITextView = {
         let uitv = Components().createLittleText(text: "");
         uitv.font = .boldSystemFont(ofSize: 14);
         return uitv;
@@ -25,22 +24,23 @@ class EditingServicesCell: UITableViewCell {
         let title = NSAttributedString(string: "x", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 28)]);
         cancelB.setAttributedTitle(title, for: .normal);
         cancelB.tintColor = .black;
-        cancelB.addTarget(self, action: #selector(removeService), for: .touchUpInside);
+        cancelB.addTarget(self, action: #selector(removeProduct), for: .touchUpInside);
         return cancelB;
     }()
     
-    @objc func removeService() {
-        delegate?.removeService(service: service!, index: neededIndex!);
+    @objc func removeProduct() {
+        delegate?.removeProduct(product: product!, index: neededIndex!);
+        print("HIT HIT HIT")
     }
     
     func configureCell() {
-        contentView.addSubview(serviceName);
-        serviceName.padTop(from: topAnchor, num: 1);
-        serviceName.setHeight(height: 30);
-        serviceName.padLeft(from: leftAnchor, num: 16);
+        contentView.addSubview(productName);
+        productName.padTop(from: topAnchor, num: 1);
+        productName.setHeight(height: 30);
+        productName.padLeft(from: leftAnchor, num: 16);
         contentView.backgroundColor = .mainLav;
         contentView.addSubview(smallXButton);
-        serviceName.setWidth(width: contentView.frame.width - smallXButton.frame.width - 42);
+        productName.setWidth(width: contentView.frame.width - smallXButton.frame.width - 42);
         smallXButton.padTop(from: contentView.topAnchor, num: 0);
         smallXButton.setHeight(height: contentView.frame.height - 8);
         smallXButton.padRight(from: rightAnchor, num: 0);

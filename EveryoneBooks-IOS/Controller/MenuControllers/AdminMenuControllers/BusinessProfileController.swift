@@ -65,19 +65,19 @@ class BusinessProfileController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .literGray;
+        view.backgroundColor = .mainLav;
         configureView()
         getOriginalInfo();
     }
     
     func configureView() {
         let stack = UIStackView()
-        stack.setHeight(height: fullHeight / 1.6);
+        stack.setHeight(height: fullHeight / 2);
         [businessNameEditText, businessAddressEditText, businessCityEditText, businessStateEditText, businessZipEditText].forEach { (editableText) in
             stack.addArrangedSubview(editableText)
         }
         view.addSubview(businessProfileTextView);
-        businessProfileTextView.padTop(from: view.topAnchor, num: 0);
+        businessProfileTextView.padTop(from: view.topAnchor, num: 20);
         businessProfileTextView.centerTo(element: view.centerXAnchor);
         stack.distribution = .equalSpacing;
         stack.setWidth(width: fullWidth);

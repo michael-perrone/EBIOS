@@ -14,6 +14,7 @@ class AdminHomeController: SlideTabBarController {
         super.viewDidLoad()
         configureUI()
         getBusiness();
+        print("THIS HAS TO WORK")
     }
     
     func configureUI() {
@@ -23,11 +24,14 @@ class AdminHomeController: SlideTabBarController {
     func getBusiness() {
         let url = myURL + "businessProfile/myBusinessForProfile";
         API().get(url: url, headerToSend: Utilities().getAdminToken()) { (res) in
+            print("thisss")
             print(res)
             if let profileCreated = res["profileCreated"] as? Bool {
+                print(profileCreated)
+                print("hello allow me")
                 if profileCreated {
                     DispatchQueue.main.async {
-                        self.setTabs(tab1: ScheduleHolder(), image1: UIImage(named: "business-tab-bar")!, title1: "Service Schedule", tab2: AdminShifts(), image2: UIImage(named: "calendar")!, title2: "Shift Schedule", tab3: AdminNotifications(collectionViewLayout: UICollectionViewFlowLayout()), image3: UIImage(named: "notis")!, title3: "Notifications");
+                        self.setTabs(tab1: AdminBookings(), image1: UIImage(named: "business-tab-bar")!, title1: "Service Schedule", tab2: AdminShifts(), image2: UIImage(named: "calendar")!, title2: "Shift Schedule", tab3: AdminNotifications(collectionViewLayout: UICollectionViewFlowLayout()), image3: UIImage(named: "notis")!, title3: "Notifications");
                         
                     }
                 }

@@ -75,7 +75,7 @@ class EmployeeBusinessSearchCollection: UICollectionViewController, EmployeeBusi
     
     func configureUI() {
         collectionView.register(EmployeeBusinessSearchCell.self, forCellWithReuseIdentifier: "EBSC");
-        collectionView.backgroundColor = .literGray;
+        collectionView.backgroundColor = .mainLav;
         navigationController?.navigationBar.backgroundColor = .mainLav;
         navigationController?.navigationBar.barTintColor = .mainLav;
         let logoView = UIImageView(image: UIImage(named: "logo-small"));

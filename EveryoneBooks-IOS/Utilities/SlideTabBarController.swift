@@ -81,16 +81,16 @@ class SlideTabBarController: UITabBarController, SlideTabBarProtocol, MenuCellCl
     
     lazy var menu: Menu = {
         if Utilities().getAdminToken() != "nil" {
-            let uiv = Menu(selectionItems: [SelectionItem(vc: BusinessProfileController(), title: "Business Info", image: "🏢"), SelectionItem(vc: EditBusinessProfile(), title: "Edit Business", image: "📎"), SelectionItem(vc: EmployeeBusinessPerformanceController(), title: "Business Performance", image: "💰"), SelectionItem(vc: AdminEmployeePerformanceViewController(), title: "Employee Performance", image: "👥"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
+            let uiv = Menu(selectionItems: [SelectionItem(vc: BusinessProfileController(), title: "Business Info", image: "🏢"), SelectionItem(vc: EditBusinessProfile(), title: "Edit Business", image: "📎"), SelectionItem(vc: BusinessPerformanceController(), title: "Business Performance", image: "💰"), SelectionItem(vc: AdminEmployeePerformanceViewController(), title: "Employee Performance", image: "👥"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
             uiv.cancelDelegate = self;
             uiv.cellClickedDelegate = self;
             uiv.frame = CGRect(x: -(fullWidth / 1.45), y: 0, width: fullWidth / 1.45, height: fullHeight)
             return uiv;
         }
         else if Utilities().getEmployeeToken() != "nil" {
-            let ebpc = EmployeeBusinessPerformanceController();
-            ebpc.employee = true;
-            let uiv = Menu(selectionItems: [SelectionItem(vc: EmployeeProfileController(), title: "Profile", image: "👩‍🦲"), SelectionItem(vc: ebpc, title: "Performance", image: "💰"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
+            let bpc = BusinessPerformanceController();
+            bpc.employee = true;
+            let uiv = Menu(selectionItems: [SelectionItem(vc: EmployeeProfileController(), title: "Profile", image: "👩‍🦲"), SelectionItem(vc: bpc, title: "Performance", image: "💰"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
             uiv.cancelDelegate = self;
             uiv.cellClickedDelegate = self;
             uiv.frame = CGRect(x: -(fullWidth / 1.45), y: 0, width: fullWidth / 1.45, height: fullHeight)
@@ -123,6 +123,8 @@ class SlideTabBarController: UITabBarController, SlideTabBarProtocol, MenuCellCl
         num = fullHeight * fullHeight * fullHeight / 20000000;
         fmb.padTop(from: view.topAnchor, num: num);
         view.addSubview(menu)
+        view.backgroundColor = .literGray;
+        
     }
     
     func setTabs(tab1: UIViewController, image1: UIImage, title1: String, tab2: UIViewController, image2: UIImage, title2: String, tab3: UIViewController, image3: UIImage, title3: String) {

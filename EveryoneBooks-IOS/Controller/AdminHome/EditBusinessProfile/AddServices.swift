@@ -8,13 +8,36 @@
 
 import UIKit
 
-class AddServices: UIViewController, UITableViewDataSource {
+protocol DeleteServiceProtocol: AddServices {
+    func deleteService(service: Service, indexPath: [IndexPath], row: Int);
+        
+}
+
+class AddServices: UIViewController, DeleteServiceProtocol {
     
-    var services: [[String: Any]] = [] {
-        didSet{
-            DispatchQueue.main.async {
-                self.servicesList.reloadData();
+    func deleteService(service: Service, indexPath: [IndexPath], row: Int) {
+        let alert = UIAlertController(title: "Confirm Deletion", message: "Are you sure you would like to delete " + service.serviceName + " as a service from your business?", preferredStyle: .alert);
+        
+        let action1 = UIAlertAction(title: "Oops, No!", style: .default, handler: nil);
+        let action2 = UIAlertAction(title: "Yes!", style: .destructive) { (UIAlertAction) in
+            API().post(url: "http://localhost:4000/api/services/delete",
+                       headerToSend: Utilities().getAdminToken(), dataToSend: ["serviceId": service.id]) { (res) in
+                if res["statusCode"] as? Int == 200 {
+                    DispatchQueue.main.async {
+                        self.services.remove(at: row);
+                        self.removeServicesTable.deleteRows(at: indexPath, with: UITableView.RowAnimation.fade);
+                    }
+                }
             }
+        }
+        alert.addAction(action1);
+        alert.addAction(action2)
+        self.present(alert, animated: true, completion: nil);
+    }
+    
+    var services: [Service] = [] {
+        didSet{
+            self.removeServicesTable.services = self.services;
         }
     }
     
@@ -74,17 +97,11 @@ class AddServices: UIViewController, UITableViewDataSource {
         return uib;
     }()
     
-    private let servicesList: UITableView = {
-        let table = UITableView(frame: CGRect.zero, style: UITableView.Style.insetGrouped);
-        table.backgroundColor = .clear;
-        return table;
+    private let removeServicesTable: RemoveServicesTable = {
+        let rst = RemoveServicesTable();
+        return rst;
     }()
-    
-    lazy var deleteButton: UIButton = {
-          let uib = Components().createNormalButton(title: "Confirm Delete")
-          uib.addTarget(self, action: #selector(deleteHit), for: .touchUpInside);
-          return uib;
-      }()
+
     
     private let success: UIView = {
         let uiv = Components().createSuccess(text: "Services Successfully Deleted");
@@ -97,15 +114,12 @@ class AddServices: UIViewController, UITableViewDataSource {
     }()
     
     
-    @objc func deleteHit() {
-        
-        let data = ["removing": removing]
-        API().post(url: "http://localhost:4000/api/services/delete", headerToSend: Utilities().getAdminToken(), dataToSend: data) { (res) in
+    func deleteHit(serviceId: String) {
+        API().post(url: "http://localhost:4000/api/services/delete", headerToSend: Utilities().getAdminToken(), dataToSend: ["serviceId": serviceId]) { (res) in
             if let status = res["statusCode"] as? Int {
                 if status == 200 {
                     DispatchQueue.main.async {
-                       self.success.isHidden = false;
-                       self.deleteButton.isHidden = true;
+                       
                     }
                 }
             }
@@ -117,6 +131,14 @@ class AddServices: UIViewController, UITableViewDataSource {
         let serviceName = serviceNameTextField.text!;
         let cost = serviceCostTextField.text!
         let duration = timePicker.getTimeSelected();
+        for service in services {
+            if serviceName == service.serviceName {
+                let alert = Components().createActionAlert(title: "Service Name Already Exists", message: "To avoid confusion, we do not allow you to create two services with the same names!", buttonTitle: "Okay!", handler: nil);
+                self.present(alert, animated: true, completion: nil);
+                return;
+            }
+            
+        }
         if serviceName != "" && cost != "" && duration != "" && duration != "serviceDuration" {
             let dts = ["serviceName": serviceName, "cost": cost, "timeDuration": duration]
             API().post(url: "http://localhost:4000/api/services/create", headerToSend: Utilities().getAdminToken(), dataToSend: dts) { (res) in
@@ -125,7 +147,9 @@ class AddServices: UIViewController, UITableViewDataSource {
                         
                         let nst = res["newServiceType"] as! [String: Any];
                         
-                        self.services.append(nst);
+                        let newService = Service(dic: nst);
+                        
+                        self.services.append(newService);
                     }
                 }
             }
@@ -167,14 +191,20 @@ class AddServices: UIViewController, UITableViewDataSource {
     func getServices() {
         API().get(url: "http://localhost:4000/api/services", headerToSend: Utilities().getAdminToken()) { (res) in
             if let servicesBack = res["services"] as? [[String: Any]] {
-                self.services = servicesBack;
+                var newServices: [Service] = [];
+                for serviceComingBack in servicesBack {
+                    let service = Service(dic: serviceComingBack);
+                    print(service);
+                    print("DIDIWORK")
+                    newServices.append(service);
+                }
+                self.services = newServices;
             }
         }
     }
     
     func configureView() {
-        servicesList.dataSource = self;
-        servicesList.register(UITableViewCell.self, forCellReuseIdentifier: "cell");
+       
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftBarButton);
         view.backgroundColor = .mainLav;
         navigationItem.title = "Add/Edit Services"
@@ -201,49 +231,13 @@ class AddServices: UIViewController, UITableViewDataSource {
         errorText.padTop(from: addServiceButton.bottomAnchor, num: 12);
         errorText.centerTo(element: view.centerXAnchor);
         errorText.isHidden = true;
-        view.addSubview(servicesList);
-        servicesList.padTop(from: addServiceButton.bottomAnchor, num: 30);
-        servicesList.centerTo(element: view.centerXAnchor);
-        servicesList.setHeight(height: view.frame.height / 3);
-        servicesList.setWidth(width: view.frame.width);
-        view.addSubview(deleteButton);
-        deleteButton.setHeight(height: 45);
-        deleteButton.setWidth(width: 200);
-        deleteButton.centerTo(element: view.centerXAnchor);
-        deleteButton.padTop(from: servicesList.bottomAnchor , num: 10);
-        deleteButton.isHidden = true;
-        view.addSubview(success);
-        success.padLeft(from: view.leftAnchor, num: 20);
-        success.padTop(from: servicesList.bottomAnchor, num: 10);
-        success.isHidden = true;
+        view.addSubview(removeServicesTable);
+        removeServicesTable.padTop(from: addServiceButton.bottomAnchor, num: 30);
+        removeServicesTable.centerTo(element: view.centerXAnchor);
+        removeServicesTable.setHeight(height: view.frame.height / 3);
+        removeServicesTable.setWidth(width: view.frame.width);
+        removeServicesTable.deleteDelegate = self;
     }
-    
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return services.count;
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath);
-               if services.count > 0 {
-                cell.textLabel?.text = services[indexPath.row]["serviceName"] as? String;
-               }
-           return cell;
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if services.count > 0 {
-            if editingStyle == .delete {
-                removing.append(services[indexPath.row]["_id"]! as! String)
-                services.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-                deleteButton.isHidden = false;
-                success.isHidden = true;
-               
-            }
-        }
-    }
-    
-    
+
     
 }

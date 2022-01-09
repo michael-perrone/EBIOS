@@ -64,8 +64,18 @@ class AdminShifts: UIViewController {
         return dp;
     }();
     
+    private let otherDp: UIDatePicker = {
+        let dp = UIDatePicker();
+        return dp;
+    }()
+    
     lazy var datePickerForShiftAdd: MyDatePicker = {
            let dp = MyDatePicker();
+        if #available(iOS 14, *) {
+            dp.preferredDatePickerStyle = .wheels;
+        }
+
+        dp.setHeight(height: 110);
            dp.addTarget(self, action: #selector(dateAddChanged), for: .valueChanged);
            return dp;
        }();
@@ -95,7 +105,7 @@ class AdminShifts: UIViewController {
     
     private let viewAdd: UIScrollView = {
         let uisv = UIScrollView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.04));
-        uisv.backgroundColor = .literGray;
+        uisv.backgroundColor = .mainLav;
         uisv.contentInset = .zero;
         uisv.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width - UIScreen.main.bounds.height + 1100)
         return uisv;
@@ -157,25 +167,25 @@ class AdminShifts: UIViewController {
     
     private let fromTimePicker: GenericDropDown = {
         let ftp = GenericDropDown();
-        ftp.setWidth(width: 120);
+        ftp.setWidth(width: 150);
         return ftp
     }()
     
     private let toTimePicker: GenericDropDown = {
         let ftp = GenericDropDown();
-        ftp.setWidth(width: 120);
+        ftp.setWidth(width: 150);
         return ftp
     }()
     
     private let breakFromTimePicker: GenericDropDown = {
         let ftp = GenericDropDown();
-        ftp.setWidth(width: 120);
+        ftp.setWidth(width: 150);
         return ftp
     }()
     
     private let breakToTimePicker: GenericDropDown = {
         let ftp = GenericDropDown();
-        ftp.setWidth(width: 120);
+        ftp.setWidth(width: 150);
         return ftp
     }()
     
@@ -457,21 +467,22 @@ class AdminShifts: UIViewController {
         let window = UIApplication.shared.keyWindow!;
         window.addSubview(viewAdd);
         window.addSubview(cancelButton);
+        window.addSubview(cancelButton);
         cancelButton.padTop(from: viewAdd.topAnchor, num: 20);
         cancelButton.padRight(from: viewAdd.rightAnchor, num: 10);
         cancelButton.setHeight(height: 20);
         cancelButton.setWidth(width: 20);
         viewAdd.addSubview(chooseEmployeeText);
-        chooseEmployeeText.padTop(from: viewAdd.topAnchor, num: 10);
+        chooseEmployeeText.padTop(from: viewAdd.topAnchor, num: 20);
         viewAdd.addSubview(employeePicker);
-        employeePicker.setHeight(height: 60);
-        employeePicker.setWidth(width: 300);
+        employeePicker.setHeight(height: 100);
+        employeePicker.setWidth(width: 350);
         employeePicker.padTop(from: chooseEmployeeText.bottomAnchor, num: -5);
         employeePicker.centerTo(element: viewAdd.centerXAnchor);
         chooseEmployeeText.padLeft(from: employeePicker.leftAnchor, num: 0);
         viewAdd.addSubview(chooseDateText);
+        chooseDateText.padLeft(from: employeePicker.leftAnchor, num: 0)
         chooseDateText.padTop(from: employeePicker.bottomAnchor, num: 0);
-        chooseDateText.padLeft(from: employeePicker.leftAnchor, num: 0);
         viewAdd.addSubview(datePickerForShiftAdd);
         datePickerForShiftAdd.padTop(from: chooseDateText.bottomAnchor, num: 5);
         datePickerForShiftAdd.centerTo(element: viewAdd.centerXAnchor);
@@ -482,14 +493,14 @@ class AdminShifts: UIViewController {
         fromTimePicker.padLeft(from: employeePicker.leftAnchor, num: 0);
         fromTimePicker.padTop(from: shiftStartEndText.bottomAnchor, num: 0);
         fromTimePicker.setHeight(height: 50);
-        fromTimePicker.setWidth(width: 120);
+        fromTimePicker.setWidth(width: 200);
         viewAdd.addSubview(dashText);
-        dashText.padLeft(from: fromTimePicker.rightAnchor, num: 20);
+        dashText.padLeft(from: fromTimePicker.rightAnchor, num: 0);
         dashText.padTop(from: fromTimePicker.topAnchor, num: 0);
         viewAdd.addSubview(toTimePicker);
-        toTimePicker.padLeft(from: dashText.rightAnchor, num: 20);
+        toTimePicker.padLeft(from: dashText.rightAnchor, num: 0);
         toTimePicker.padTop(from: fromTimePicker.topAnchor, num: 0);
-        toTimePicker.setWidth(width: 120);
+        toTimePicker.setWidth(width: 200);
         toTimePicker.setHeight(height: 50);
         viewAdd.addSubview(bctText);
         bctText.padTop(from: fromTimePicker.bottomAnchor, num: 15);
@@ -534,14 +545,14 @@ class AdminShifts: UIViewController {
         breakFromTimePicker.padLeft(from: employeePicker.leftAnchor, num: 0);
         breakFromTimePicker.padTop(from: breakTimeText.bottomAnchor, num: 0);
         breakFromTimePicker.setHeight(height: 50);
-        breakFromTimePicker.setWidth(width: 120);
+        breakFromTimePicker.setWidth(width: 150);
         viewAdd.addSubview(dashText2);
         dashText2.padLeft(from: breakFromTimePicker.rightAnchor, num: 20);
         dashText2.padTop(from: breakFromTimePicker.topAnchor, num: 0);
         viewAdd.addSubview(breakToTimePicker);
         breakToTimePicker.padLeft(from: dashText2.rightAnchor, num: 20);
         breakToTimePicker.padTop(from: breakFromTimePicker.topAnchor, num: 0);
-        breakToTimePicker.setWidth(width: 120);
+        breakToTimePicker.setWidth(width: 150);
         breakToTimePicker.setHeight(height: 50);
         breakTimeText.isHidden = true;
         breakToTimePicker.isHidden = true;

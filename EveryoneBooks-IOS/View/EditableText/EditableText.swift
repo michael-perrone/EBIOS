@@ -25,7 +25,7 @@ class EditableText: UIView {
         uitv.setHeight(height: 40);
         uitv.font = .systemFont(ofSize: 19);
         uitv.textColor = .black;
-        uitv.backgroundColor = .literGray;
+        uitv.backgroundColor = .mainLav;
         return uitv;
     }()
     
@@ -41,7 +41,7 @@ class EditableText: UIView {
     private let topTextView: UITextView = {
         let uitv = Components().createLittleText(text: "");
         uitv.setHeight(height: 40)
-        uitv.backgroundColor = .literGray;
+        uitv.backgroundColor = .mainLav;
         return uitv;
     }()
     
@@ -64,7 +64,7 @@ class EditableText: UIView {
         self.showEditButton = showEditButton;
         self.topText = topText;
         super.init(frame: CGRect.zero)
-        backgroundColor = .literGray;
+        backgroundColor = .mainLav;
         configureMe()
     }
     

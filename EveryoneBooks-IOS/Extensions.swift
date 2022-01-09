@@ -53,7 +53,8 @@ extension UIColor {
     static let mainLav = #colorLiteral(red: 0.9736246434, green: 0.9194237233, blue: 0.9794825912, alpha: 1);
     static let literGray = #colorLiteral(red: 0.9406527602, green: 0.9406527602, blue: 0.9406527602, alpha: 1);
     static let liteGray = #colorLiteral(red: 0.8437410462, green: 0.8542793334, blue: 0.862652313, alpha: 1);
-    static let darkGray2 = #colorLiteral(red: 0.2528883877, green: 0.2528883877, blue: 0.2528883877, alpha: 1)
+    static let darkGray2 = #colorLiteral(red: 0.2528883877, green: 0.2528883877, blue: 0.2528883877, alpha: 1);
+    static let bookedRed = UIColor.init(red: 300, green: 0, blue: 0, alpha: 0.3);
    }
 
 extension CGColor {
