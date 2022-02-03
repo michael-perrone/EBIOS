@@ -17,9 +17,7 @@ class EmployeeBusinessSearchCollection: UICollectionViewController, EmployeeBusi
     
     func sendID(bpId: String) {
         let employeeId = Utilities().decodeEmployeeToken()!["id"] as! String;
-        print(employeeId)
         API().post(url: myURL + "notifications/employeeSendingId",  dataToSend: ["businessId": bpId, "employeeId": employeeId]) { (res) in
-            print("cool")
             if let statusCode = res["statusCode"] as? Int {
                 if statusCode == 406 {
                     print("too many ids sent");

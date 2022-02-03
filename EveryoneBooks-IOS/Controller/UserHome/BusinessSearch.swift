@@ -77,10 +77,8 @@ class BusinessSearch: UIViewController {
    
     @objc func searchBusinesses() {
         if bp.selected != "" || businessNameTextField.text! != "" || cityTextField.text! != "" ||  stateTextField.text! != "" || zipTextField.text! != "" {
-            print(bp.selected + "selected")
             let data = ["typeOfBusiness": bp.selected, "businessName": businessNameTextField.text!, "city": cityTextField.text!, "state": stateTextField.text!, "zip": zipTextField.text!];
             API().post(url: "http://localhost:4000/api/businessList/businessSearch", headerToSend: Utilities().getToken(), dataToSend: data, completion: { (res) in
-                print(res)
                 guard let newBusinesses = res["businessesBack"] as? [[String: Any]] else {print("no businesses"); return}
                 var businessesArray: [Business] = [];
                 for newBusiness in newBusinesses {

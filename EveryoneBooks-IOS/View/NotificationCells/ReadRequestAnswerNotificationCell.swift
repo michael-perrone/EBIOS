@@ -12,23 +12,33 @@ class ReadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
     
     func layoutReadCell() {
         if let noti = noti {
-            if noti.notificationType == "YAE" {
-                notiMessage.text = noti.fromName! + " has been added as an employee."
-            }
-            else if noti.notificationType == "YDE" {
+            // You denied Employee
+            if noti.notificationType == "YDE" {
                 notiMessage.text = noti.fromName! + " was denied from becoming an employee."
             }
-            else if noti.notificationType == "EAR" {
+            // You accepted request read // formerly EAR
+            else if noti.notificationType == "YARR" {
                 notiMessage.text = "You accepted an employment request from " + noti.fromName!;
             }
+            // Employee Responded Yes Read
             else if noti.notificationType == "ERYR" {
                 notiMessage.text = noti.fromName! + " has accepted your request to join your business."
             }
+            // Business Accepted Request Read
             else if noti.notificationType == "BARR" {
                 notiMessage.text = noti.fromName! + " has accepted your request to join their business as an employee."
             }
+            // You Accepted Employee
             else if noti.notificationType == "YAE" {
-                notiMessage.text = "You have added " + noti.fromName! + " as a employee of your bussiness";
+                notiMessage.text = "You have added " + noti.fromName! + " as an employee of your bussiness";
+            }
+            // Admin Accepted User Request
+            else if noti.notificationType == "AAUR" {
+                notiMessage.text = "This booking request from " + noti.fromName! + " was accepted.";
+            }
+            // Admin Denied User Request
+            else if noti.notificationType == "ADUR" {
+                notiMessage.text = "This booking request from " + noti.fromName! + " was denied";
             }
         }
         addSubview(openEnv);

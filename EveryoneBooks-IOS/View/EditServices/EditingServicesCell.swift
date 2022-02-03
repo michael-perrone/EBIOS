@@ -5,7 +5,7 @@ class EditingServicesCell: UITableViewCell {
     var service: Service? {
         didSet {
             serviceName.text = service?.serviceName;
-            print("debugy", service!.serviceName)
+            
         }
     }
     

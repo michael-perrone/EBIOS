@@ -142,7 +142,7 @@ class EmployeeProfileController: UIViewController, EmployeeProfileDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .literGray;
+        view.backgroundColor = .mainLav;
         configure()
         getImportantInfo()
     }

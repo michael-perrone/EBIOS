@@ -223,7 +223,7 @@ class Components {
     
     func createRightButton(title: String) -> UIButton {
         let uib = UIButton(type: .system);
-        uib.setAttributedTitle(NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont(name: "MarkerFelt-Wide", size: 30)]), for: .normal);
+        uib.setAttributedTitle(NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont(name: "MarkerFelt-Wide", size: 20)]), for: .normal);
         uib.tintColor = .black;
         return uib;
     }
@@ -296,6 +296,7 @@ class Components {
     func createLargerText(text: String) -> UITextView {
         let uitv = UITextView()
         uitv.text = text;
+        uitv.isEditable = false;
         uitv.font = .boldSystemFont(ofSize: 28);
         return uitv;
     }

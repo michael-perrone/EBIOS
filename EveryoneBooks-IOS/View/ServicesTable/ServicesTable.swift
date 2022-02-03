@@ -68,7 +68,7 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let data = data {
-            print(selectedServices);
+            
             if selectedServices.contains(where: { (service) -> Bool in
                 service.id == data[indexPath.row].id
             }) {

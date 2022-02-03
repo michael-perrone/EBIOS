@@ -62,7 +62,7 @@ class BusinessesFollowingCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
            super.init(frame:frame);
-           backgroundColor = .literGray;
+           backgroundColor = .mainLav;
            configureView();
        }
     

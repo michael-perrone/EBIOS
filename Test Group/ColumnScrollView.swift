@@ -25,7 +25,7 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
                   bookingsViews = bookingsViews + 1;
                 }
             }
-            print(bookingsViews)
+            
             if let bookings = bookings {
             if bookingsViews != bookings.count  {
                 for booking in bookings {
@@ -43,8 +43,6 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
                     bookingView.configureView()
                     addSubview(bookingView);
                     let padTopNum = (Utilities.heightGetterNum[timeArray![0]]! - Utilities.heightGetterNum[self.openTime!]!) * 16;
-                    print(padTopNum)
-                    print("padTopNum ABOVE")
                     bookingView.padTop(from: topAnchor, num: CGFloat(Double(padTopNum)));
                     self.reloadInputViews();
                     }

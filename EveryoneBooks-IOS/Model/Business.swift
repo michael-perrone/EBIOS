@@ -39,7 +39,7 @@ struct Business {
             self.eq = false;
         }
         else {
-            print(dic)
+            
             self.eq = true;
         }
         if let schedule =  dic["schedule"] as? [[String: String]] {

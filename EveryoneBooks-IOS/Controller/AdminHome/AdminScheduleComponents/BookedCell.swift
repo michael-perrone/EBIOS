@@ -36,11 +36,7 @@ class BookedCell: UITableViewCell {
     }
     
     weak var delegate: GetBookingInfo?;
-//        didSet {
-//            print(delegate!);
-//            print("I WAS SET");
-//        }
-    
+
     @objc func hit(_ sender: UITapGestureRecognizer? = nil) {
         delegate?.getBookingInfo(time: self.time!)
     }

@@ -60,7 +60,7 @@ class SlideTabBarController: UITabBarController, SlideTabBarProtocol, MenuCellCl
     }
     
     func slideBack() {
-        print("anything working")
+        
         UIView.animate(withDuration: 0.45) {
             self.menu.frame = CGRect(x: -(fullWidth / 1.45), y: 0, width: fullWidth / 1.45, height: fullHeight);
         }
@@ -106,15 +106,15 @@ class SlideTabBarController: UITabBarController, SlideTabBarProtocol, MenuCellCl
     }()
     
     @objc func slideOver() {
-        print("hello")
+        
         UIView.animate(withDuration: 0.3) {
             self.menu.frame = CGRect(x: 0, y: 0, width: fullWidth / 1.45, height: fullHeight);
         }
     }
     
     override func viewDidLoad() {
-        print(fullHeight)
-        print("I AM THE FULL HEIGHT ABOVE")
+        
+        
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = menuButton;
         view.addSubview(fmb);

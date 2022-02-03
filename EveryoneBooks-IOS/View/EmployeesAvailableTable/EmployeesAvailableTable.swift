@@ -1,11 +1,3 @@
-//
-//  EmployeesAvailableTable.swift
-//  EveryoneBooks-IOS
-//
-//  Created by Michael Perrone on 7/19/20.
-//  Copyright © 2020 Michael Perrone. All rights reserved.
-//
-
 import UIKit
 
 protocol EmployeeTableViewDelegate: EmployeesAvailableTable {
@@ -14,11 +6,9 @@ protocol EmployeeTableViewDelegate: EmployeesAvailableTable {
 
 class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDelegate, EmployeeTableViewDelegate {
     
-    var fakeData = ["1", "2", "3", "4", "5", "1", "2", "3", "4", "5"];
+    weak var otherDelegate: EmployeesTable?;
     
-    var otherDelegate: EmployeesTable?;
-    
-    var otherOtherDelegate: BookingHit?
+    weak var otherOtherDelegate: BookingHit?
     
     var eq: Bool?
     
@@ -40,24 +30,40 @@ class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDe
     
     var isNewGuestBeingRegistered = false;
     
+    var selectedBcn: Int? {
+        didSet {
+            print(selectedBcn!);
+            print("IN EMPLOYEES AVAILABLE TABLE");
+        }
+    }
+    
     func bookEmployee(employeeId: String) {
         var serviceIdsArray: [String] = [];
         for service in services! {
             serviceIdsArray.append(service.id);
         }
-        print(serviceIdsArray)
+
         if let timeStart = self.timeChosen, let date = self.dateChosen, let businessId = businessId {
             if let fromBusiness = fromBusiness {
                 if let phone = phone {
                     if !newGuestInfoSaved {
                         if !isNewGuestBeingRegistered {
-                            API().post(url: myURL + "iosBooking/admin", dataToSend: ["phone": phone ,"timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"]]) { (res) in
-                                if res["statusCode"] as! Int == 200{
+                            var data: [String: Any];
+                            if let selectedBcn = selectedBcn {
+                                data = ["phone": phone ,"timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn]
+                            }
+                            else {
+                                data = ["phone": phone ,"timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"]]
+                            }
+                            API().post(url: myURL + "iosBooking/admin", dataToSend: data) { (res) in
+                                if res["statusCode"] as! Int == 200 {
                                     self.otherOtherDelegate?.bookHit();
                                 }
-                                else {
-                                    print("here")
+                                else if res["statusCode"] as! Int == 406 {
                                     self.otherOtherDelegate?.badPhone();
+                                }
+                                else if res["statusCode"] as! Int == 409 {
+                                    self.otherOtherDelegate?.bcnNotSelected();
                                 }
                             }
                         }
@@ -66,7 +72,14 @@ class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDe
                         }
                     }
                     else {
-                        API().post(url: myURL + "iosBooking/admin/newGuest", dataToSend: ["phone": phone, "name": fullName, "timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"]]) { (res) in
+                        let data: [String: Any];
+                        if let selectedBcn = selectedBcn {
+                            data = ["phone": phone, "name": fullName, "timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn];
+                        }
+                        else {
+                            data = ["phone": phone, "name": fullName, "timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"]];
+                        }
+                        API().post(url: myURL + "iosBooking/admin/newGuest", dataToSend: data) { (res) in
                             if res["statusCode"] as! Int == 200 {
                                 self.otherOtherDelegate?.bookHit();
                             }
@@ -84,24 +97,24 @@ class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDe
         }
         else {
             let data = ["timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": businessId] as [String : Any];
-            if self.eq! {
-                API().post(url: myURL + "iosBooking/user", headerToSend: Utilities().getToken(), dataToSend: data) { (res) in
-                    print(res)
-                    if res["statusCode"] as! Int == 200 {
-                        self.otherDelegate?.bookHit()
-                    } else {
-                        print("here")
-                        self.otherOtherDelegate?.badPhone();
-                    }
-                }
-            }
-            else {
+        //   if self.eq! {
+//                API().post(url: myURL + "iosBooking/user", headerToSend: Utilities().getToken(), dataToSend: data) { (res) in
+//                    print(res)
+//                    if res["statusCode"] as! Int == 200 {
+//                        self.otherDelegate?.bookHit()
+//                    } else {
+//                        print("here")
+//                        self.otherOtherDelegate?.badPhone();
+//                    }
+//                }
+         //   }
+        //    else {
                 API().post(url: myURL + "iosBooking/sendNotiFromUser", headerToSend: Utilities().getToken(), dataToSend: data) { (res) in
                     if res["statusCode"] as! Int == 200 {
                         self.otherDelegate?.userNotiSent()
                     }
                 }
-            }
+      //      }
         }
     }
 }

@@ -178,7 +178,6 @@ class RegisterAdminController: UIViewController {
                             self.errorText.text = self.error;
                             self.errorText.isHidden = false;
                         }
-                        print("HERE I AM ROCKING LIKE A HURRICANE")
                     }
                 }
             }
@@ -245,7 +244,6 @@ class RegisterAdminController: UIViewController {
             }
         }
         else if !regSixEntered {
-            print(regAdminSix.getThuOpen())
             monOpen = regAdminSix.getMonOpen();
             monClose = regAdminSix.getMonClose();
             tueOpen = regAdminSix.getTueOpen();
@@ -298,10 +296,8 @@ class RegisterAdminController: UIViewController {
                 }
             }
             else {
-                print("not good")
-                print(regAdminSeven.getBookingColumnType())
-                print(regAdminSeven.getBookingColumnNumber());
-                print(regAdminSeven.eq)
+                print("very bottom")
+                
             }
         }
         errorText.text = error;

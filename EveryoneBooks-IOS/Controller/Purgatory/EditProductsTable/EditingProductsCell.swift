@@ -30,7 +30,6 @@ class EditingProductsCell: UITableViewCell {
     
     @objc func removeProduct() {
         delegate?.removeProduct(product: product!, index: neededIndex!);
-        print("HIT HIT HIT")
     }
     
     func configureCell() {

@@ -7,7 +7,7 @@ class MenuCell: UITableViewCell {
     
     var selectionItem: SelectionItem? {
         didSet {
-            print(selectionItem)
+            
             simage.text = selectionItem?.image;
             text1.text = selectionItem?.title;
         }

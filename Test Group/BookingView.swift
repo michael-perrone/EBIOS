@@ -20,7 +20,6 @@ class BookingView: UIView {
     var booking: Booking? {
         didSet {
             self.reloadInputViews();
-            print(booking)
         }
     }
     
@@ -87,7 +86,6 @@ class BookingView: UIView {
     
     func configureView() {
         if let _ = booking {
-            print("HELLLLO")
             addSubview(beginningTime);
             addSubview(endTime);
             addSubview(dash);

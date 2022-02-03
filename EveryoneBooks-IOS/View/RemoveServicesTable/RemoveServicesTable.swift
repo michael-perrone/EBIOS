@@ -14,8 +14,6 @@ class RemoveServicesTable: UITableView, UITableViewDelegate, UITableViewDataSour
     
     var services: [Service]? {
         didSet {
-            print(services);
-            print("HERE ARE THE SERVICES")
             DispatchQueue.main.async {
                 self.reloadData();
             }

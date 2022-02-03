@@ -264,7 +264,6 @@ class BusinessPerformanceController: UIViewController {
     }
     
     func configureEBP() {
-        print(self.employee)
         if !self.employee {
             API().post(url: myURL + "business/performance", headerToSend: Utilities().getAdminToken(), dataToSend: ["startDay": startDay, "endDay": endDay]) { (res) in
                 if let sc = res["sc"] as? String, let mp = res["mp"] as? String, let spd = res["spd"] as? String, let ipd = res["ipd"] as? String {

@@ -12,26 +12,27 @@ class UnreadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
     
     func layoutUnreadCell() {
         if let noti = noti {
+            // Employee Sent ID
             if noti.notificationType == "ESID" {
                 notiMessage.text = noti.fromName! + " has asked to be added as an employee."
             }
-
+            // Business Added Employee
             else if noti.notificationType == "BAE" {
                 notiMessage.text = noti.fromName! + " has added you as an employee to their business."
             }
-            
+            // Business Accepted Request
             else if noti.notificationType == "BAR" {
                 notiMessage.text = noti.fromName! + " has accepted your request to join their business as an employee."
             }
-            
+            // Employee Responded Yes
             else if noti.notificationType == "ERY" {
                 notiMessage.text = noti.fromName! + " has accepted your request to join your business as an employee."
             }
-            
+            // Employee Left Business
             else if noti.notificationType == "ELB" {
                 notiMessage.text = noti.fromName! + " has left your business as an employee."
             }
-            
+            // Business Removed Employee
             else if noti.notificationType == "BRE" {
                 notiMessage.text = noti.fromName! + " has removed you as an employee from their business."
             }

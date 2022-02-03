@@ -29,15 +29,16 @@ class RequestAnswerNotificationCell: NotificationCell {
             notiMessage.padLeft(from: leftAnchor, num: 55);
             notiMessage.setWidth(width: UIScreen.main.bounds.width - 55);
             notiMessage.setHeight(height: 65);
+            // Employee Request Accepted
             if noti.notificationType == "ERA" {
-                notiMessage.text = noti.fromName! + " has accepted your employment request."
+                notiMessage.text = noti.fromName! + " has accepted your employment request.";
             }
+            
             
             addSubview(dateOfNoti);
             dateOfNoti.padTop(from: topAnchor, num: 2);
             dateOfNoti.padRight(from: rightAnchor, num: 20);
             dateOfNoti.setHeight(height: 24);
-            print(noti)
             dateOfNoti.text = noti.date!;
             backgroundColor = .mainLav;
             

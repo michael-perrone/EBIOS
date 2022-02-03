@@ -63,7 +63,6 @@ class SendEmployeeIdViewController: UIViewController {
     }()
     
     @objc func search() {
-        print("Hi")
         let bs = BusinessSearch();
         bs.employeeSearchingForBusiness = true;
         bs.modalPresentationStyle = .overFullScreen;

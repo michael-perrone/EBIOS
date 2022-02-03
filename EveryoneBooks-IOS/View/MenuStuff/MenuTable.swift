@@ -58,7 +58,7 @@ class MenuTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row);
+        
         if selectionItems[indexPath.row].title == "Logout" {
             cellClickedDelegate?.logout();
         }

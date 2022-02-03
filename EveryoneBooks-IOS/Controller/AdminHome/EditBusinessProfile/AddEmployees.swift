@@ -36,7 +36,7 @@ class AddEmployees: UIViewController, DeleteEmployeesProtocol {
                        headerToSend: Utilities().getAdminToken(), dataToSend: ["employeeId": employee.id]) { (res) in
                 if let status = res["statusCode"] as? Int {
                     if status == 200 {
-                        print("WORKED I THINK")
+                        
                         DispatchQueue.main.async {
                             self.employeesPending.remove(at: row);
                             self.employeesPendingTable.deleteRows(at: indexPath, with: UITableView.RowAnimation.fade);
@@ -209,7 +209,7 @@ class AddEmployees: UIViewController, DeleteEmployeesProtocol {
         API().post(url: url, dataToSend: dataToSend) { (res) in
             if res["statusCode"] as! Int != 406 {
                 let newEmployee = Employee(dic: ["fullName": self.employeeName, "_id": self.employeeId!]);
-                print(newEmployee)
+                
                 self.employeesPending.append(newEmployee);
                 self.employeesPendingTable.employees = self.employeesPending;
                 let alert = Components().createActionAlert(title: "Employee Successfully Added!", message: "You have successfully added this employee to become an employee at your business. Once they confirm your request, you will be able to schedule them.", buttonTitle: "Awesome", handler: nil);
@@ -241,7 +241,7 @@ class AddEmployees: UIViewController, DeleteEmployeesProtocol {
                 let url = myURL + "employeeList";
                 let dataToSend = ["employeeId": eID];
                 API().post(url: url, dataToSend: dataToSend) { (res) in
-                    print(res)
+                    
                     if let failure = res["fail"] {
                         if failure as! Bool{
                             DispatchQueue.main.async {
@@ -353,8 +353,6 @@ class AddEmployees: UIViewController, DeleteEmployeesProtocol {
                 }
                 if employeesPendingArray.count > 0 {
                     self.employeesPending = employeesPendingArray;
-                    print("EMPLOYEES PENDING BELOW");
-                    print(self.employeesPending)
                 }
                 else {
                     self.employeesPending = [];

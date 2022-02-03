@@ -107,7 +107,6 @@ class LoginController: UIViewController {
             return;
         }
         else if emailLoginText.text == "" && passwordLoginText.text != "" {
-            print("here peterr")
             if !invalidLoginText.isHidden {
                     self.invalidLoginText.isHidden = true;
             }
@@ -115,26 +114,20 @@ class LoginController: UIViewController {
                     self.invalidPasswordText.isHidden = true;
             }
             self.invalidEmailText.isHidden = false;
-            print("here peterr")
             return;
         }
         if let email = emailLoginText.text, let password = passwordLoginText.text {
-            print("hello")
 
             let credentials = ["email": email, "password": password];
            
             BasicCalls().login(credentials: credentials) { (token, loggingIn) in
-                print(loggingIn + "Dwdw")
                 if loggingIn == "none" {
-                    print("hello mate");
                     DispatchQueue.main.async {
-                        print(self.invalidPasswordText.isHidden)
                             if !self.invalidEmailText.isHidden {
                                 self.invalidEmailText.isHidden = true;
                             }
                             if !self.invalidPasswordText.isHidden {
                                 self.invalidPasswordText.isHidden = true;
-                                print("here peter")
                             }
                             self.invalidLoginText.isHidden = false;
                         }

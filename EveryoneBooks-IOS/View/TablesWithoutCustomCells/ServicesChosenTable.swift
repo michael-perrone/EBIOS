@@ -27,7 +27,7 @@ class ServicesChosenTable: UITableView, UITableViewDelegate, UITableViewDataSour
         dataSource = self;
         delegate = self;
         register(UITableViewCell.self, forCellReuseIdentifier: "serviceChosenCell");
-        backgroundColor = .green;
+        backgroundColor = .mainLav;
     }
     
     required init?(coder: NSCoder) {

@@ -113,11 +113,9 @@ class EmployeeSchedule: UIViewController, EmployeeBookingCellProtocol {
             self.bct = res["bct"] as? String;
             var emptyBookingsArray: [Booking] = [];
             if let bookingsBack = res["bookings"] as? [[String: Any]] {
-                print(bookingsBack);
+                
                 for individualBooking in bookingsBack {
                     let newBooking = Booking(dic: individualBooking);
-                    print(newBooking)
-                    print("newBooking above");
                     emptyBookingsArray.append(newBooking);
                 }
                 self.bookings = emptyBookingsArray;

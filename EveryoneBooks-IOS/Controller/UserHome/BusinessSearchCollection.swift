@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 protocol BusinessSearchDelegate: BusinessSearchCollection {
     func showBusiness(bpId: String)
     func followBusiness(index: Int)
@@ -27,10 +28,11 @@ class BusinessSearchCollection: UICollectionViewController, BusinessSearchDelega
     }
     
     func goToBook(business: Business) {
-        let userBookingSomething = UserBookingSomething();
+        let userBookingSomething =  UserBookingSomething();
         userBookingSomething.comingFromBusinessPage = false;
         userBookingSomething.business = business;
-        navigationController?.pushViewController(userBookingSomething, animated: true);
+        let userBookingSomethingNav = UINavigationController(rootViewController: userBookingSomething);
+        present(userBookingSomethingNav, animated: true, completion: nil);
     }
     
     func followBusiness(index: Int) {

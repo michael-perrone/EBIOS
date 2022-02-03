@@ -12,7 +12,6 @@ class EmployeeBookingsCollection: UICollectionView, UICollectionViewDelegate, UI
     
     var bookings: [Booking]? {
         didSet {
-            print(self.bookings)
             DispatchQueue.main.async {
                 self.reloadData();
             }
@@ -37,8 +36,6 @@ class EmployeeBookingsCollection: UICollectionView, UICollectionViewDelegate, UI
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let bookings = bookings {
-            print(bookings.count);
-            print("THE COUNT IS BELOW");
             return bookings.count;
         }
         return 0;

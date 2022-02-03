@@ -18,7 +18,7 @@ class MessageViewController: UIViewController {
     
     var header: String?
     
-    var requestAnswerNoti: RequestAnswerNotification?;
+    var requestAnswerNoti: Notification?;
     
     private let fakeThing: UIView = {
         let uiv = UIView();
@@ -97,12 +97,11 @@ class MessageViewController: UIViewController {
     }
 
     @objc func denyEmployeeRequest() {
-        print("hello");
         self.adminDelegate?.answerHit();
 //        API().post(url: myURL + "notifications/employerDeniedEmployee", headerToSend: Utilities().getAdminToken(), dataToSend: ["notificationId": adminNoti?.id, "employeeId": adminNoti?.fromId]) { (res) in
 //            if res["statusCode"] as! Int == 200 {
 //
-//                print("even better")
+
 //                UIView.animate(withDuration: 0.5) {
 //                    DispatchQueue.main.async {
 //                        self.yesButton.alpha = 0;
@@ -156,8 +155,6 @@ class MessageViewController: UIViewController {
     func loadMessageView() {
         view.addSubview(dateView);
         if let noti = requestAnswerNoti {
-            print(noti)
-            print("WHY AM I NOT SHOWING UP")
             dateView.text = noti.date;
             if noti.notificationType! == "ESID" {
                 view.addSubview(yesButton);
@@ -169,14 +166,13 @@ class MessageViewController: UIViewController {
                 yesButton.addTarget(self, action: #selector(acceptEmployeeRequest), for: .touchUpInside);
                 noButton.addTarget(self, action: #selector(denyEmployeeRequest), for: .touchUpInside);
                 header = "Employee Join Request";
-    
-                    message = noti.fromName! + " has requested that they be added as a current working employee to your business. Would you like to add " + noti.fromName! + "? If yes, be aware this employee will be able to be booked on your current schedule unless you go into your settings and specify otherwise.";
-                    view.addSubview(answeredYes);
-                    answeredYes.padBottom(from: view.bottomAnchor, num: 100);
-                    answeredYes.centerTo(element: view.centerXAnchor);
-                    view.addSubview(answeredNo)
-                    answeredNo.padBottom(from: view.bottomAnchor, num: 100);
-                    answeredNo.centerTo(element: view.centerXAnchor);
+                message = noti.fromName! + " has requested that they be added as a current working employee to your business. Would you like to add " + noti.fromName! + "? If yes, be aware this employee will be able to be booked on your current schedule unless you go into your settings and specify otherwise.";
+                view.addSubview(answeredYes);
+                answeredYes.padBottom(from: view.bottomAnchor, num: 100);
+                answeredYes.centerTo(element: view.centerXAnchor);
+                view.addSubview(answeredNo)
+                answeredNo.padBottom(from: view.bottomAnchor, num: 100);
+                answeredNo.centerTo(element: view.centerXAnchor);
             }
             else if noti.notificationType == "BAE" { // business added employee
                 header = "Employer Sent Request";
@@ -190,7 +186,6 @@ class MessageViewController: UIViewController {
                 noButton.padTop(from: yesButton.bottomAnchor, num: 20);
             }
             else if noti.notificationType == "EAR" {
-                print("okay")
                 header = "Request Accepted";
                 message = "You accepted this request from " + noti.fromName! + " to join there business as an employee! You will now be able to be added to their shift schedule.";
             }
@@ -206,19 +201,24 @@ class MessageViewController: UIViewController {
                 header = "Employee Accepted";
                 message = "Your business accepted a request from " + noti.fromName! + " to join your business as an employee. They can now be added to your shift schedule.";
             }
-            
+            // COME BACK AND ADD MORE DATE PLX
+            else if noti.notificationType == "AAUR" {
+                header = "Booking Request Accepted";
+                message = "A booking request from  " + noti.fromName! + " has been accepted. This booking is now in your schedule.";
+            }
+            else if noti.notificationType == "ADUR" {
+                header = "Booking Request Denied";
+                message = "You have denied a booking request from " + noti.fromName! + "."
+            }
         }
         
         dateView.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 24);
         dateView.padRight(from: view.rightAnchor, num: 5);
-        
         headerView.text = header;
         view.addSubview(headerView);
         headerView.padLeft(from: view.leftAnchor, num: 8);
         headerView.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 55);
-        
         messageView.text = message;
-        
         view.addSubview(messageView);
         messageView.centerTo(element: view.centerXAnchor);
         messageView.padTop(from: headerView.bottomAnchor, num: 27);

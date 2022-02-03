@@ -25,7 +25,7 @@ class BusinessesCurrentlyWorking: UICollectionView, UICollectionViewDelegate, UI
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout());
         register(BusinessesCurrentlyWorkingCell.self, forCellWithReuseIdentifier: abc);
-        backgroundColor = .literGray;
+        backgroundColor = .mainLav;
         dataSource = self;
         delegate = self;
     }

@@ -32,11 +32,9 @@ class EmployeeHomeController: SlideTabBarController, DoesThisStillWork {
     
     func configureTabs() {
         let businessName = Utilities().decodeEmployeeToken()?["businessName"] as? String;
-        print(businessName)
         if businessName == nil {
             API().get(url: myURL + "notifications/employeeHas", headerToSend: Utilities().getEmployeeToken()) { (res) in
-                print(res)
-                if res["notis"] as! Bool == false {
+                if res["hasBusiness"] as! Bool == false {
                     DispatchQueue.main.async {
                         let home = Components().createNavBarItemController(image: UIImage(named: "calendar"), viewController: SendEmployeeIdViewController(), title: "Home");
                         let notifications = EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout());
@@ -46,7 +44,6 @@ class EmployeeHomeController: SlideTabBarController, DoesThisStillWork {
                     }
                 }
                 else {
-                    print("down here")
                     DispatchQueue.main.async {
                         let employeeSchedule = Components().createNavBarItemController(image: UIImage(named: "calendar"), viewController: EmployeeSchedule(), title: "Schedule");
                         let notifications = EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout());

@@ -9,21 +9,46 @@
 import UIKit
 
 protocol RequestAnswerCell {
-    func tapped(noti: RequestAnswerNotification);
-    
+    func tapped(noti: Notification);
+}
+
+protocol UserBookedCellProtocol: AdminNotifications {
+    func tappedUserBooked(noti: Notification);
+}
+
+protocol AdminAnsweringUserBookedProtocol: AdminNotifications {
+    func adminHitBookedAnswer();
 }
 
 protocol MessageViewControllerProtocolForAdmin: AdminNotifications {
     func answerHit();
 }
 
-class AdminNotifications: UICollectionViewController, RequestAnswerCell, MessageViewControllerProtocolForAdmin {
+
+class AdminNotifications: UICollectionViewController, RequestAnswerCell, MessageViewControllerProtocolForAdmin, UserBookedCellProtocol, AdminAnsweringUserBookedProtocol {
     
-    func answerHit() {
-        getAdminNotis()
+    func adminHitBookedAnswer() {
+        collectionView.reloadData();
     }
     
-    func tapped(noti: RequestAnswerNotification) {
+    
+    func tappedUserBooked(noti: Notification) {
+        let userBookedMessageVc = UserBookedMessageViewController();
+        userBookedMessageVc.adminDelegate = self;
+        userBookedMessageVc.noti = noti;
+        if let eq = eq {
+            userBookedMessageVc.eq = eq;
+            userBookedMessageVc.bct = self.bct;
+        }
+        present(userBookedMessageVc, animated: true, completion: nil);
+    }
+    
+    
+    func answerHit() {
+            self.getAdminNotis();
+    }
+    
+    func tapped(noti: Notification) {
         let messageVC = MessageViewController();
         messageVC.requestAnswerNoti = noti;
         messageVC.adminDelegate = self;
@@ -37,7 +62,13 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
         }
     }
     
-    var adminNotifications: [RequestAnswerNotification]? {
+    var eq: String?;
+    
+    var bct: String?;
+    
+    var bcn: Int?;
+    
+    var adminNotifications: [Notification]? {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -63,6 +94,7 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: businessEditButton);
         collectionView.register(UnreadRequestAnswerNotificationCell.self, forCellWithReuseIdentifier: "UnreadAdminNotiCell");
         collectionView.register(ReadRequestAnswerNotificationCell.self, forCellWithReuseIdentifier: "ReadAdminNotiCell");
+        collectionView.register(UserBookedUnansweredNotificationCell.self, forCellWithReuseIdentifier: "UBC");
         collectionView.backgroundColor = .mainLav;
     }
     
@@ -74,15 +106,20 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
     func getAdminNotis() {
         API().get(url: myURL + "notifications/getAdminNotis", headerToSend: Utilities().getAdminToken()) { (res) in
             if res["statusCode"] as? Int == 200 {
+                if let eq = res["eq"] as? String, let bct = res["bct"] as? String {
+                    if eq == "n" {
+                        self.bct = bct;
+                        self.eq = eq;
+                    }
+                }
                 var notis = res["notifications"] as? [[String: Any]];
-                var adminNotificationsArray: [RequestAnswerNotification] = [];
+                var adminNotificationsArray: [Notification] = [];
                 if let notis = notis {
                     for noti in notis {
-                        var adminNotification = RequestAnswerNotification(dic: noti);
+                        var adminNotification = Notification(dic: noti);
                         adminNotificationsArray.insert(adminNotification, at: 0);
                     }
                     self.adminNotifications = adminNotificationsArray;
-                    print(self.adminNotifications);
                 }
             }
         }
@@ -98,27 +135,35 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
      
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let adminNotis = self.adminNotifications {
-            let noti = adminNotis[indexPath.row];
-            if noti.notificationType == "ERY" || noti.notificationType == "ESID" || noti.notificationType == "ELB" {
-                let unreadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UnreadAdminNotiCell", for: indexPath) as! UnreadRequestAnswerNotificationCell;
-                unreadCell.noti = noti;
-                unreadCell.layoutCell();
-                unreadCell.layoutUnreadCell();
-                unreadCell.delegate = self;
-                return unreadCell;
-            }
-            else {
-                let readCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReadAdminNotiCell", for: indexPath) as! ReadRequestAnswerNotificationCell;
-                readCell.noti = noti;
-                readCell.layoutReadCell()
-                readCell.layoutCell();
-                readCell.delegate = self;
-                return readCell;
-            }
+                let noti = adminNotis[indexPath.row];
+            print(noti)
+                if noti.notificationType == "ERY" || noti.notificationType == "ESID" || noti.notificationType == "ELB" {
+                    let unreadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UnreadAdminNotiCell", for: indexPath) as! UnreadRequestAnswerNotificationCell;
+                    unreadCell.noti = noti;
+                    unreadCell.layoutCell();
+                    unreadCell.layoutUnreadCell();
+                    unreadCell.delegate = self;
+                    return unreadCell;
+                }
+                else if noti.notificationType == "UBU" {
+                    let userBookedCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UBC", for: indexPath) as! UserBookedUnansweredNotificationCell;
+                    userBookedCell.noti = noti;
+                    userBookedCell.layoutCell();
+                    userBookedCell.layoutUnread();
+                    userBookedCell.ubDel = self;
+                    return userBookedCell;
+                }
+                else {
+                    let readCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReadAdminNotiCell", for: indexPath) as! ReadRequestAnswerNotificationCell;
+                    readCell.noti = noti;
+                    readCell.layoutReadCell()
+                    readCell.layoutCell();
+                    readCell.delegate = self;
+                    return readCell;
+                }
         }
         return RequestAnswerNotificationCell()
     }
-   
 }
 
 extension AdminNotifications: UICollectionViewDelegateFlowLayout {

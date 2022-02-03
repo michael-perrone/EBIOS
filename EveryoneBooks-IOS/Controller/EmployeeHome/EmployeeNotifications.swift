@@ -4,8 +4,30 @@ protocol MessageViewControllerProtocolForEmployee: EmployeeNotifications {
     func answerHit();
     func alterTabs();
 }
+protocol UserBookedCellProtocolEmployee: EmployeeNotifications {
+    func tappedUserBooked(noti: Notification);
+}
 
-class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, MessageViewControllerProtocolForEmployee {
+
+
+class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, MessageViewControllerProtocolForEmployee, UserBookedCellProtocolEmployee {
+    
+    
+    func tappedUserBooked(noti: Notification) {
+        let userBookedMessageVc = UserBookedMessageViewController();
+        userBookedMessageVc.employeeDelegate = self;
+        userBookedMessageVc.noti = noti;
+        if let eq = eq {
+            userBookedMessageVc.eq = eq;
+            userBookedMessageVc.bct = self.bct;
+        }
+        present(userBookedMessageVc, animated: true, completion: nil);
+    }
+    
+    var eq: String?;
+    
+    var bct: String?;
+    
     
     weak var delegateFromHome: DoesThisStillWork?;
     
@@ -17,7 +39,7 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
         self.getEmployeeNotis()
     }
     
-    func tapped(noti: RequestAnswerNotification) {
+    func tapped(noti: Notification) {
         let messageVC = MessageViewController();
         
         messageVC.requestAnswerNoti = noti;
@@ -32,7 +54,7 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
         }
     }
     
-    var employeeNotifications: [RequestAnswerNotification]? {
+    var employeeNotifications: [Notification]? {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -45,6 +67,7 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
         navigationItem.title = "Notifications";
         collectionView.register(UnreadRequestAnswerNotificationCell.self, forCellWithReuseIdentifier: "UnreadRequestAnswernNotiCell");
         collectionView.register(ReadRequestAnswerNotificationCell.self, forCellWithReuseIdentifier: "ReadRequestAnswerNotiCell");
+        collectionView.register(UserBookedUnansweredNotificationCell.self, forCellWithReuseIdentifier: "123")
         collectionView.backgroundColor = .mainLav;
         navigationController?.navigationBar.barTintColor = .mainLav;
         view.addSubview(testText);
@@ -62,16 +85,16 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
     }
     
     func getEmployeeNotis() {
-        API().post(url: myURL + "notifications/employeenotifications", dataToSend: ["employeeId" : Utilities().decodeEmployeeToken()!["id"]]) { (res) in
+        API().get(url: myURL + "notifications/employeenotifications", headerToSend: Utilities().getEmployeeToken()) { (res) in
             if res["statusCode"] as? Int == 200 {
-                print(res)
                 var notis = res["notifications"] as? [[String: Any]];
-                var employeeNotificationsArray: [RequestAnswerNotification] = [];
+                var employeeNotificationsArray: [Notification] = [];
                 if let notis = notis {
                     for noti in notis {
-                        var employeeNotification = RequestAnswerNotification(dic: noti);
+                        var employeeNotification = Notification(dic: noti);
                         employeeNotificationsArray.insert(employeeNotification, at: 0);
                     }
+                    print(employeeNotificationsArray);
                     self.employeeNotifications = employeeNotificationsArray;
                     if employeeNotificationsArray.count == 0 {
                         DispatchQueue.main.async {
@@ -83,7 +106,6 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
                             self.testText.isHidden = true;
                         }
                     }
-                    print(employeeNotificationsArray)
                 }
             }
         }
@@ -102,7 +124,6 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
         if let employeeNotifications = self.employeeNotifications {
             let noti = employeeNotifications[indexPath.row];
             if  noti.notificationType == "BAE" || noti.notificationType == "BAR" {
-                print(noti)
                 let unreadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UnreadRequestAnswernNotiCell", for: indexPath) as! UnreadRequestAnswerNotificationCell;
                 unreadCell.noti = noti;
                 unreadCell.layoutCell();
@@ -110,6 +131,14 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
                 unreadCell.delegate = self;
                 unreadCell.otherDelegate = self;
                 return unreadCell;
+            }
+            else if noti.notificationType == "UBU" {
+                let userBookedCell = collectionView.dequeueReusableCell(withReuseIdentifier: "123", for: indexPath) as! UserBookedUnansweredNotificationCell;
+                userBookedCell.noti = noti;
+                userBookedCell.layoutCell();
+                userBookedCell.layoutUnread();
+                userBookedCell.ubDelEmployee = self;
+                return userBookedCell;
             }
             else {
                 let readCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReadRequestAnswerNotiCell", for: indexPath) as! ReadRequestAnswerNotificationCell;

@@ -13,7 +13,6 @@ class ProductsSelectCell: UITableViewCell {
     var product: Product? {
         didSet {
             productName.text = product?.name;
-            print("debugy", product!.name);
         }
     }
     

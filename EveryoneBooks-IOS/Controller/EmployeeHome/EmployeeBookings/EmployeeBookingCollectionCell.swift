@@ -12,8 +12,6 @@ class EmployeeBookingCollectionCell: UICollectionViewCell {
 
     var booking: Booking? {
         didSet {
-            print("shoudl work");
-            print(self.booking)
             self.servicesTable.services = self.booking?.serviceNames;
             timeText.text! = self.booking!.time!;
             cName.text! = self.booking!.cName!;

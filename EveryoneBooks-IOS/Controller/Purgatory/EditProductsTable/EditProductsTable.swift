@@ -28,9 +28,6 @@ class EditProductsTable: UITableView, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let products = self.products {
-            print("INSIDE OF EDITSERVICESTABLE");
-            print(products)
-            print("below services")
             return products.count;
         }
         return 4;
@@ -42,7 +39,6 @@ class EditProductsTable: UITableView, UITableViewDelegate, UITableViewDataSource
         if let products = self.products {
             if indexPath.row < products.count {
                 cell.delegate = otherDelegate;
-                print(products[indexPath.row])
                 cell.neededIndex = indexPath.row;
                 cell.product = products[indexPath.row];
                 cell.configureCell()

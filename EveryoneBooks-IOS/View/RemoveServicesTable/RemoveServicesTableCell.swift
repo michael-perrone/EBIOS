@@ -16,7 +16,7 @@ class RemoveServicesTableCell: UITableViewCell {
             let actualCostText = String(format: "%.2f", service!.cost);
             let actualCostTextWithDollarSign = "$" + actualCostText;
             costText.text = actualCostTextWithDollarSign;
-            print("HELLLLLO")
+            
         }
     }
     

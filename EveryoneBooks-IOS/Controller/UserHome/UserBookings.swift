@@ -8,11 +8,23 @@
 
 import UIKit
 
+
+
 protocol UserBookingViewClicked: UserBookings {
     func viewBooking(booking: Booking);
 }
 
 class UserBookings: UICollectionViewController, UserBookingViewClicked {
+    
+    func presentFailure(alert: UIAlertController) {
+        present(alert, animated: true, completion: nil);
+    }
+    
+    func presentSuccess(alert: UIAlertController) {
+        present(alert, animated: true) {
+            self.navigationController?.popViewController(animated: true);
+        }
+    }
     
     func viewBooking(booking: Booking) {
         DispatchQueue.main.async {
@@ -51,10 +63,7 @@ class UserBookings: UICollectionViewController, UserBookingViewClicked {
     
     
     func getBookings() {
-        print(Utilities().getToken())
         API().get(url: myURL + "getBookings/ios", headerToSend: Utilities().getToken()) { (res) in
-            print(res)
-            print("res above")
             var bookings: [Booking] = [];
             if let bookingsBack = res["bookings"] as? [[String: Any]] {
                 for booking in bookingsBack {

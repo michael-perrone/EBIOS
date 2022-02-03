@@ -42,7 +42,7 @@ class BusinessPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if typesOfBusinesses[row] == "Business Type" {
             self.selected = "";
-            print("HI")
+            
         }
         else {
             self.selected = typesOfBusinesses[row];

@@ -107,7 +107,7 @@ class AdminShifts: UIViewController {
         let uisv = UIScrollView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.04));
         uisv.backgroundColor = .mainLav;
         uisv.contentInset = .zero;
-        uisv.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width - UIScreen.main.bounds.height + 1100)
+        uisv.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 900)
         return uisv;
     }()
     

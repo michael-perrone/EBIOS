@@ -133,7 +133,7 @@ class BusinessSearchCell: UICollectionViewCell {
     }()
     
     @objc func goToBooking() {
-        print("going to booking")
+        
         delegate?.goToBook(business: self.business!);
     }
     

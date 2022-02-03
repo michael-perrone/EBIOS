@@ -64,7 +64,7 @@ class Menu: UIView {
     private let rightBorder = Components().createBorder(height: fullHeight, width: 1.2, color: .gray);
     
     @objc func slideBack() {
-        print("does this work")
+        
         cancelDelegate?.slideBack()
     }
     

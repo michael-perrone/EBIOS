@@ -25,7 +25,7 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
     
     weak var bookingClickedDelegate: BookingClickedProtocol? {
         didSet {
-            print("BOOKING CLICKED DELEGATE WAS SET")
+            
             print(bookingClickedDelegate)
         }
     }

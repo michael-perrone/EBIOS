@@ -10,7 +10,7 @@ import UIKit
 
 class NotificationCell: UICollectionViewCell {
     
-    var noti: RequestAnswerNotification?;
+    var noti: Notification?;
     
      let notiMessage: UITextView = {
         let uitv = Components().createLittleText(text: "");

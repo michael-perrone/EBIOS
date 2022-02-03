@@ -20,7 +20,6 @@ protocol EditProductsDelegate: ViewBookingViewController {
 class ViewBookingViewController: UIViewController, EditServicesDelegate, EditProductsDelegate {
     
     func removeProduct(product: Product, index: Int) {
-        print("uh hello");
         let alertController = UIAlertController(title: "Remove Product:", message: "Please confirm that you would like to remove " + product.name + " from this booking.", preferredStyle: .alert);
         let confirmAction = UIAlertAction(title: "Confirm", style: .destructive) { UIAlertAction in
             self.productsInBooking?.remove(at: index);
@@ -73,8 +72,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     var productsInBooking: [Product]? {
         didSet {
             editProductsTable.products = productsInBooking;
-            print(productsInBooking);
-            print("PRODUCTS IN BOOKING " + String(productsInBooking!.count));
         }
     }
     
@@ -112,8 +109,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
                     }
                 }
                 if let productsComingBack = res["products"] as? [[String: Any]] {
-                    print(productsComingBack);
-                    print("PRODUCTS COMING BACK")
                     var productsHereArray: [Product] = [];
                     for iProduct in productsComingBack {
                         let realProduct = Product(name: iProduct["name"] as! String, price: iProduct["cost"] as! String, idParam: iProduct["_id"] as! String);
@@ -122,8 +117,10 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
                     self.productsInBooking = productsHereArray;
                 }
             }
-            getServices(businessId: booking!.businessId!)
-            getProducts(businessId: booking!.businessId!);
+            if Utilities().getToken() == "nil" {
+                getServices(businessId: booking!.businessId!)
+                getProducts(businessId: booking!.businessId!);
+            }
         }
     }
     
@@ -234,35 +231,37 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
         middleBorder.padLeft(from: addServicesText.rightAnchor, num: 0);
         middleBorder.padTop(from: addServicesText.topAnchor, num: -5);
         view.addSubview(addServicesTopBorder);
-        addServicesTopBorder.padBottom(from: addServicesText.topAnchor, num: 4);
-        addServicesTopBorder.padRight(from: middleBorder.leftAnchor, num: 0);
-        view.addSubview(addServicesLeftBorder);
-        addServicesLeftBorder.padTop(from: addServicesTopBorder.bottomAnchor, num: 0);
-        addServicesLeftBorder.padLeft(from: addServicesTopBorder.leftAnchor, num: 0);
-        view.addSubview(addServicesBottomBorder);
-        addServicesBottomBorder.padLeft(from: addServicesLeftBorder.rightAnchor, num: 0);
-        addServicesBottomBorder.padBottom(from: addServicesLeftBorder.bottomAnchor, num: 0);
-        addServicesBottomBorder.isHidden = true;
-        view.addSubview(leftBorder);
-        leftBorder.padTop(from: addServicesLeftBorder.bottomAnchor, num: 0);
-        leftBorder.padLeft(from: addServicesLeftBorder.leftAnchor, num: 0);
-        view.addSubview(bottomBorder);
-        bottomBorder.padTop(from: leftBorder.bottomAnchor, num: 0);
-        bottomBorder.padLeft(from: leftBorder.leftAnchor, num: 0);
-        view.addSubview(rightBorder);
-        rightBorder.padBottom(from: bottomBorder.topAnchor, num: 0);
-        rightBorder.padRight(from: view.rightAnchor, num: 3);
-        view.addSubview(addProductsBottomBorder);
-        addProductsBottomBorder.padLeft(from: middleBorder.leftAnchor, num: 0)
-        addProductsBottomBorder.padTop(from: middleBorder.bottomAnchor, num: 0);
-        view.addSubview(addProductsRightBorder);
-        addProductsRightBorder.padRight(from: view.rightAnchor, num: 3);
-        addProductsRightBorder.padTop(from: addServicesTopBorder.bottomAnchor, num: 0);
-        addProductsRightBorder.isHidden = true;
-        view.addSubview(addProductsTopBorder);
-        addProductsTopBorder.padTop(from: addServicesTopBorder.topAnchor, num: 0);
-        addProductsTopBorder.padRight(from: addProductsRightBorder.rightAnchor, num: 0);
-        addProductsTopBorder.isHidden = true;
+        if Utilities().getToken() == "nil" {
+            addServicesTopBorder.padBottom(from: addServicesText.topAnchor, num: 4);
+            addServicesTopBorder.padRight(from: middleBorder.leftAnchor, num: 0);
+            view.addSubview(addServicesLeftBorder);
+            addServicesLeftBorder.padTop(from: addServicesTopBorder.bottomAnchor, num: 0);
+            addServicesLeftBorder.padLeft(from: addServicesTopBorder.leftAnchor, num: 0);
+            view.addSubview(addServicesBottomBorder);
+            addServicesBottomBorder.padLeft(from: addServicesLeftBorder.rightAnchor, num: 0);
+            addServicesBottomBorder.padBottom(from: addServicesLeftBorder.bottomAnchor, num: 0);
+            addServicesBottomBorder.isHidden = true;
+            view.addSubview(leftBorder);
+            leftBorder.padTop(from: addServicesLeftBorder.bottomAnchor, num: 0);
+            leftBorder.padLeft(from: addServicesLeftBorder.leftAnchor, num: 0);
+            view.addSubview(bottomBorder);
+            bottomBorder.padTop(from: leftBorder.bottomAnchor, num: 0);
+            bottomBorder.padLeft(from: leftBorder.leftAnchor, num: 0);
+            view.addSubview(rightBorder);
+            rightBorder.padBottom(from: bottomBorder.topAnchor, num: 0);
+            rightBorder.padRight(from: view.rightAnchor, num: 3);
+            view.addSubview(addProductsBottomBorder);
+            addProductsBottomBorder.padLeft(from: middleBorder.leftAnchor, num: 0)
+            addProductsBottomBorder.padTop(from: middleBorder.bottomAnchor, num: 0);
+            view.addSubview(addProductsRightBorder);
+            addProductsRightBorder.padRight(from: view.rightAnchor, num: 3);
+            addProductsRightBorder.padTop(from: addServicesTopBorder.bottomAnchor, num: 0);
+            addProductsRightBorder.isHidden = true;
+            view.addSubview(addProductsTopBorder);
+            addProductsTopBorder.padTop(from: addServicesTopBorder.topAnchor, num: 0);
+            addProductsTopBorder.padRight(from: addProductsRightBorder.rightAnchor, num: 0);
+            addProductsTopBorder.isHidden = true;
+        }
     }
     
     
@@ -397,14 +396,11 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
             }
             API().post(url: myURL + "products/addProducts", dataToSend: ["bookingId": booking!.id, "productIds": productIds]) { res in
                 if res["statusCode"] as! Int == 200 {
-                    print("HELLLLLLOOOOOO")
+
                     for productsSelected in self.productsTable.selectedProducts {
                         self.productsInBooking?.append(productsSelected);
                     }
                     if let newCost = res["newCost"] as? String {
-                        print("diditwork")
-                        print(newCost)
-                        print("PRINT NEWCOST")
                         DispatchQueue.main.async {
                             self.costText.text = newCost;
                         }
@@ -430,11 +426,18 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     }
     
     @objc func exit() {
-        if self.services!.count == 0 {
-            let alert = Components().createActionAlert(title: "No Services Error", message: "Please add at least one service to this booking otherwise it will be deleted.", buttonTitle: "Woops, Okay!", handler: nil);
-            self.present(alert, animated: true, completion: nil);
+        if Utilities().getToken() == "nil" {
+            print("WHAT")
+            if self.services!.count == 0 {
+                let alert = Components().createActionAlert(title: "No Services Error", message: "Please add at least one service to this booking otherwise it will be deleted.", buttonTitle: "Woops, Okay!", handler: nil);
+                self.present(alert, animated: true, completion: nil);
+            }
+            else {
+                navigationController?.popViewController(animated: true);
+            }
         }
         else {
+            print("what");
             navigationController?.popViewController(animated: true);
         }
     }
@@ -614,16 +617,14 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     
     func getProducts(businessId: String) {
         API().post(url: myURL + "products", dataToSend: ["businessId": businessId]) { res in
-            print(res)
-            print("I AM BELOW RES")
+    
             if let products = res["products"] as? [[String: Any]] {
                 var productsArray: [Product] = [];
                 for product in products {
                     productsArray.append(Product(name: product["name"] as! String, price: product["cost"] as! String, idParam: product["_id"] as! String))
                 }
                 self.products = productsArray;
-                print(productsArray)
-                print("BELOW PRODUCTS ARRAY");
+               
             }
         }
     }

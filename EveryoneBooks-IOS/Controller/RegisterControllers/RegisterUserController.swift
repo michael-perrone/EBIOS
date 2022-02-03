@@ -124,7 +124,6 @@ class RegisterUserController: UIViewController {
             let url = "http://localhost:4000/api/usersSignup"
             let datatoSend = ["fullName": fullNameTextField.text!, "email": emailLoginTextField.text!, "createPassword": passwordLoginTextField.text!, "phoneNumber": phoneNumberTextField.text!];
             BasicCalls().register(urlString: url, dataToSend: datatoSend) { (token) in
-                print(token)
                 if token != "406" && token != "409" && token != "405" {
                     if Utilities().setTokenInKeyChain(token: token, key: "token") {
                         DispatchQueue.main.async {
@@ -155,7 +154,6 @@ class RegisterUserController: UIViewController {
                         }
                     }
                     else if token == "405" {
-                        print("hello")
                         DispatchQueue.main.async {
                             self.errorText.text = "This phone is already in use.";
                             if self.errorText.isHidden {

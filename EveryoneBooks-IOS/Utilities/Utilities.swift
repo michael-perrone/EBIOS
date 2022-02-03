@@ -16,9 +16,6 @@ class Utilities {
         if let adminToken = KeychainWrapper.standard.string(forKey: "adminToken") {
             print(adminToken)
         }
-        print(saveSuccessful);
-        print("below save succesfful0")
-        print(token)
         return saveSuccessful;
     }
 
@@ -167,6 +164,8 @@ class Utilities {
        }
     
     static let timeDurationStringToInt: [String: Int] = ["5 Minutes": 1, "10 Minutes": 2, "15 Minutes": 3, "20 Minutes": 4, "25 Minutes": 5, "30 Minutes": 6, "35 Minutes": 7, "40 Minutes": 8, "45 Minutes": 9, "50 Minutes": 10, "55 Minutes": 11, "1 Hour": 12]
+    
+    static let timeDurationIntToString: [Int: String] = [1: "5 Minutes", 2: "10 Minutes", 3: "15 Minutes", 4: "20 Minutes", 5: "25 Minutes", 6: "30 Minutes", 7: "35 Minutes", 8: "40 Minutes", 9: "45 Minutes", 10: "50 Minutes", 11: "55 Minutes", 12: "1 Hour", 13: "1 Hour 5 Minutes", 14: "1 Hour 10 Minutes", 15: "1 Hour 15 Minutes", 16: "1 Hour 20 Minutes", 17: "1 Hour 25 Minutes", 18: "1 Hour 30 Minutes", 19: "1 Hour 35 Minutes", 20 : "1 Hour 40 Minutes", 21: "1 Hour 45 Minutes", 22: "1 Hour 50 Minutes", 23: "1 Hour 55 Minutes", 24: "2 Hours"];
     
     
     func determineColumnHeight(dayStart: String, dayEnd: String) -> Double {

@@ -1,11 +1,3 @@
-//
-//  CreateBookingViewController.swift
-//  EveryoneBooks-IOS
-//
-//  Created by Michael Perrone on 9/25/20.
-//  Copyright © 2020 Michael Perrone. All rights reserved.
-//
-
 import UIKit
 
 protocol BookingHit: CreateBooking {
@@ -14,9 +6,22 @@ protocol BookingHit: CreateBooking {
     func badPhone();
     func alreadyRegisted();
     func notFinished();
+    func selectBcn(num: Int);
+    func bcnNotSelected();
 }
 
 class CreateBooking: UIViewController, BookingHit {
+    
+    func bcnNotSelected() {
+        let alert = Components().createActionAlert(title: "Column Number Not Selected", message: "Please choose the number area/column you would like this booking to take place.", buttonTitle: "Okay!", handler: nil);
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil);
+        }
+    }
+    
+    func selectBcn(num: Int) {
+        self.selectedBcn = num;
+    }
     
     func alreadyRegisted() {
         let alreadyRegisteredAlert = Components().createActionAlert(title: "Error", message: "This guest is already registered within our app! Please cancel the process of registering a new guest.", buttonTitle: "Okay!", handler: nil);
@@ -84,6 +89,21 @@ class CreateBooking: UIViewController, BookingHit {
             }
         }
         self.isNewGuestBeingRegistered = true;
+    }
+    
+    var bct: String? {
+        didSet {
+            bctText.text = bct! + ":";
+        }
+    }
+    
+    private let bctText = Components().createSimpleText(text: "");
+    
+    var selectedBcn: Int? {
+        didSet {
+            bcnSelectorCV.selectedBcn = self.selectedBcn!;
+            employeesTable.selectedBcn = selectedBcn!;
+        }
     }
     
     var isNewGuestBeingRegistered = false {
@@ -173,8 +193,7 @@ class CreateBooking: UIViewController, BookingHit {
         self.savedText.isHidden = true;
         self.newGuestInfoSaved = false;
     }
-    
-    
+
     private let cancelNewGuestRegisterButton: UIButton = {
         let uib = UIButton(type: .system);
         uib.setHeight(height: 26);
@@ -235,6 +254,31 @@ class CreateBooking: UIViewController, BookingHit {
     
     var dateChosen: String?;
     
+    var bcn: Int? {
+        didSet {
+            var i = 1;
+            var bcnArray: [Int] = [];
+            while i <= bcn! {
+                bcnArray.append(i);
+                i+=1;
+            }
+            bcnSelectorCV.bcns = bcnArray;
+        }
+    }
+    
+    var bcnArray: [Int]? {
+        didSet {
+            bcnSelectorCV.bcns = self.bcnArray;
+        }
+    }
+    
+    var eq: String? {
+        didSet {
+            print("EQ SET");
+            print(eq);
+        }
+    }
+    
     var employeesAvailable: [Employee]? {
         didSet {
             employeesTable.employees = self.employeesAvailable;
@@ -252,7 +296,7 @@ class CreateBooking: UIViewController, BookingHit {
     
     private let customerPhoneTextField: UITextField = {
         let uitf = Components().createTextField(placeHolder: "Enter Customer Phone", fontSize: 18);
-        uitf.addTarget(self, action: #selector(sendPhone), for: .editingChanged)
+        uitf.addTarget(self, action: #selector(sendPhone), for: .editingChanged);
         return uitf;
     }()
     
@@ -266,7 +310,7 @@ class CreateBooking: UIViewController, BookingHit {
     private let servicesChosenTable: ServicesChosenTable = {
         let sct = ServicesChosenTable();
         sct.setWidth(width: UIScreen.main.bounds.width / 1.3);
-        sct.setHeight(height: 150);
+        sct.setHeight(height: 110);
         sct.backgroundColor = .clear;
         return sct;
     }()
@@ -277,6 +321,8 @@ class CreateBooking: UIViewController, BookingHit {
         eat.backgroundColor = .literGray;
         return eat;
     }()
+    
+    private let bcnSelectorCV = BcnSelectorCollectionView();
     
     private let costText: UITextView = {
         let uitv = Components().createLittleText(text: "");
@@ -377,10 +423,10 @@ class CreateBooking: UIViewController, BookingHit {
             }
         }
     }
+    
     @objc func dismissCreateBooking() {
         self.dismiss(animated: true, completion: nil);
     }
-    
     
     
     @objc func dateChanged() {
@@ -467,18 +513,41 @@ class CreateBooking: UIViewController, BookingHit {
         popUp.addSubview(servicesChosenTable);
         servicesChosenTable.padTop(from: servicesChosenText.bottomAnchor, num: 8);
         servicesChosenTable.centerTo(element: popUp.centerXAnchor);
-        popUp.addSubview(employeesAvailableText);
-        employeesAvailableText.padTop(from: servicesChosenTable.bottomAnchor, num: 2);
-        employeesAvailableText.centerTo(element: popUp.centerXAnchor);
+        if eq == "n" {
+            popUp.addSubview(self.bctText);
+            bctText.padTop(from: servicesChosenTable.bottomAnchor, num: 30);
+            bctText.padLeft(from: popUp.leftAnchor, num: 20);
+            popUp.addSubview(bcnSelectorCV);
+            bcnSelectorCV.padTop(from: self.servicesChosenTable.bottomAnchor, num: 30);
+            bcnSelectorCV.padLeft(from: bctText.rightAnchor, num: 10);
+            bcnSelectorCV.setHeight(height: 40);
+            bcnSelectorCV.padRight(from: view.rightAnchor, num: 20);
+            bcnSelectorCV.del = self;
+            popUp.addSubview(employeesAvailableText);
+            employeesAvailableText.padTop(from: bcnSelectorCV.bottomAnchor, num: 20);
+            employeesAvailableText.centerTo(element: popUp.centerXAnchor);
+            popUp.addSubview(employeesTable)
+            employeesTable.padTop(from: self.employeesAvailableText.bottomAnchor, num: 6);
+            employeesTable.centerTo(element: self.popUp.centerXAnchor);
+            employeesTable.setHeight(height: 200);
+            employeesTable.setWidth(width: UIScreen.main.bounds.width);
+            employeesTable.backgroundColor = .mainLav;
+
+        }
+        else {
+            popUp.addSubview(employeesAvailableText);
+            employeesAvailableText.padTop(from: servicesChosenTable.bottomAnchor, num: 20);
+            employeesAvailableText.centerTo(element: popUp.centerXAnchor);
+            popUp.addSubview(employeesTable)
+            employeesTable.backgroundColor = .mainLav;
+            employeesTable.padTop(from: employeesAvailableText.bottomAnchor, num: 6);
+            employeesTable.centerTo(element: popUp.centerXAnchor);
+            employeesTable.setHeight(height: UIScreen.main.bounds.height / 3);
+            employeesTable.setWidth(width: UIScreen.main.bounds.width);
+        }
         popUp.addSubview(cancelButton);
         cancelButton.padRight(from: view.rightAnchor, num: 20);
         cancelButton.padTop(from: popUp.topAnchor, num: 25);
-        popUp.addSubview(employeesTable)
-        employeesTable.backgroundColor = .mainLav;
-        employeesTable.padTop(from: employeesAvailableText.bottomAnchor, num: 6);
-        employeesTable.centerTo(element: popUp.centerXAnchor);
-        employeesTable.setHeight(height: UIScreen.main.bounds.height / 3);
-        employeesTable.setWidth(width: UIScreen.main.bounds.width);
         view.addSubview(noServicesText);
         noServicesText.padTop(from: servicesText.bottomAnchor, num: 8);
         noServicesText.centerTo(element: popUp.centerXAnchor);
@@ -535,76 +604,6 @@ class CreateBooking: UIViewController, BookingHit {
         for service in servicesTable.selectedServices {
             servicesArray.append(service.id);
         }
-//        for ss in servicesTable.selectedServices {
-//            if ss.timeDuration == "10 Minutes" || ss.timeDuration == "5 Minutes" {
-//                smallTimesShouldRun = true;
-//            }
-//        }
-//        if smallTimesShouldRun {
-//            for selectedServices in servicesTable.selectedServices {
-//                serviceIds.append(selectedServices.id);
-//                serviceNames.append(selectedServices.serviceName);
-//                cost = cost + selectedServices.cost;
-//            }
-//            API().post(url: myURL + "getBookings/smallTimes", dataToSend: ["services": servicesArray, "timeChosen": timePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"], "date": dateChosen]) { (res) in
-//                if res["statusCode"] as! Int == 200 {
-//                    timeDurationNum = res["timeDurationNum"] as! Int;
-//                    let costString = String(cost);
-//                    let closeTime = Utilities.itst[Utilities.stit[self.timePicker.selectedItem!]! + timeDurationNum];
-//                    API().post(url: myURL + "getBookings", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum]) { (res) in
-//                        if res["statusCode"] as! Int == 409 {
-//                            let alert = UIAlertController(title: "Invalid Date", message: "The date or time you have chosen has already passed and cannot be scheduled.", preferredStyle: .alert);
-//                            let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
-//                            alert.addAction(woops);
-//                            DispatchQueue.main.async {
-//                                self.present(alert, animated: true, completion: nil);
-//                            }
-//                        }
-//                        if let employees = res["employees"] as? [[String: String]] {
-//                            var newEmployeesArray: [Employee] = [];
-//                            for employee in employees {
-//                                let newEmployee = Employee(dic: employee)
-//                                newEmployeesArray.append(newEmployee);
-//                            }
-//                            self.employeesAvailable = newEmployeesArray;
-//                            self.servicesChosenTable.servicesChosen = serviceNames;
-//                            if newEmployeesArray.count > 0 {
-//                                DispatchQueue.main.async {
-//                                    self.timeDurationText.text = "From: " + self.timePicker.selectedItem! + "-" + closeTime!;
-//                                    var costStringArray = costString.components(separatedBy: ".");
-//                                    if costStringArray[1].count == 1 {
-//                                        costStringArray[1] = costStringArray[1] + "0";
-//                                        self.costText.text = "Cost: " + "$" + costStringArray[0] + "." +  costStringArray[1];
-//                                    }
-//                                    else {
-//                                        self.costText.text = "Cost: " + "$" + costString;
-//                                    }
-//                                    UIView.animate(withDuration: 0.4) {
-//                                        self.popUp.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.00);
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        else if res["statusCode"] as! Int == 406 {
-//                            // do the alert here
-//                            let alert = UIAlertController(title: "Time Unavailable", message: "Your business does not have any availability at this time. Want us to check for other nearby times on this date?", preferredStyle: .alert);
-//                            let searchOthers = UIAlertAction(title: "Yes", style: .default) { (action: UIAlertAction) in
-//                                print("gotta go find the others")
-//                            }
-//                            alert.addAction(searchOthers);
-//                            let noThanks = UIAlertAction(title: "Nope", style: .cancel) { (action: UIAlertAction) in
-//                                print("lol")
-//                            }
-//                            alert.addAction(noThanks)
-//                            DispatchQueue.main.async {
-//                                self.present(alert, animated: true, completion: nil);
-//                            }
-//                        }
-//                    }
-//                }
-////            }
-////        }
-    
             for selectedService in servicesTable.selectedServices {
                 serviceIds.append(selectedService.id);
                 serviceNames.append(selectedService.serviceName);
@@ -622,6 +621,9 @@ class CreateBooking: UIViewController, BookingHit {
                     DispatchQueue.main.async {
                         self.present(alert, animated: true, completion: nil);
                     }
+                }
+                if let bcnArray = res["bcnArray"] as? [Int] {
+                    self.bcnArray = bcnArray;
                 }
                 if let employees = res["employees"] as? [[String: String]] {
                     var newEmployeesArray: [Employee] = [];

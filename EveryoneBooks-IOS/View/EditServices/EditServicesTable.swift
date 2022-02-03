@@ -36,9 +36,6 @@ class EditServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let services = services {
-            print("INSIDE OF EDITSERVICESTABLE");
-            print(services)
-            print("below services")
             return services.count;
         }
         return 4;

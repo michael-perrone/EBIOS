@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8905FD2F278E9107007B6A3F /* UserBookedNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8905FD2E278E9107007B6A3F /* UserBookedNotificationCell.swift */; };
 		8906EDCD24C20A9C0040BCCA /* GenericDropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8906EDCC24C20A9C0040BCCA /* GenericDropDown.swift */; };
 		8907BC34258005FB0049C213 /* NoBusinessesFollowingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8907BC33258005FB0049C213 /* NoBusinessesFollowingCell.swift */; };
 		89082EA32493F2B000A04284 /* EmployeeAddTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89082EA22493F2B000A04284 /* EmployeeAddTable.swift */; };
 		8912385325597A98006220E8 /* EditServicesTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8912385225597A98006220E8 /* EditServicesTable.swift */; };
 		8912385625597C13006220E8 /* EditingServicesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8912385525597C13006220E8 /* EditingServicesCell.swift */; };
+		8927BDBF27AA638100E24477 /* BookingHistoryTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8927BDBE27AA638100E24477 /* BookingHistoryTable.swift */; };
+		8927BDC127AB0DEB00E24477 /* BookingHistoryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8927BDC027AB0DEB00E24477 /* BookingHistoryTableCell.swift */; };
+		8927BDC327AB12AD00E24477 /* NoPastBookingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8927BDC227AB12AD00E24477 /* NoPastBookingsCell.swift */; };
 		8932B9C92582ED4200B5AAAF /* NoBookingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8932B9C82582ED4200B5AAAF /* NoBookingsCell.swift */; };
 		8937C66724BBEF34001BB785 /* ShiftsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937C66624BBEF34001BB785 /* ShiftsTableView.swift */; };
 		8937C66924BBFEAA001BB785 /* ShiftsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937C66824BBFEAA001BB785 /* ShiftsTableViewCell.swift */; };
@@ -80,6 +84,8 @@
 		895C71702557C3A200999EE6 /* ViewBookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895C716F2557C3A200999EE6 /* ViewBookingViewController.swift */; };
 		895F5A5124C7C458000190BA /* ServicesSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895F5A5024C7C458000190BA /* ServicesSelectCell.swift */; };
 		89644ED3249DAB6A001D28B3 /* TimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89644ED2249DAB6A001D28B3 /* TimePicker.swift */; };
+		896B44882794DE5E00927B53 /* UserBookedMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896B44872794DE5E00927B53 /* UserBookedMessageViewController.swift */; };
+		896B448A2794E33400927B53 /* UserBookedUnansweredNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896B44892794E33400927B53 /* UserBookedUnansweredNotificationCell.swift */; };
 		89742FFB25944400000C8E0D /* NoBusinessSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89742FFA25944400000C8E0D /* NoBusinessSearchCell.swift */; };
 		89742FFF259BABF7000C8E0D /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89742FFE259BABF7000C8E0D /* Customer.swift */; };
 		8974E6C3247F4A3F0066528E /* RegAdminFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8974E6C2247F4A3F0066528E /* RegAdminFour.swift */; };
@@ -87,6 +93,8 @@
 		8974E6C7247F6E7C0066528E /* DayRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8974E6C6247F6E7C0066528E /* DayRow.swift */; };
 		897853C224B575E300705C99 /* EmployeePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897853C124B575E300705C99 /* EmployeePickerView.swift */; };
 		897DD784264E34BB0087AF9C /* OneCellBooked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897DD783264E34BB0087AF9C /* OneCellBooked.swift */; };
+		897DEE88279CBD45004F826E /* BcnSelectorCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897DEE87279CBD45004F826E /* BcnSelectorCollectionView.swift */; };
+		897DEE8B279CBF9E004F826E /* BcnSelectorCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897DEE8A279CBF9E004F826E /* BcnSelectorCollectionCell.swift */; };
 		897F45D3248DC8FF00080381 /* EditBusinessProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897F45D2248DC8FF00080381 /* EditBusinessProfile.swift */; };
 		897F45D5248DC94200080381 /* AddEmployees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897F45D4248DC94200080381 /* AddEmployees.swift */; };
 		8981B1B5248892E200A6AAE1 /* AdminNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981B1B4248892E200A6AAE1 /* AdminNotifications.swift */; };
@@ -102,6 +110,7 @@
 		8995D39424B116E700533154 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995D39324B116E700533154 /* Service.swift */; };
 		89A39BD5273FF268002830D3 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A39BD4273FF268002830D3 /* Schedule.swift */; };
 		89A78F5724C13A82006DDEB9 /* ServicesTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A78F5624C13A82006DDEB9 /* ServicesTable.swift */; };
+		89A8D433279E92B800EC22D6 /* BcnSelectorCollectionSelectedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8D432279E92B800EC22D6 /* BcnSelectorCollectionSelectedCell.swift */; };
 		89ADB28C277A4D9A00A22D63 /* ProductsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB28B277A4D9A00A22D63 /* ProductsTable.swift */; };
 		89ADB28E277A504B00A22D63 /* ProductsSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB28D277A504B00A22D63 /* ProductsSelectCell.swift */; };
 		89ADB290277A511D00A22D63 /* ProductSelectedTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB28F277A511D00A22D63 /* ProductSelectedTableCell.swift */; };
@@ -120,7 +129,7 @@
 		89C32CB024F1FDAF006709C3 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32CAF24F1FDAF006709C3 /* MessageViewController.swift */; };
 		89C32CB224F48518006709C3 /* RequestAnswerNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32CB124F48518006709C3 /* RequestAnswerNotificationCell.swift */; };
 		89C32CB424F48BC8006709C3 /* UnreadRequestAnswerNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32CB324F48BC8006709C3 /* UnreadRequestAnswerNotificationCell.swift */; };
-		89C32CB624F48CBF006709C3 /* ReadAdminNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32CB524F48CBF006709C3 /* ReadAdminNotificationCell.swift */; };
+		89C32CB624F48CBF006709C3 /* ReadRequestAnswerNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32CB524F48CBF006709C3 /* ReadRequestAnswerNotificationCell.swift */; };
 		89C343442548888300149F46 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C343432548888300149F46 /* Product.swift */; };
 		89C3434725488A2E00149F46 /* ProductTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C3434625488A2E00149F46 /* ProductTable.swift */; };
 		89C3434A25488B3200149F46 /* ProductTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C3434925488B3200149F46 /* ProductTableCell.swift */; };
@@ -137,7 +146,7 @@
 		89E93AB724D5114A0042E46E /* SendEmployeeIdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E93AB624D5114A0042E46E /* SendEmployeeIdViewController.swift */; };
 		89E93AB924D5FE030042E46E /* EmployeeBusinessSearchCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E93AB824D5FE030042E46E /* EmployeeBusinessSearchCollection.swift */; };
 		89E93ABB24D6003D0042E46E /* EmployeeBusinessSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E93ABA24D6003D0042E46E /* EmployeeBusinessSearchCell.swift */; };
-		89E93ABD24D782960042E46E /* RequestAnswerNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E93ABC24D782960042E46E /* RequestAnswerNotification.swift */; };
+		89E93ABD24D782960042E46E /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E93ABC24D782960042E46E /* Notification.swift */; };
 		89E93ABF24D7BB080042E46E /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E93ABE24D7BB080042E46E /* NotificationCell.swift */; };
 		BB5A331AF111895163B85472 /* Pods_EveryoneBooks_IOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F587B6F8397BDF7C61AB8987 /* Pods_EveryoneBooks_IOS.framework */; };
 /* End PBXBuildFile section */
@@ -145,11 +154,15 @@
 /* Begin PBXFileReference section */
 		1126EC46C67B8BEDCF663161 /* Pods-EveryoneBooks-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EveryoneBooks-IOS.release.xcconfig"; path = "Target Support Files/Pods-EveryoneBooks-IOS/Pods-EveryoneBooks-IOS.release.xcconfig"; sourceTree = "<group>"; };
 		3D0B633D076267F359243F35 /* Pods-EveryoneBooks-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EveryoneBooks-IOS.debug.xcconfig"; path = "Target Support Files/Pods-EveryoneBooks-IOS/Pods-EveryoneBooks-IOS.debug.xcconfig"; sourceTree = "<group>"; };
+		8905FD2E278E9107007B6A3F /* UserBookedNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBookedNotificationCell.swift; sourceTree = "<group>"; };
 		8906EDCC24C20A9C0040BCCA /* GenericDropDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericDropDown.swift; sourceTree = "<group>"; };
 		8907BC33258005FB0049C213 /* NoBusinessesFollowingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoBusinessesFollowingCell.swift; sourceTree = "<group>"; };
 		89082EA22493F2B000A04284 /* EmployeeAddTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeAddTable.swift; sourceTree = "<group>"; };
 		8912385225597A98006220E8 /* EditServicesTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditServicesTable.swift; sourceTree = "<group>"; };
 		8912385525597C13006220E8 /* EditingServicesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingServicesCell.swift; sourceTree = "<group>"; };
+		8927BDBE27AA638100E24477 /* BookingHistoryTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingHistoryTable.swift; sourceTree = "<group>"; };
+		8927BDC027AB0DEB00E24477 /* BookingHistoryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingHistoryTableCell.swift; sourceTree = "<group>"; };
+		8927BDC227AB12AD00E24477 /* NoPastBookingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPastBookingsCell.swift; sourceTree = "<group>"; };
 		8932B9C82582ED4200B5AAAF /* NoBookingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoBookingsCell.swift; sourceTree = "<group>"; };
 		8937C66624BBEF34001BB785 /* ShiftsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsTableView.swift; sourceTree = "<group>"; };
 		8937C66824BBFEAA001BB785 /* ShiftsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsTableViewCell.swift; sourceTree = "<group>"; };
@@ -220,6 +233,8 @@
 		895C716F2557C3A200999EE6 /* ViewBookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBookingViewController.swift; sourceTree = "<group>"; };
 		895F5A5024C7C458000190BA /* ServicesSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesSelectCell.swift; sourceTree = "<group>"; };
 		89644ED2249DAB6A001D28B3 /* TimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePicker.swift; sourceTree = "<group>"; };
+		896B44872794DE5E00927B53 /* UserBookedMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBookedMessageViewController.swift; sourceTree = "<group>"; };
+		896B44892794E33400927B53 /* UserBookedUnansweredNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBookedUnansweredNotificationCell.swift; sourceTree = "<group>"; };
 		89742FFA25944400000C8E0D /* NoBusinessSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoBusinessSearchCell.swift; sourceTree = "<group>"; };
 		89742FFE259BABF7000C8E0D /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		8974E6C2247F4A3F0066528E /* RegAdminFour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegAdminFour.swift; sourceTree = "<group>"; };
@@ -227,6 +242,8 @@
 		8974E6C6247F6E7C0066528E /* DayRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayRow.swift; sourceTree = "<group>"; };
 		897853C124B575E300705C99 /* EmployeePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeePickerView.swift; sourceTree = "<group>"; };
 		897DD783264E34BB0087AF9C /* OneCellBooked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneCellBooked.swift; sourceTree = "<group>"; };
+		897DEE87279CBD45004F826E /* BcnSelectorCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BcnSelectorCollectionView.swift; sourceTree = "<group>"; };
+		897DEE8A279CBF9E004F826E /* BcnSelectorCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BcnSelectorCollectionCell.swift; sourceTree = "<group>"; };
 		897F45D2248DC8FF00080381 /* EditBusinessProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBusinessProfile.swift; sourceTree = "<group>"; };
 		897F45D4248DC94200080381 /* AddEmployees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmployees.swift; sourceTree = "<group>"; };
 		8981B1B4248892E200A6AAE1 /* AdminNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminNotifications.swift; sourceTree = "<group>"; };
@@ -242,6 +259,7 @@
 		8995D39324B116E700533154 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		89A39BD4273FF268002830D3 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		89A78F5624C13A82006DDEB9 /* ServicesTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesTable.swift; sourceTree = "<group>"; };
+		89A8D432279E92B800EC22D6 /* BcnSelectorCollectionSelectedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BcnSelectorCollectionSelectedCell.swift; sourceTree = "<group>"; };
 		89ADB28B277A4D9A00A22D63 /* ProductsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTable.swift; sourceTree = "<group>"; };
 		89ADB28D277A504B00A22D63 /* ProductsSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSelectCell.swift; sourceTree = "<group>"; };
 		89ADB28F277A511D00A22D63 /* ProductSelectedTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSelectedTableCell.swift; sourceTree = "<group>"; };
@@ -260,7 +278,7 @@
 		89C32CAF24F1FDAF006709C3 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		89C32CB124F48518006709C3 /* RequestAnswerNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAnswerNotificationCell.swift; sourceTree = "<group>"; };
 		89C32CB324F48BC8006709C3 /* UnreadRequestAnswerNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadRequestAnswerNotificationCell.swift; sourceTree = "<group>"; };
-		89C32CB524F48CBF006709C3 /* ReadAdminNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadAdminNotificationCell.swift; sourceTree = "<group>"; };
+		89C32CB524F48CBF006709C3 /* ReadRequestAnswerNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadRequestAnswerNotificationCell.swift; sourceTree = "<group>"; };
 		89C343432548888300149F46 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		89C3434625488A2E00149F46 /* ProductTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTable.swift; sourceTree = "<group>"; };
 		89C3434925488B3200149F46 /* ProductTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableCell.swift; sourceTree = "<group>"; };
@@ -277,7 +295,7 @@
 		89E93AB624D5114A0042E46E /* SendEmployeeIdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendEmployeeIdViewController.swift; sourceTree = "<group>"; };
 		89E93AB824D5FE030042E46E /* EmployeeBusinessSearchCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeBusinessSearchCollection.swift; sourceTree = "<group>"; };
 		89E93ABA24D6003D0042E46E /* EmployeeBusinessSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeBusinessSearchCell.swift; sourceTree = "<group>"; };
-		89E93ABC24D782960042E46E /* RequestAnswerNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAnswerNotification.swift; sourceTree = "<group>"; };
+		89E93ABC24D782960042E46E /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		89E93ABE24D7BB080042E46E /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		F587B6F8397BDF7C61AB8987 /* Pods_EveryoneBooks_IOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EveryoneBooks_IOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -363,6 +381,7 @@
 		8944DCE4244F53EA004A2819 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				89809EEF257EB7F2000703A4 /* NotificationCells */,
 				89B5FEE82784319B0009F1D1 /* RemoveServicesTable */,
 				89809EDD257EB328000703A4 /* BusinessPicker */,
 				89809EE7257EB64F000703A4 /* RandomDatePicker */,
@@ -393,7 +412,7 @@
 				89476E892493284000A424BE /* BusinessProfile.swift */,
 				8995D39324B116E700533154 /* Service.swift */,
 				8944EDC224B2AC8A003CD86C /* Shift.swift */,
-				89E93ABC24D782960042E46E /* RequestAnswerNotification.swift */,
+				89E93ABC24D782960042E46E /* Notification.swift */,
 				898AA1B82527E43400FE0A75 /* SelectionItem.swift */,
 				89C343432548888300149F46 /* Product.swift */,
 				89742FFE259BABF7000C8E0D /* Customer.swift */,
@@ -452,11 +471,14 @@
 		894A4C46248A735A00A110E7 /* UserHome */ = {
 			isa = PBXGroup;
 			children = (
+				8995D39124B10C5000533154 /* UserBookingSomething.swift */,
 				894A4C47248A738800A110E7 /* BusinessSearch.swift */,
+				894ED9E524A7D87C00A24858 /* BusinessPageController.swift */,
 				894A4C49248A73EA00A110E7 /* UserBookings.swift */,
 				8957A7E924A8E51E00C250FF /* BusinessesFollowingController.swift */,
 				894634F624A0275D0043A6EA /* BusinessSearchCollection.swift */,
 				894A4C4D248A74AF00A110E7 /* UserHomeViewController.swift */,
+				8946CA8624CDD55A00556D83 /* UserBookingsCollectionCell.swift */,
 			);
 			path = UserHome;
 			sourceTree = "<group>";
@@ -472,12 +494,12 @@
 		894ED9E424A7D83600A24858 /* Purgatory */ = {
 			isa = PBXGroup;
 			children = (
+				897DEE89279CBF8B004F826E /* BcnSelectorTable */,
 				89ADB293277B7D6E00A22D63 /* EditProductsTable */,
 				89ADB28A277A4D8400A22D63 /* ProductsTable */,
-				8995D39124B10C5000533154 /* UserBookingSomething.swift */,
-				894ED9E524A7D87C00A24858 /* BusinessPageController.swift */,
 				89C32CAF24F1FDAF006709C3 /* MessageViewController.swift */,
 				895C716F2557C3A200999EE6 /* ViewBookingViewController.swift */,
+				896B44872794DE5E00927B53 /* UserBookedMessageViewController.swift */,
 			);
 			path = Purgatory;
 			sourceTree = "<group>";
@@ -488,6 +510,16 @@
 				8944DCEA244F5559004A2819 /* LoginController.swift */,
 			);
 			path = LoginController;
+			sourceTree = "<group>";
+		};
+		897DEE89279CBF8B004F826E /* BcnSelectorTable */ = {
+			isa = PBXGroup;
+			children = (
+				897DEE87279CBD45004F826E /* BcnSelectorCollectionView.swift */,
+				897DEE8A279CBF9E004F826E /* BcnSelectorCollectionCell.swift */,
+				89A8D432279E92B800EC22D6 /* BcnSelectorCollectionSelectedCell.swift */,
+			);
+			path = BcnSelectorTable;
 			sourceTree = "<group>";
 		};
 		897F45D1248DC8DA00080381 /* EditBusinessProfile */ = {
@@ -579,12 +611,10 @@
 		89809EE4257EB53F000703A4 /* TableCollectionCells */ = {
 			isa = PBXGroup;
 			children = (
-				8946CA8624CDD55A00556D83 /* UserBookingsCollectionCell.swift */,
 				894634F824A0282E0043A6EA /* BusinesSearchCell.swift */,
 				89742FFA25944400000C8E0D /* NoBusinessSearchCell.swift */,
 				8957A7EB24A8E8A000C250FF /* BusinessesFollowingCellCollectionViewCell.swift */,
 				8907BC32258005DA0049C213 /* NoFollowingOrBookingsCells */,
-				89809EEF257EB7F2000703A4 /* NotificationCells */,
 			);
 			path = TableCollectionCells;
 			sourceTree = "<group>";
@@ -651,7 +681,9 @@
 				89E93ABE24D7BB080042E46E /* NotificationCell.swift */,
 				89C32CB124F48518006709C3 /* RequestAnswerNotificationCell.swift */,
 				89C32CB324F48BC8006709C3 /* UnreadRequestAnswerNotificationCell.swift */,
-				89C32CB524F48CBF006709C3 /* ReadAdminNotificationCell.swift */,
+				89C32CB524F48CBF006709C3 /* ReadRequestAnswerNotificationCell.swift */,
+				8905FD2E278E9107007B6A3F /* UserBookedNotificationCell.swift */,
+				896B44892794E33400927B53 /* UserBookedUnansweredNotificationCell.swift */,
 			);
 			path = NotificationCells;
 			sourceTree = "<group>";
@@ -815,6 +847,9 @@
 			children = (
 				89D4047C25771652007C9DF3 /* UserProfileController.swift */,
 				894DA4942577177C003EEAA5 /* UserHistoryController.swift */,
+				8927BDBE27AA638100E24477 /* BookingHistoryTable.swift */,
+				8927BDC027AB0DEB00E24477 /* BookingHistoryTableCell.swift */,
+				8927BDC227AB12AD00E24477 /* NoPastBookingsCell.swift */,
 			);
 			path = UserMenuControllers;
 			sourceTree = "<group>";
@@ -967,11 +1002,13 @@
 				8981B1B92488936D00A6AAE1 /* AdminShifts.swift in Sources */,
 				895C716D25564F0F00999EE6 /* EmployeeBookingCollectionCell.swift in Sources */,
 				893F401B25139F3300EDFAE2 /* RoomAreaCollectionView.swift in Sources */,
+				897DEE88279CBD45004F826E /* BcnSelectorCollectionView.swift in Sources */,
 				8937C66724BBEF34001BB785 /* ShiftsTableView.swift in Sources */,
 				89ADB295277B7D8400A22D63 /* EditProductsTable.swift in Sources */,
 				89D4047D25771652007C9DF3 /* UserProfileController.swift in Sources */,
 				89E93AB924D5FE030042E46E /* EmployeeBusinessSearchCollection.swift in Sources */,
 				898AA1B92527E43400FE0A75 /* SelectionItem.swift in Sources */,
+				897DEE8B279CBF9E004F826E /* BcnSelectorCollectionCell.swift in Sources */,
 				8932B9C92582ED4200B5AAAF /* NoBookingsCell.swift in Sources */,
 				89B65FB8253AB38200299CB2 /* AdminEmployeePerformanceViewController.swift in Sources */,
 				8945975E24B2438F0027BDBB /* MyDatePicker.swift in Sources */,
@@ -998,12 +1035,14 @@
 				894210272550882A006BEF0A /* EmployeePerformanceTableView.swift in Sources */,
 				894A4C4A248A73EA00A110E7 /* UserBookings.swift in Sources */,
 				8946CA8724CDD55A00556D83 /* UserBookingsCollectionCell.swift in Sources */,
+				8927BDC127AB0DEB00E24477 /* BookingHistoryTableCell.swift in Sources */,
 				893F4025251702A900EDFAE2 /* TopBookedCell.swift in Sources */,
 				894A4C48248A738800A110E7 /* BusinessSearch.swift in Sources */,
-				89C32CB624F48CBF006709C3 /* ReadAdminNotificationCell.swift in Sources */,
+				89C32CB624F48CBF006709C3 /* ReadRequestAnswerNotificationCell.swift in Sources */,
 				8981B1B5248892E200A6AAE1 /* AdminNotifications.swift in Sources */,
 				8906EDCD24C20A9C0040BCCA /* GenericDropDown.swift in Sources */,
 				89E93ABB24D6003D0042E46E /* EmployeeBusinessSearchCell.swift in Sources */,
+				89A8D433279E92B800EC22D6 /* BcnSelectorCollectionSelectedCell.swift in Sources */,
 				89A78F5724C13A82006DDEB9 /* ServicesTable.swift in Sources */,
 				89742FFF259BABF7000C8E0D /* Customer.swift in Sources */,
 				89B5FEF62787EBF80009F1D1 /* HolderCell.swift in Sources */,
@@ -1016,6 +1055,7 @@
 				89ADB28C277A4D9A00A22D63 /* ProductsTable.swift in Sources */,
 				8944DCEB244F5559004A2819 /* LoginController.swift in Sources */,
 				89DC5804253649F7005326A1 /* MenuCell.swift in Sources */,
+				8927BDBF27AA638100E24477 /* BookingHistoryTable.swift in Sources */,
 				893E71BB248D76C6001C66E9 /* Employee.swift in Sources */,
 				89DC57FE25364731005326A1 /* Menu.swift in Sources */,
 				894A29B3256BFBC20073BE26 /* BusinessesCurrentlyWorking.swift in Sources */,
@@ -1024,7 +1064,7 @@
 				8907BC34258005FB0049C213 /* NoBusinessesFollowingCell.swift in Sources */,
 				8974E6C7247F6E7C0066528E /* DayRow.swift in Sources */,
 				8995D39424B116E700533154 /* Service.swift in Sources */,
-				89E93ABD24D782960042E46E /* RequestAnswerNotification.swift in Sources */,
+				89E93ABD24D782960042E46E /* Notification.swift in Sources */,
 				89D11B98248DCEF70018D1BC /* AddServices.swift in Sources */,
 				894B09CE2451341A009D2A5E /* RegisterEmployeeController.swift in Sources */,
 				8947C6F0247CB6550082D390 /* RegAdminTwo.swift in Sources */,
@@ -1043,6 +1083,8 @@
 				89470E362486D8D700FAFAF0 /* Utilities.swift in Sources */,
 				89C32CB424F48BC8006709C3 /* UnreadRequestAnswerNotificationCell.swift in Sources */,
 				895F5A5124C7C458000190BA /* ServicesSelectCell.swift in Sources */,
+				8905FD2F278E9107007B6A3F /* UserBookedNotificationCell.swift in Sources */,
+				896B44882794DE5E00927B53 /* UserBookedMessageViewController.swift in Sources */,
 				894A29B6256BFCB40073BE26 /* BusinessesCurrentlyWorkingCell.swift in Sources */,
 				89B65FAD2539249C00299CB2 /* BusinessProfileController.swift in Sources */,
 				894A4C4E248A74AF00A110E7 /* UserHomeViewController.swift in Sources */,
@@ -1057,6 +1099,7 @@
 				89B5FEEA278431AE0009F1D1 /* RemoveServicesTable.swift in Sources */,
 				8974E6C3247F4A3F0066528E /* RegAdminFour.swift in Sources */,
 				894DA4952577177D003EEAA5 /* UserHistoryController.swift in Sources */,
+				8927BDC327AB12AD00E24477 /* NoPastBookingsCell.swift in Sources */,
 				89644ED3249DAB6A001D28B3 /* TimePicker.swift in Sources */,
 				89B5FEEE278674810009F1D1 /* ColumnScrollView.swift in Sources */,
 				898A1562268BA79000A75723 /* ServiceSelectedTableCell.swift in Sources */,
@@ -1065,6 +1108,7 @@
 				89926A9A25379931002601B2 /* EmployeeBusinessPerformanceController.swift in Sources */,
 				89459FCE247E0F0E0077A9F9 /* RegAdminThree.swift in Sources */,
 				894600D7248323990001A453 /* RegAdminSeven.swift in Sources */,
+				896B448A2794E33400927B53 /* UserBookedUnansweredNotificationCell.swift in Sources */,
 				894304872527C2BE00973FB3 /* ColumnTableCell.swift in Sources */,
 				8944DCD3244F53B7004A2819 /* SceneDelegate.swift in Sources */,
 				89B660682483F42100DD79E5 /* HelpRegModal.swift in Sources */,

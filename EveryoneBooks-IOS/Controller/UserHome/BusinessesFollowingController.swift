@@ -43,9 +43,6 @@ class BusinessesFollowingCollection: UICollectionViewController, OtherCollection
     
     var businesses: [Business]? {
         didSet {
-            print("Set");
-            print(businesses)
-            print(businesses!.count)
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
@@ -85,15 +82,12 @@ class BusinessesFollowingCollection: UICollectionViewController, OtherCollection
     func getFollowing() {
             API().get(url: "http://localhost:4000/api/userProfile/followingForTab", headerToSend: Utilities().getToken()) { (res) in
                 guard let businessesFollow = res["businessesFollowing"] as? [[String: Any]] else {return}
-                print("i am businesses following below")
-                print(businessesFollow)
                 var businessesArray: [Business] = [];
                 for businessFollowing in businessesFollow {
                     let newBusiness = Business(dic: businessFollowing);
                     businessesArray.append(newBusiness);
             }
                 self.businesses = businessesArray;
-                print(self.businesses)
         }
     }
 
@@ -112,12 +106,8 @@ class BusinessesFollowingCollection: UICollectionViewController, OtherCollection
 }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("can i run")
         if let businesses = businesses {
-            print(businesses)
-            print("hello")
             if businesses.count == 0 {
-                print("were here")
                 let noBusinessesFollowingCell = collectionView.dequeueReusableCell(withReuseIdentifier: "NoFollowingCell", for: indexPath) as! NoBusinessesFollowingCell;
                 noBusinessesFollowingCell.configureCell()
                 return noBusinessesFollowingCell;

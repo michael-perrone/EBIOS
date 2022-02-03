@@ -35,7 +35,7 @@ class ProductTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let products = products {
-            print(products.count)
+            
             return products.count;
         }
         return 0;

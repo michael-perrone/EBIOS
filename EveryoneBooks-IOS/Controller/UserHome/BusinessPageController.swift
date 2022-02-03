@@ -1,11 +1,3 @@
-//
-//  BusinessPageController.swift
-//  EveryoneBooks-IOS
-//
-//  Created by Michael Perrone on 6/27/20.
-//  Copyright © 2020 Michael Perrone. All rights reserved.
-//
-
 import UIKit
 
 class BusinessPageController: UIViewController {
@@ -211,11 +203,13 @@ class BusinessPageController: UIViewController {
     
     private let serviceText: UITextView = {
         let uitv = Components().createSimpleText(text: "Services");
+        uitv.backgroundColor = .literGray;
         return uitv;
     }()
     
     private let locationHoursText: UITextView = {
         let uitv = Components().createSimpleText(text: "Location/Hours");
+        uitv.backgroundColor = .literGray;
         return uitv;
     }();
     
@@ -290,7 +284,7 @@ class BusinessPageController: UIViewController {
         serviceText.padTop(from: scheduleView.bottomAnchor, num: 40);
         view.addSubview(table);
         table.centerTo(element: view.centerXAnchor);
-        table.padTop(from: scheduleView.bottomAnchor, num: 90);
+        table.padTop(from: serviceText.bottomAnchor, num: 0);
         servicesDontExistText.isHidden = true;
         view.addSubview(servicesDontExistText);
         servicesDontExistText.padTop(from: serviceText.bottomAnchor, num: 8);

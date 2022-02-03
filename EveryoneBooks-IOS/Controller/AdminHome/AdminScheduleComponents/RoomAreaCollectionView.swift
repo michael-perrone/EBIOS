@@ -70,7 +70,6 @@ class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
                     for subview2 in subview.subviews {
                         if subview2 is BookingView {
                             subview2.removeFromSuperview();
-                            
                         }
                     }
                 }

@@ -9,14 +9,17 @@
 import UIKit
 
 protocol ReloadTableAfterBooking: AdminBookings {
-    func reloadTable()
+    func reloadTable();
 }
+
 
 protocol BookingClickedProtocol: AdminBookings {
     func viewBookingInfo(booking: Booking);
 }
 
-class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedProtocol {
+class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedProtocol{
+    
+  
     
     func viewBookingInfo(booking: Booking) {
         DispatchQueue.main.async {
@@ -42,6 +45,8 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
         }
     }
     
+    var bct: String?;
+    
     var timeSlots: Int?;
     
     private let datePicker: UIDatePicker = {
@@ -59,6 +64,8 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
         return ratv;
     }();
     
+    private var bcn: Int?;
+    
     private let border = Components().createBorder(height: 2, width: fullWidth, color: .darkGray);
     
     @objc func dateChanged() {
@@ -75,8 +82,14 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
         return uib;
     }()
     
+    private var eq: String?;
+    
     @objc func showCreateBooking() {
         let createBooking = CreateBooking();
+        if let eq = eq, let bct = bct {
+            createBooking.bct = bct;
+            createBooking.eq = eq;
+        }
         createBooking.delegate = self;
         createBooking.modalPresentationStyle = .fullScreen;
         self.present(createBooking, animated: true, completion: nil);
@@ -120,7 +133,8 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
         API().post(url: myURL + "adminSchedule", headerToSend: Utilities().getAdminToken(), dataToSend: dateToSend) { (res) in
             if res["statusCode"] as? Int == 200 {
                 if let bct = res["bct"] as? String {
-                    self.roomAreaTable.bct = bct; // getting bookingColumnType
+                    self.roomAreaTable.bct = bct;
+                    self.bct = bct;// getting bookingColumnType
                 }
                 if let open = res["open"] as? String, let close = res["close"] as? String {
                     let num = Utilities().getTimeNum(startTime: open, endTime: close);
@@ -128,7 +142,16 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
                     self.roomAreaTable.closeTime = close;
                     self.roomAreaTable.timeSlotNum = num;
                 }
+                
                 if let bcn = res["bcn"] as? String {
+                    if let eq = res["eq"] as? String {
+                        print(eq);
+                        print("EQ IN RES")
+                        if eq == "n" {
+                            self.bcn = Int(bcn);
+                            self.eq = eq;
+                        }
+                    }
                     if let bookings = res["bookings"] as? [[String: Any]] {
                         var bookingsArray: [Booking] = []; // empty bookings array
                         for booking in bookings {
@@ -142,7 +165,7 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
                             while i <= bcnUnwrapped {
                                 var bookingArrayToBeAppended: [Booking] = [];
                                 for individualBooking in bookingsArray {
-                                    if Int(individualBooking.bcn!) == i {
+                                     if Int(individualBooking.bcn!) == i {
                                         bookingArrayToBeAppended.append(individualBooking);
                                     }
                                 }

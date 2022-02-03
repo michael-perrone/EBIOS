@@ -35,8 +35,6 @@ class ProductsTable: UITableView, UITableViewDelegate, UITableViewDataSource, Pr
     
     var data: [Product]? {
         didSet {
-            print(data);
-            print("BELOW DATA")
             DispatchQueue.main.async {
                 self.reloadData()
             }
@@ -89,8 +87,6 @@ class ProductsTable: UITableView, UITableViewDelegate, UITableViewDataSource, Pr
                 let selectedCell = dequeueReusableCell(withIdentifier: "UPC", for: indexPath) as! ProductUnselectedTableCell;
                 if let bColorComingIn = unselectedCellBackgroundColor {
                     selectedCell.bColor = bColorComingIn;
-                    print(bColorComingIn);
-                    print("BACKGROUND COLOR");
                 }
                 if let tColorComingIn = unselectedCellTextColor {
                     selectedCell.tColor = tColorComingIn;

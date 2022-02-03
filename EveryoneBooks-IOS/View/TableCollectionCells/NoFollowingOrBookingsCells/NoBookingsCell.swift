@@ -21,6 +21,6 @@ class NoBookingsCell: UICollectionViewCell {
         title.centerTo(element: contentView.centerXAnchor);
         setWidth(width: fullWidth);
         setHeight(height: 100);
-        print("configure me babe")
+        
     }
 }

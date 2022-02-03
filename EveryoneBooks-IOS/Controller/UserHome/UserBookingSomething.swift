@@ -10,11 +10,13 @@ import UIKit
 
 protocol EmployeesTable: UserBookingSomething {
     func bookHit()
+    func userNotiSent()
 }
 
 class UserBookingSomething: UIViewController, EmployeesTable {
     
     func bookHit() {
+        print("DO I EVER RUN")
         let bookSuccess = UIAlertController(title: "Success!", message: "You're request has been received and accepted.", preferredStyle: .alert);
         let okayButton = UIAlertAction(title: "Exit!", style: .cancel) { (action: UIAlertAction) in
             UIView.animate(withDuration: 0.45) {
@@ -28,11 +30,18 @@ class UserBookingSomething: UIViewController, EmployeesTable {
         }
     }
     
+    func dismissMe() {
+        self.dismiss(animated: true) {
+            self.navigationController?.popViewController(animated: false);
+        }
+    }
+    
     func userNotiSent() {
         let actionAlert = Components().createActionAlert(title: "Booking Request Sent", message: "A request has been sent to the employee and business that you have specified to see if they are able to complete your requested services at this time. If they are able to, you will receive a notification confirming that your appointment has been scheduled.", buttonTitle: "Got it!") { (UIAlertAction) in
-            self.navigationController?.popViewController(animated: true);
+            self.dismiss(animated: true, completion: nil);
         }
         DispatchQueue.main.async {
+            print("huhhhhh")
             self.present(actionAlert, animated: true, completion: nil);
         }
     }
@@ -56,8 +65,6 @@ class UserBookingSomething: UIViewController, EmployeesTable {
     var business: Business? {
         didSet {
             navigationItem.title = business!.nameOfBusiness;
-            print(self.business!)
-            print("business is above")
             self.eq = business!.eq;
         }
     }
@@ -66,6 +73,18 @@ class UserBookingSomething: UIViewController, EmployeesTable {
         didSet {
             servicesTable.data = services;
         }
+    }
+    
+    lazy var cancelButton: UIButton = {
+        let cancelB = Components().createXButton();
+        cancelB.addTarget(self, action: #selector(hideView), for: .touchUpInside);
+        return cancelB;
+    }()
+    
+    
+    @objc func dismissCreateBooking() {
+        print("HIT")
+        navigationController?.popViewController(animated: true);
     }
     
     var dateChosen: String?
@@ -90,7 +109,7 @@ class UserBookingSomething: UIViewController, EmployeesTable {
     
     private let servicesTable: ServicesTable = {
         let st = ServicesTable();
-        st.backgroundColor = .literGray;
+        st.backgroundColor = .mainLav;
         return st;
     }()
     
@@ -117,7 +136,6 @@ class UserBookingSomething: UIViewController, EmployeesTable {
         let formatter  = DateFormatter()
         formatter.dateFormat = "MMM dd, yyyy";
         dateChosen = formatter.string(from: datePicker.date);
-        
     }
     
     private let chooseTimeText: UITextView = {
@@ -137,12 +155,6 @@ class UserBookingSomething: UIViewController, EmployeesTable {
         let uib = Components().createContinueBookingButton();
         uib.addTarget(self, action: #selector(continueHit), for: .touchUpInside);
         return uib;
-    }()
-    
-    lazy var cancelButton: UIButton = {
-        let cancelB = Components().createXButton();
-        cancelB.addTarget(self, action: #selector(hideView), for: .touchUpInside);
-        return cancelB;
     }()
     
     @objc func hideView() {
@@ -168,7 +180,7 @@ class UserBookingSomething: UIViewController, EmployeesTable {
     
     private let popUp: UIView = {
         let uisv = UIScrollView();
-        uisv.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
+        uisv.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         uisv.backgroundColor = .mainLav;
         return uisv;
     }()
@@ -236,7 +248,7 @@ class UserBookingSomething: UIViewController, EmployeesTable {
     func configureView() {
         employeesTable.otherDelegate = self;
         backDrop.alpha = 0;
-        view.backgroundColor = .literGray;
+        view.backgroundColor = .mainLav;
         view.addSubview(chooseServiceText);
         chooseServiceText.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 4);
         chooseServiceText.padLeft(from: view.leftAnchor, num: 30);
@@ -345,7 +357,6 @@ class UserBookingSomething: UIViewController, EmployeesTable {
             else if weekDay == 7 {
                 self.closeNum = Utilities.stit[business!.schedule!.satClose];
                 self.startNum = Utilities.stit[business!.schedule!.satOpen]!;
-                
             }
         }
     }
@@ -372,8 +383,34 @@ class UserBookingSomething: UIViewController, EmployeesTable {
             cost = cost + selectedService.cost;
         }
         let costString = String(cost);
+        let userId = Utilities().decodeUserToken()!["id"];
         let closeTime = Utilities.itst[Utilities.stit[choosePreferredTime.selectedItem!]! + timeDurationNum];
-        API().post(url: myURL + "getBookings", dataToSend: ["businessId": business!.id!, "date": dateChosen, "serviceIds": serviceIds, "timeChosen": choosePreferredTime.selectedItem]) { (res) in
+        API().post(url: myURL + "getBookings", dataToSend: ["businessId": business!.id!, "date": dateChosen, "serviceIds": serviceIds, "timeChosen": choosePreferredTime.selectedItem, "userId": userId]) { (res) in
+//            if res["statusCode"] as! Int == 417 {
+//                let alert = Components().createActionAlert(title: "No time available.", message: "This time is not available for this booking request. Please Try another Time!", buttonTitle: "Okay!", handler: nil);
+//                DispatchQueue.main.async {
+//                    self.present(alert, animated: true, completion: nil);
+//                }
+//                return;
+//            }
+//            if res["statusCode"] as! Int == 201 {
+//                    let alert = Components().createActionAlert(title: "Success!", message: "Your booking request has been sent!", buttonTitle: "Great!") { UIAlertAction in
+//                        self.dismissMe()
+//                    }
+//                    DispatchQueue.main.async {
+//                    self.present(alert, animated: true, completion: nil);
+//                }
+//                return;
+//                }
+            
+            if res["statusCode"] as! Int == 403 {
+                let alert = UIAlertController(title: "Booking Alert", message: "You already are scheduled for a booking or have sent a request for a booking to this business on the date requested. We limit the requests for a day or bookings per day to one. If you wish to cancel your prior booking or request do that from your home menu.", preferredStyle: .alert);
+                let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                alert.addAction(woops);
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil);
+                }
+            }
             if res["statusCode"] as! Int == 409 {
                 let alert = UIAlertController(title: "Invalid Date", message: "The date or time you have chosen has already passed and cannot be scheduled.", preferredStyle: .alert);
                 let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
@@ -382,7 +419,10 @@ class UserBookingSomething: UIViewController, EmployeesTable {
                     self.present(alert, animated: true, completion: nil);
                 }
             }
+            
+           // print(res["employees"])
             if let employees = res["employees"] as? [[String: String]] {
+                let anything = type(of: res["employees"])
                 var newEmployeesArray: [Employee] = [];
                 for employee in employees {
                     let newEmployee = Employee(dic: employee);
@@ -402,7 +442,7 @@ class UserBookingSomething: UIViewController, EmployeesTable {
                             self.costText.text = "Cost: " + "$" + costString;
                         }
                         UIView.animate(withDuration: 0.4) {
-                            self.popUp.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - UIScreen.main.bounds.height / 1.10, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.10);
+                            self.popUp.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - UIScreen.main.bounds.height / 1.05, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.10);
                             self.backDrop.alpha = 1;
                         }
                     }

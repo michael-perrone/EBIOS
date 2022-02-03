@@ -18,8 +18,6 @@ class Products: UIViewController, RemoveProductProtocol {
         if let name = productName {
             API().post(url: myURL + "businessProfile/removeProduct", headerToSend: Utilities().getAdminToken(),                                                            dataToSend: ["name": name]) { (res) in
                 if res["statusCode"] as? Int == 200 {
-                    print(index)
-                    print("INDEX IS ABOVE")
                     self.products!.remove(at: index);
                 }
             }
@@ -28,7 +26,7 @@ class Products: UIViewController, RemoveProductProtocol {
     
     var products: [Product]? = [] {
         didSet {
-            print(products)
+            
             productsTable.products = self.products;
         }
     }
@@ -76,7 +74,7 @@ class Products: UIViewController, RemoveProductProtocol {
     }()
     
     @objc func addProduct() {
-        print("anyhting")
+        
         var changingProducts: [Product] = [];
         if let productText = productTextField.text, let costText = productCostTextField.text {
             var correctCostText = "";
@@ -88,7 +86,7 @@ class Products: UIViewController, RemoveProductProtocol {
                 if splitCostText[1].count == 1 {
                     splitCostText[1] = "." + splitCostText[1] + "0";
                     correctCostText = String(splitCostText[0]) + String(splitCostText[1]);
-                    print(correctCostText)
+                    
                 }
                 else if splitCostText[1].count > 2 {
                     let notValidNumberController = UIAlertController(title: "Error", message: "Please enter a number with only two decimal points", preferredStyle: .alert);
@@ -116,8 +114,6 @@ class Products: UIViewController, RemoveProductProtocol {
                 print("GOOD")
             }
             else {
-                print(correctCostText)
-                print("HUH")
                 let notValidNumberController = UIAlertController(title: "Error", message: "The text you entered in the product cost text field is not a valid number.", preferredStyle: .alert);
                 let okayButton = UIAlertAction(title: "Okay", style: .default, handler: nil);
                 notValidNumberController.addAction(okayButton);
@@ -130,7 +126,6 @@ class Products: UIViewController, RemoveProductProtocol {
             changingProducts.append(Product(name: productText, price: correctCostText, idParam: nil));
             self.products = changingProducts;
             API().post(url: myURL + "businessProfile/addproduct", headerToSend: Utilities().getAdminToken(), dataToSend: ["price": correctCostText, "name": productText]) { (res) in
-                print(res)
                 if res["statusCode"] as? Int == 200{
                     print("good")
                 }
@@ -187,14 +182,13 @@ class Products: UIViewController, RemoveProductProtocol {
     
     func getProducts() {
         API().get(url: myURL + "businessProfile/getProducts", headerToSend: Utilities().getAdminToken()) { (res) in
-            print(res)
             if let products = res["products"] as? [[String: Any]] {
                 var toBeProducts: [Product] = [];
                 for product in products {
                     let newProduct = Product(name: product["name"] as! String, price: product["cost"] as! String, idParam: product["_id"] as! String);
                     toBeProducts.append(newProduct)
                 }
-                print(toBeProducts);
+                
                 self.products = toBeProducts;
             }
         }
