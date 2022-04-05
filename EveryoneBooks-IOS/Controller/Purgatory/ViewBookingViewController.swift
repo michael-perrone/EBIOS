@@ -199,8 +199,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     private let addProductsText = Components().createLittleText(text: "Add Products");
     
     
-    
-    
     // MARK: BEBGIN BORDERS CREATING BOX
     
     private let middleBorder = Components().createBorder(height: 35, width: 1.5, color: .black);
@@ -307,7 +305,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
         editProductsTable.isHidden = false;
         servicesText.isHidden = true;
         productsText.isHidden = false;
-        
     }
     
     
@@ -315,6 +312,7 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     
     private let servicesTable: ServicesTable = {
         let st = ServicesTable();
+        st.numForChars = 19;
         st.unselectedCellBackgroundColor = .mainLav;
         st.backgroundColor = .mainLav;
         return st;
@@ -355,9 +353,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
         return uib;
     }()
 
-    
-    
-    
     private let cancelBookingButton: UIButton = {
         let uib = UIButton(type: .system);
         uib.setAttributedTitle(NSAttributedString(string: "Cancel Booking", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)]), for: .normal);
@@ -427,7 +422,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     
     @objc func exit() {
         if Utilities().getToken() == "nil" {
-            print("WHAT")
             if self.services!.count == 0 {
                 let alert = Components().createActionAlert(title: "No Services Error", message: "Please add at least one service to this booking otherwise it will be deleted.", buttonTitle: "Woops, Okay!", handler: nil);
                 self.present(alert, animated: true, completion: nil);
@@ -437,7 +431,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
             }
         }
         else {
-            print("what");
             navigationController?.popViewController(animated: true);
         }
     }
@@ -617,7 +610,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     
     func getProducts(businessId: String) {
         API().post(url: myURL + "products", dataToSend: ["businessId": businessId]) { res in
-    
             if let products = res["products"] as? [[String: Any]] {
                 var productsArray: [Product] = [];
                 for product in products {

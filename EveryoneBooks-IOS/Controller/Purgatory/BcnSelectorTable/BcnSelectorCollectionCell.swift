@@ -31,9 +31,9 @@ class BcnSelectorCollectionCell: UICollectionViewCell {
         bcnText.addGestureRecognizer(tapped);
         bcnText.textAlignment = .center;
         bcnText.backgroundColor = .mainLav;
-        print(contentView.frame);
         contentView.setHeight(height: 40);
         contentView.setWidth(width: 40);
+        print(tapped);
     }
     
     @objc func iveBeenTapped() {

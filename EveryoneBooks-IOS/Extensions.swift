@@ -51,6 +51,7 @@ extension UIColor {
        }
     static let testLav = #colorLiteral(red: 0.8384333253, green: 0.8380990624, blue: 0.9487988353, alpha: 1)
     static let mainLav = #colorLiteral(red: 0.9736246434, green: 0.9194237233, blue: 0.9794825912, alpha: 1);
+    static let mainLav2 = #colorLiteral(red: 0.7671567798, green: 1, blue: 0.8043310046, alpha: 1);
     static let literGray = #colorLiteral(red: 0.9406527602, green: 0.9406527602, blue: 0.9406527602, alpha: 1);
     static let liteGray = #colorLiteral(red: 0.8437410462, green: 0.8542793334, blue: 0.862652313, alpha: 1);
     static let darkGray2 = #colorLiteral(red: 0.2528883877, green: 0.2528883877, blue: 0.2528883877, alpha: 1);

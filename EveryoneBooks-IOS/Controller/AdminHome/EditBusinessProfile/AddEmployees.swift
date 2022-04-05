@@ -3,7 +3,6 @@ import UIKit
 protocol DeleteEmployeesProtocol: AddEmployees {
     func deleteEmployeeFromPending(employee: Employee, indexPath: [IndexPath], row: Int);
     func deleteEmployeeFromWorking(employee: Employee, indexPath: [IndexPath], row: Int);
-    
 }
 
 class AddEmployees: UIViewController, DeleteEmployeesProtocol {

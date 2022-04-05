@@ -19,9 +19,37 @@ class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
         }
     }
     
+    var breaks: [[Break]]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.reloadData();
+            }
+        }
+    }
+    
+    var groups: [[Group]]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.reloadData();
+            }
+        }
+    }
+    
     weak var bookingClickedDelegate: BookingClickedProtocol? {
         didSet {
             if self.bookingClickedDelegate != nil {
+                DispatchQueue.main.async {
+                    self.reloadData();
+                }
+            }
+        }
+    }
+    
+    weak var groupClickedDelegate: GroupClickedProtocol? {
+        didSet {
+            if self.groupClickedDelegate != nil {
+                print(self.groupClickedDelegate);
+                print("YOOO")
                 DispatchQueue.main.async {
                     self.reloadData();
                 }
@@ -39,7 +67,7 @@ class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
         }
     }
     var date: String?;
-
+    
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         let myLayout = UICollectionViewFlowLayout();
         myLayout.scrollDirection = .horizontal;
@@ -61,37 +89,79 @@ class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
         }
         return 0;
     }
-       
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = dequeueReusableCell(withReuseIdentifier: "1", for: indexPath) as! RoomAreaColumn
-            cell.bookingClickedDelegate = bookingClickedDelegate;
-            if let bookings = bookings {
-                for subview in cell.subviews {
-                    for subview2 in subview.subviews {
-                        if subview2 is BookingView {
-                            subview2.removeFromSuperview();
-                        }
+        cell.bookingClickedDelegate = bookingClickedDelegate;
+        cell.groupClickedDelegate = groupClickedDelegate;
+        if let bookings = bookings {
+            for subview in cell.subviews {
+                for subview2 in subview.subviews {
+                    if subview2 is BookingView {
+                        subview2.removeFromSuperview();
                     }
                 }
-                    if let date = self.date {
-                        cell.setDate(date: date)
+            }
+            if let date = self.date {
+                cell.setDate(date: date)
+            }
+            
+            if let timeSlotNum = self.timeSlotNum {
+                cell.setColumnTimeSlotNum(num: timeSlotNum)
+            }
+            if let openTime = self.openTime, let closeTime = self.closeTime {
+                cell.setColumnOpenTime(open: openTime);
+                cell.setColumnCloseTime(close: closeTime);
+            }
+            cell.setBcn(bcn: String(indexPath.row + 1));
+            if let bct = bct {
+                let textArray = Array(bct)
+                if textArray.count < 12 {
+                    cell.setRoomText(text: bct + " " + String(indexPath.row + 1));
+                }
+                else {
+                    var i = 0;
+                    var emptyText = "";
+                    while(i < 12) {
+                        emptyText = emptyText + String(textArray[i]);
+                        i += 1;
                     }
-                
-                    if let timeSlotNum = self.timeSlotNum {
-                        cell.setColumnTimeSlotNum(num: timeSlotNum)
-                    }
-                    if let openTime = self.openTime, let closeTime = self.closeTime {
-                        cell.setColumnOpenTime(open: openTime);
-                        cell.setColumnCloseTime(close: closeTime);
-                    }
-                    cell.setBcn(bcn: String(indexPath.row + 1));
-                    if let bct = bct {
-                        cell.setRoomText(text: bct + " " + String(indexPath.row + 1));
-                    }
-              
-                    cell.bookings = bookings[indexPath.row]
-                    cell.configureCell();
+                    emptyText = emptyText + "...";
+                    cell.setRoomText(text: emptyText + " " + String(indexPath.row + 1))
+                }
+            }
+            cell.bookings = bookings[indexPath.row]
         }
+        if let groups = groups {
+            for subview in cell.subviews {
+                for subview2 in subview.subviews {  
+                    if subview2 is GroupView {
+                        subview2.removeFromSuperview();
+                    }
+                }
+            }
+            cell.groups = groups[indexPath.row]
+        }
+        if let breaks = breaks {
+            print("yep")
+            print(breaks)
+            print("Dep")
+            for subview in cell.subviews {
+                for subview2 in subview.subviews {
+                    if subview2 is BreakView {
+                        subview2.removeFromSuperview();
+                    }
+                }
+            }
+            cell.breaks = breaks[indexPath.row]
+        }
+        else {
+            print("qwojdqwoijdhqiwojdsdWKDJQWJKHFWEJFHWJFHWJEFHWEF")
+        }
+        
+        
+        cell.configureCell();
+        
         return cell;
     }
     

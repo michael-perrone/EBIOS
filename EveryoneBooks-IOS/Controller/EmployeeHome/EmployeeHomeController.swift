@@ -40,7 +40,7 @@ class EmployeeHomeController: SlideTabBarController, DoesThisStillWork {
                         let notifications = EmployeeNotifications(collectionViewLayout: UICollectionViewFlowLayout());
                         notifications.delegateFromHome = self;
                         let notificationsTab = Components().createNavBarItemController(image: UIImage(named: "notis"), viewController: notifications, title: "Notifications");
-                        self.viewControllers = [home, notificationsTab]
+                        self.viewControllers = [home, notificationsTab];
                     }
                 }
                 else {

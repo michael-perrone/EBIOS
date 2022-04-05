@@ -96,6 +96,6 @@ class SendEmployeeIdViewController: UIViewController {
         sendIdButton.centerTo(element: view.centerXAnchor);
         sendIdButton.padBottom(from: view.safeAreaLayoutGuide.bottomAnchor, num: 20);
         sendIdButton.setHeight(height: 50);
-        sendIdButton.setWidth(width: 300);
+        sendIdButton.setWidth(width: view.frame.width / 1.2);
     }
 }

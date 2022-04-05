@@ -42,13 +42,9 @@ class AdminEmployeePerformanceViewController: UIViewController {
         uiv.setWidth(width: fullWidth);
         uiv.backgroundColor = .mainLav;
         uitv.text = "Employee Performance";
-        uitv.font = .systemFont(ofSize: 26);
+        uitv.font = .boldSystemFont(ofSize: 22);
         uitv.isScrollEnabled = false;
         uitv.isEditable = false;
-        let border = Components().createBorder(height: 1.0, width: fullWidth, color: .black);
-        uiv.addSubview(border);
-        border.padBottom(from: uiv.bottomAnchor, num: 1);
-        border.centerTo(element: uiv.centerXAnchor);
         uiv.addSubview(uitv);
         uitv.padLeft(from: uiv.leftAnchor, num: fullWidth / 10);
         uitv.backgroundColor = .mainLav

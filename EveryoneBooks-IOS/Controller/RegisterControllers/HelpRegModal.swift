@@ -15,7 +15,7 @@ class HelpRegModal: UIViewController {
         sv.setWidth(width: fullWidth);
         sv.setHeight(height: fullHeight);
         sv.backgroundColor = .literGray;
-        sv.contentSize = CGSize(width: fullWidth, height: 1870);
+        sv.contentSize = CGSize(width: fullWidth, height: 1950);
         return sv;
     }()
 
@@ -126,7 +126,7 @@ class HelpRegModal: UIViewController {
        }();
        
        private let details10: UITextView = {
-           let uitv = Components().createDetailText(text: "Choose yes or no depending on if your employees hours will be calculated by the amount of services they complete, or the amount of shift hours they are scheduled for. For example: At a tennis club a shift schedule may not be used and an employee's hours might only be calculated by the amount of time spent teaching on the court. This type of business would want to choose no for this answer. An example of a business that would want to click yes is a wax center that schedules their employees for individual shifts from one set time to another. This waxer would only be able to be scheduled for bookings during their pretedetermined shift times. Please note if you click yes, an employee will only be able to be scheduled in one of the items/areas above during their shift duration. If no is clicked, an employee will be able to be scheduled in a different item/area at any time.");
+           let uitv = Components().createDetailText(text: "Please select if your business will be having employees work shifts in ONE PREDETERMINED room/area. If no is chosen, your business will still be able to create shifts, however, the only purpose of these shifts will be for the business and employees to keep track of employee hours. If no is selected each individual booking will have to also choose the item/room/area which the booking is in. When you create a shift with a predetermined room for an employee, the booking will automatically be scheduled in that item/room/area. For example: At a tennis club a shift schedule may not be used and an employee's hours might only be calculated by the amount of time spent teaching on the court. This type of business would want to choose no for this answer. An example of a business that would want to click yes is a wax center that schedules their employees for individual shifts from one set time to another. This waxer would only be able to be scheduled for bookings during their pretedetermined shift times IN THEIR PREDETERMINED WAX ROOM. Please note if you click yes, an employee will only be able to be scheduled in one of the items/areas you named above during their shift duration. If no is clicked, an employee will be able to be scheduled in a different item/room/area at any time.");
            return uitv;
        }();
     

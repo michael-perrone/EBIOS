@@ -18,7 +18,6 @@ class UserHistoryController: UIViewController {
     
     private var bookings: [Booking]? {
         didSet {
-            print(bookings)
             bookingHistoryTable.bookings = self.bookings;
         }
     }

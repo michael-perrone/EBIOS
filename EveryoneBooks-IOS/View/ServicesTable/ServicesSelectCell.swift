@@ -9,11 +9,17 @@ class ServicesSelectCell: UITableViewCell {
             }
         }
     }
+    
+    var numForChars: Int?
 
     var service: Service? {
         didSet {
-            serviceName.text = service?.serviceName;
-            
+            if let numForChars = numForChars {
+                serviceName.text = Utilities().cutStringIfNeeded(string: service!.serviceName, num: numForChars);
+            }
+            else {
+                serviceName.text = service?.serviceName;
+            }
         }
     }
     

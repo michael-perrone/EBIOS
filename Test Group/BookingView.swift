@@ -128,10 +128,6 @@ class BookingView: UIView {
                 endTime.centerTo(element: centerXAnchor);
                 
             }
-            
         }
-       
     }
-    
-    
 }

@@ -1,13 +1,3 @@
-//
-//  RoomAreaColumn.swift
-//  EveryoneBooks-IOS
-//
-//  Created by Michael Perrone on 9/17/20.
-//  Copyright © 2020 Michael Perrone. All rights reserved.
-//
-
-// iterate!
-
 import UIKit
 
 
@@ -23,6 +13,14 @@ class RoomAreaColumn: UICollectionViewCell {
         }
     }
     
+    weak var groupClickedDelegate: GroupClickedProtocol? {
+        didSet {
+            if let groupClickedDelegate = groupClickedDelegate {
+                columnScrollView.groupClickedDelegate = self.groupClickedDelegate!;
+            }
+        }
+    }
+    
     private var date: String? {
         didSet {
            // columnTableView.setDate(date: self.date!);
@@ -32,6 +30,20 @@ class RoomAreaColumn: UICollectionViewCell {
     var bookings: [Booking]? {
         didSet {
             columnScrollView.bookings = self.bookings!;
+        }
+    }
+    
+    var breaks: [Break]? {
+        didSet {
+            print(breaks)
+            print("BELOW BREAKS")
+            columnScrollView.breaks = self.breaks!;
+        }
+    }
+    
+    var groups: [Group]? {
+        didSet {
+            columnScrollView.groups = self.groups!;
         }
     }
 
@@ -60,11 +72,6 @@ class RoomAreaColumn: UICollectionViewCell {
     
     func setDate(date: String) {
         self.date = date;
-    }
-    
-    func setColumnBookings(bookings: [Booking]) {
-  //      columnTableView.setBookings(bookings: bookings);
-        columnScrollView.bookings = bookings;
     }
     
     func setRoomText(text: String) {
@@ -121,7 +128,6 @@ class RoomAreaColumn: UICollectionViewCell {
         addSubview(textBorder);
 //        textBorder.padBottom(from: columnTableView.topAnchor, num: 0.5);
         textBorder.padBottom(from: columnScrollView.topAnchor, num: 0);
-        
         textBorder.padRight(from: rightAnchor, num: 2);
         textBorder.padLeft(from: leftAnchor, num: 2);
     }

@@ -27,7 +27,13 @@ class CustomNumberPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSo
                 toBeData.append(String(i));
                 i = i + 1;
             }
-            self.data = toBeData;
+            if self.data.count == 0 {
+                self.data = toBeData;
+            }
+            else if self.data.count == 1 {
+                self.data = ["None"] + toBeData;
+                selected = data[0];
+            }
         }
     }
 
@@ -38,6 +44,17 @@ class CustomNumberPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSo
             }
         }
     }
+    
+    var none: Bool? {
+        didSet {
+            print("dwdjwkdjawkdwd")
+            if none! {
+                print("hello")
+                data.append("None");
+            }
+        }
+    }
+    
     
     override init(frame: CGRect) {
         super.init(frame:frame);

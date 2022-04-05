@@ -10,12 +10,15 @@ import UIKit
 
 class RequestAnswerNotificationCell: NotificationCell {
     
-    var delegate: RequestAnswerCell?
+    var delegate: RequestAnswerCell?;
     
-    weak var otherDelegate: MessageViewControllerProtocolForEmployee?
+    weak var otherDelegate: MessageViewControllerProtocolForEmployee?;
+    
+    weak var userDel: NotiTappedProtocol?;
     
     @objc func hit(_ sender: UITapGestureRecognizer? = nil) {
-           delegate?.tapped(noti: noti!)
+        userDel?.tapped(noti: noti!);
+        delegate?.tapped(noti: noti!);
     }
     
     func layoutCell() {
@@ -33,15 +36,12 @@ class RequestAnswerNotificationCell: NotificationCell {
             if noti.notificationType == "ERA" {
                 notiMessage.text = noti.fromName! + " has accepted your employment request.";
             }
-            
-            
             addSubview(dateOfNoti);
             dateOfNoti.padTop(from: topAnchor, num: 2);
             dateOfNoti.padRight(from: rightAnchor, num: 20);
             dateOfNoti.setHeight(height: 24);
             dateOfNoti.text = noti.date!;
             backgroundColor = .mainLav;
-            
             let border = UIView();
             border.setHeight(height: 0.6);
             border.setWidth(width: UIScreen.main.bounds.width);

@@ -51,7 +51,6 @@ class BcnSelectorCollectionView: UICollectionView, UICollectionViewDataSource, U
         super.init(frame: CGRect.zero, collectionViewLayout: myLayout);
         register(BcnSelectorCollectionCell.self, forCellWithReuseIdentifier: "bscv");
         register(BcnSelectorCollectionSelectedCell.self, forCellWithReuseIdentifier: "bscvs");
-        bounces = false;
         delegate = self;
         dataSource = self;
         backgroundColor = .mainLav;

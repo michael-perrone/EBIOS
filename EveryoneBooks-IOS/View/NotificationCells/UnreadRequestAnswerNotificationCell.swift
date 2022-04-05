@@ -36,6 +36,15 @@ class UnreadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
             else if noti.notificationType == "BRE" {
                 notiMessage.text = noti.fromName! + " has removed you as an employee from their business."
             }
+            else if noti.notificationType == "YURA" {
+                notiMessage.text = noti.fromName! + " has accepted your booking request."
+            }
+            else if noti.notificationType == "BBY" {
+                notiMessage.text = noti.fromName! + " has booked you at their business. Check your bookings for details.";
+            }
+            else if noti.notificationType == "UATG" {
+                notiMessage.text = noti.fromName! + " has added you as a member of a group."
+            }
             addSubview(closeEnv);
             closeEnv.padLeft(from: leftAnchor, num: 10);
             closeEnv.padTop(from: topAnchor, num: 33);

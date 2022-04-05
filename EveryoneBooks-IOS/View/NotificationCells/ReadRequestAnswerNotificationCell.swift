@@ -40,6 +40,18 @@ class ReadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
             else if noti.notificationType == "ADUR" {
                 notiMessage.text = "This booking request from " + noti.fromName! + " was denied";
             }
+            else if noti.notificationType == "ELBR" {
+                notiMessage.text = noti.fromName! + " has left your business.";
+            }
+            else if noti.notificationType == "YURAR" {
+                notiMessage.text = noti.fromName! + " has accepted your booking request."
+            }
+            else if noti.notificationType == "BBYR" {
+                notiMessage.text = noti.fromName! + " has booked you at their business. Check your bookings for details.";
+            }
+            else if noti.notificationType == "UATGR" {
+                notiMessage.text = noti.fromName! + " has added you as a member of a group."
+            }
         }
         addSubview(openEnv);
         openEnv.padLeft(from: leftAnchor, num: 10);

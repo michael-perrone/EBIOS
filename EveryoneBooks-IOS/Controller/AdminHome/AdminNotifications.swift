@@ -53,7 +53,7 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
         messageVC.requestAnswerNoti = noti;
         messageVC.adminDelegate = self;
         present(messageVC, animated: true, completion: nil);
-        if noti.notificationType == "ERY" {
+        if noti.notificationType == "ERY" || noti.notificationType == "ELB" {
             API().post(url: myURL + "notifications/changeToRead", dataToSend: ["notificationId": noti.id]) { (res) in
                 if res["statusCode"] as? Int == 200 {
                     self.getAdminNotis();
@@ -61,6 +61,8 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
             }
         }
     }
+    
+    private let testText = Components().createSimpleText(text: "You do not have any notifications at this time. We will let you know when you do!");
     
     var eq: String?;
     
@@ -96,6 +98,11 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
         collectionView.register(ReadRequestAnswerNotificationCell.self, forCellWithReuseIdentifier: "ReadAdminNotiCell");
         collectionView.register(UserBookedUnansweredNotificationCell.self, forCellWithReuseIdentifier: "UBC");
         collectionView.backgroundColor = .mainLav;
+        view.addSubview(testText);
+        testText.centerTo(element: view.centerXAnchor);
+        testText.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 20);
+        testText.setWidth(width: fullWidth / 1.15);
+        testText.isHidden = true;
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,8 +120,16 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
                     }
                 }
                 var notis = res["notifications"] as? [[String: Any]];
-                var adminNotificationsArray: [Notification] = [];
                 if let notis = notis {
+                    DispatchQueue.main.async {
+                        if notis.count == 0 && self.testText.isHidden == true {
+                            self.testText.isHidden = false;
+                        }
+                        else if self.testText.isHidden == false {
+                            self.testText.isHidden = true
+                        }
+                    }
+                    var adminNotificationsArray: [Notification] = [];
                     for noti in notis {
                         var adminNotification = Notification(dic: noti);
                         adminNotificationsArray.insert(adminNotification, at: 0);
@@ -136,7 +151,6 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let adminNotis = self.adminNotifications {
                 let noti = adminNotis[indexPath.row];
-            print(noti)
                 if noti.notificationType == "ERY" || noti.notificationType == "ESID" || noti.notificationType == "ELB" {
                     let unreadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UnreadAdminNotiCell", for: indexPath) as! UnreadRequestAnswerNotificationCell;
                     unreadCell.noti = noti;

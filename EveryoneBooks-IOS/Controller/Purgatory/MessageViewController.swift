@@ -210,6 +210,22 @@ class MessageViewController: UIViewController {
                 header = "Booking Request Denied";
                 message = "You have denied a booking request from " + noti.fromName! + "."
             }
+            else if noti.notificationType == "ELB" || noti.notificationType == "ELBR" {
+                header = "Employee Left Business";
+                message = noti.fromName! + " has left your business. All bookings that " + noti.fromName! + " was scheduled for have been deleted.";
+            }
+            else if noti.notificationType == "BBY" || noti.notificationType == "BBYR" {
+                header = "Business Added Booking"
+                message = noti.fromName! + " has booked you at their business. You can find the information for this booking on your bookings page. Enjoy!";
+            }
+            else if noti.notificationType == "YURA" || noti.notificationType == "YURAR" {
+                header = "User Request Accepted"
+                message = "Your user request for a booking at " + noti.fromName! + " has been accepted. You can find the information for this booking on your bookings page. Enjoy!"
+            }
+            else if noti.notificationType == "UATG" || noti.notificationType == "UATGR" {
+                header = "Group Addition"
+                message = "You have been added as a member of a group on " + noti.potentialDate! + " at " + noti.fromName! + " at the time of " + noti.potentialStartTime! + ". You can find this information on your bookings page."
+            }
         }
         
         dateView.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 24);

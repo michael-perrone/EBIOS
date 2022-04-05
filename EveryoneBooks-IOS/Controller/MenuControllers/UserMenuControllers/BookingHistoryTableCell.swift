@@ -23,8 +23,6 @@ class BookingHistoryTableCell: UITableViewCell {
     }()
     
     
-    weak var viewClickedDelegate: UserBookingViewClicked?;
-    
     private let timeText = Components().createLittleText(text: "");
     
     private let businessText = Components().createLittleText(text: "");
@@ -41,7 +39,6 @@ class BookingHistoryTableCell: UITableViewCell {
     func configureCell() {
         backgroundColor = .mainLav;
         selectionStyle = .none;
-        setHeight(height: 290);
         addSubview(dateText);
         dateText.padLeft(from: leftAnchor, num: 8);
         dateText.padTop(from: topAnchor, num: 8);

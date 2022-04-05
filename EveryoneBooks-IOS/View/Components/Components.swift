@@ -233,7 +233,7 @@ class Components {
     func createNormalButton(title: String) -> UIButton {
         let loginButton = UIButton(type: .system);
         loginButton.layer.borderColor = CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 1);
-        loginButton.layer.borderWidth = 2.0;
+        loginButton.layer.borderWidth = 1.3;
         loginButton.backgroundColor = .white;
         loginButton.setTitle(title, for: .normal);
         loginButton.tintColor = .black;
@@ -337,7 +337,7 @@ class Components {
     
     func createCoolButton(title: String) -> UIButton {
         let uib = UIButton(type: .system);
-        uib.setAttributedTitle(NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: "ChalkboardSE-Bold", size: 24)]), for: .normal);
+        uib.setAttributedTitle(NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: "ChalkboardSE-Bold", size: 28)]), for: .normal);
         uib.backgroundColor = .liteGray;
         uib.layer.borderColor = .CGBlack;
         uib.layer.borderWidth = 0.8;

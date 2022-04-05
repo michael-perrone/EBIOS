@@ -94,7 +94,6 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
                         var employeeNotification = Notification(dic: noti);
                         employeeNotificationsArray.insert(employeeNotification, at: 0);
                     }
-                    print(employeeNotificationsArray);
                     self.employeeNotifications = employeeNotificationsArray;
                     if employeeNotificationsArray.count == 0 {
                         DispatchQueue.main.async {
@@ -110,7 +109,6 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
             }
         }
     }
-    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let employeeNotifications = self.employeeNotifications {
@@ -160,5 +158,5 @@ extension EmployeeNotifications: UICollectionViewDelegateFlowLayout {
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
               return 0
-          }
+    }
 }

@@ -156,7 +156,6 @@ class RegisterEmployeeController: UIViewController {
                     }
                 }
                 else {
-                    print("working?")
                     DispatchQueue.main.async {
                         self.errorText.text = "Passwords do not match";
                         if self.errorText.isHidden {

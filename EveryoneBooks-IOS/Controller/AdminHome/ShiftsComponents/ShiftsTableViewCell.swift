@@ -12,16 +12,30 @@ class ShiftsTableViewCell: UITableViewCell {
     
     var shift: Shift? {
         didSet {
+            print(shift);
             let name = Utilities().slimString(stringToSlim: shift!.employeeName);
             shiftName.text = name;
             shiftTime.text = shift!.timeStart + "-" + shift!.timeEnd;
+            guard let bct = bct else {
+                return
+            }
+            bctAndNum.text = bct + " " + shift!.bcn;
+            if let breakStart = shift?.breakStart, let breakEnd = shift?.breakEnd {
+                breakText.text = "Break: " + breakStart + "-" + breakEnd
+            }
+            else {
+                breakText.text = "No Break";
+            }
         }
     }
+    
+    var bct: String?;
     
     private let shiftName: UITextView = {
         let uitv = Components().createSimpleText(text: "");
         uitv.font = .boldSystemFont(ofSize: 14);
         uitv.backgroundColor = .mainLav;
+        uitv.isSelectable = false;
         return uitv;
     }()
     
@@ -32,9 +46,18 @@ class ShiftsTableViewCell: UITableViewCell {
         return uitv;
     }()
     
-      
+    private let bctAndNum: UITextView = {
+        let uitv = Components().createSimpleText(text: "");
+        uitv.font = .boldSystemFont(ofSize: 14);
+        return uitv;
+    }()
     
-
+    private let breakText: UITextView = {
+        let uitv = Components().createSimpleText(text: "");
+        uitv.font = .boldSystemFont(ofSize: 14);
+        return uitv;
+    }()
+    
     func configure() {
         addSubview(shiftName);
         shiftName.padLeft(from: leftAnchor, num: 20);
@@ -44,5 +67,11 @@ class ShiftsTableViewCell: UITableViewCell {
         shiftTime.padRight(from: rightAnchor, num: 15);
         shiftTime.padTop(from: topAnchor, num: 5);
         backgroundColor = .mainLav;
+        addSubview(bctAndNum);
+        bctAndNum.padTop(from: shiftName.bottomAnchor, num: 0);
+        bctAndNum.padLeft(from: shiftName.leftAnchor, num: 0);
+        addSubview(breakText);
+        breakText.padTop(from: shiftTime.bottomAnchor, num: 0);
+        breakText.padRight(from: rightAnchor, num: 15);
     }
 }

@@ -85,6 +85,7 @@ class EmployeeSchedule: UIViewController, EmployeeBookingCellProtocol {
     func getBookings(date: String) {
         let employeeId = Utilities().decodeEmployeeToken()!["id"];
         API().post(url: myURL + "shifts/getEmployeeBookingsForDay", dataToSend: ["employeeId" : employeeId, "date": date]) { (res) in
+            print(res)
             if res["statusCode"] as! Int == 406 {
                 DispatchQueue.main.async {
                     self.bookingsCollection.isHidden = true;
@@ -94,10 +95,11 @@ class EmployeeSchedule: UIViewController, EmployeeBookingCellProtocol {
                 return;
             }
             else if res["statusCode"] as! Int == 206 {
-                if let shiftTimes = res["shiftTimes"] as? [String: String] {
+                if let shiftTimes = res["shiftTimes"] as? [String: String], let otherBct = res["bct"] as? String, let otherBcn = res["bcn"] as? String, let breakStart = res["breakStart"] as? String, let breakEnd = res["breakEnd"] as? String {
+                    print("ME?")
                     let timeStart: String = shiftTimes["start"]!;
                     let timeEnd: String = shiftTimes["end"]!;
-                    let fin = "You are scheduled to work on this day from " + timeStart + "-" + timeEnd + " but your book is currently empty.";
+                    let fin = "You are scheduled to work on this day from " + timeStart + "-" + timeEnd + " but your book is currently empty. You are scheduled to be in " + otherBct + " " + otherBcn + ". You have a break from " + breakStart + "-" + breakEnd + ".";
                     DispatchQueue.main.async {
                         self.bookingsCollection.isHidden = true;
                         self.bookingsShiftText.text = fin;
@@ -106,6 +108,71 @@ class EmployeeSchedule: UIViewController, EmployeeBookingCellProtocol {
                     return;
                 }
             }
+            else if res["statusCode"] as! Int == 205 {
+                if let shiftTimes = res["shiftTimes"] as? [String: String], let breakStart = res["breakStart"] as? String, let breakEnd = res["breakEnd"] as? String {
+                    let timeStart: String = shiftTimes["start"]!;
+                    print("OR ME?")
+                    let timeEnd: String = shiftTimes["end"]!;
+                    let fin = "You are scheduled to work on this day from " + timeStart + "-" + timeEnd + " but your book is currently empty. You have a break from " + breakStart + "-" + breakEnd + ".";
+                    DispatchQueue.main.async {
+                        self.bookingsCollection.isHidden = true;
+                        self.bookingsShiftText.text = fin;
+                        self.bookingsShiftText.isHidden = false;
+                    }
+                    return;
+                }
+            }
+            else if res["statusCode"] as! Int == 204 {
+                if let shiftTimes = res["shiftTimes"] as? [String: String], let otherBct = res["bct"] as? String, let otherBcn = res["bcn"] as? String {
+                    let timeStart: String = shiftTimes["start"]!;
+                    let timeEnd: String = shiftTimes["end"]!;
+                    let fin = "You are scheduled to work on this day from " + timeStart + "-" + timeEnd + " but your book is currently empty. You are scheduled to be in " + otherBct  + " " + otherBcn + ".";
+                    DispatchQueue.main.async {
+                        self.bookingsCollection.isHidden = true;
+                        self.bookingsShiftText.text = fin;
+                        self.bookingsShiftText.isHidden = false;
+                    }
+                    return;
+                }
+               else if let shiftTimes = res["shiftTimes"] as? [String: String], let otherBct = res["bct"] as? String, let otherBcn = res["bcn"] as? String {
+                    let timeStart: String = shiftTimes["start"]!;
+                    let timeEnd: String = shiftTimes["end"]!;
+                    let fin = "You are scheduled to work on this day from " + timeStart + "-" + timeEnd + " but your book is currently empty. You are scheduled to be in " + otherBct  + " " + otherBcn + ".";
+                    DispatchQueue.main.async {
+                        self.bookingsCollection.isHidden = true;
+                        self.bookingsShiftText.text = fin;
+                        self.bookingsShiftText.isHidden = false;
+                    }
+                    return;
+                }
+            }
+            else if res["statusCode"] as! Int == 203 {
+                if let shiftTimes = res["shiftTimes"] as? [String: String] {
+                    let timeStart: String = shiftTimes["start"]!;
+                    let timeEnd: String = shiftTimes["end"]!;
+                    let fin = "You are scheduled to work on this day from " + timeStart + "-" + timeEnd + " but your book is currently empty."
+                    DispatchQueue.main.async {
+                        self.bookingsCollection.isHidden = true;
+                        self.bookingsShiftText.text = fin;
+                        self.bookingsShiftText.isHidden = false;
+                    }
+                    return;
+                }
+            }
+            else if res["statusCode"] as! Int == 202 {
+                let fin = "You have no bookings scheduled for today!";
+                DispatchQueue.main.async {
+                    self.bookingsCollection.isHidden = true;
+                    self.bookingsShiftText.text = fin;
+                    self.bookingsShiftText.isHidden = false;
+                }
+                return;
+            }
+            if let breakTime = res["breakTime"] as? String {
+                self.bookingsCollection.breakTime = breakTime;
+                self.bookingsCollection.isBreak = true;
+            }
+            
             DispatchQueue.main.async {
                 self.bookingsCollection.isHidden = false;
                 self.bookingsShiftText.isHidden = true;

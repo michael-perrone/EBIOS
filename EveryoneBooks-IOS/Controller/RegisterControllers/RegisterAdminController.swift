@@ -8,7 +8,16 @@
 
 import UIKit
 
-class RegisterAdminController: UIViewController {
+protocol DisplayView: RegisterAdminController {
+    func goToView(view: UIViewController);
+}
+
+class RegisterAdminController: UIViewController, DisplayView {
+    
+    func goToView(view: UIViewController) {
+        view.modalPresentationStyle = .fullScreen;
+        self.present(view, animated: true, completion: nil)
+    }
     
     private var businessName = "";
     private var typeOfBusiness = "";
@@ -42,19 +51,17 @@ class RegisterAdminController: UIViewController {
     private var regFourEntered = false;
     private var regFiveEntered = false;
     private var regSixEntered = false;
+    private var regRestaurantsEntered = false;
     private var regSevenEntered = false;
     private var error = "";
-
- 
-    // MARK: - UI
     
-    // MARK: - FRONT PAGE
+    
     
     let backButton: UIButton = {
         let uib = Components().createBackButton();
         uib.addTarget(self, action: #selector(goBack), for: .touchUpInside);
         return uib;
-    }()
+    }();
     
     let progressBar: UIProgressView = {
         let uip = UIProgressView();
@@ -62,7 +69,7 @@ class RegisterAdminController: UIViewController {
         uip.progress = 0
         uip.layer.borderColor = CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 1)
         return uip;
-    }()
+    }();
     
     private let regAdminOne: RegAdminOne = {
         let uiv = RegAdminOne();
@@ -72,32 +79,37 @@ class RegisterAdminController: UIViewController {
     private let regAdminTwo: RegAdminTwo = {
         let uiv = RegAdminTwo();
         return uiv;
-    }()
+    }();
     
     private let regAdminThree: RegAdminThree = {
         let uiv = RegAdminThree();
         return uiv;
-    }()
+    }();
     
     private let regAdminFour: RegAdminFour = {
            let uiv = RegAdminFour();
            return uiv;
-       }()
+    }();
     
     private let regAdminFive: RegAdminFive = {
              let uiv = RegAdminFive();
              return uiv;
-         }()
+    }();
     
     private let regAdminSix: RegAdminSix = {
         let uiv = RegAdminSix();
         return uiv;
-    }()
+    }();
     
     private let regAdminSeven: RegAdminSeven = {
         let uiv = RegAdminSeven();
         return uiv;
-    }()
+    }();
+    
+    private let regAdminRestaurants: RegAdminRestaurants = {
+        let uiv = RegAdminRestaurants();
+        return uiv;
+    }();
     
     private let questionButton: UIButton = {
         let uib = UIButton(type: .system);
@@ -145,6 +157,8 @@ class RegisterAdminController: UIViewController {
                 regAdminOne.isHidden = true;
                 regOneEntered = true;
                 progressBar.progress = 0.15;
+                continueButton.isHidden = true;
+                questionButton.isHidden = true;
                 regAdminTwo.isHidden = false;
           }
         }
@@ -262,13 +276,23 @@ class RegisterAdminController: UIViewController {
                     okay = false;
                 }
             }
-            if okay {
+            if okay && typeOfBusiness != "Restaurant" {
                 regSixEntered = true;
                 regAdminSix.isHidden = true;
                 regAdminSeven.isHidden = false;
                 progressBar.progress = 0.9;
                 error = "";
             }
+            else if okay && typeOfBusiness == "Restaurant" {
+                regSixEntered = true;
+                regAdminSix.isHidden = true;
+                regAdminRestaurants.isHidden = false;
+                progressBar.progress = 0.9;
+                error = "";
+            }
+        }
+        else if !regRestaurantsEntered {
+            print("Okay!");
         }
         else if !regSevenEntered {
             if let bookingColumnNumber = regAdminSeven.getBookingColumnNumber(), let bookingColumnType = regAdminSeven.getBookingColumnType(), let eq = regAdminSeven.eq {
@@ -314,13 +338,52 @@ class RegisterAdminController: UIViewController {
     }
     
     @objc func goBack() {
-        navigationController?.popViewController(animated: true);
+        if regAdminOne.isHidden == false {
+            navigationController?.popViewController(animated: true);
+        }
+        if regAdminTwo.isHidden == false {
+            regOneEntered = false;
+            regAdminTwo.isHidden = true;
+            regAdminOne.isHidden = false;
+            progressBar.progress = 0.0;
+        }
+        if regAdminThree.isHidden == false {
+            regTwoEntered = false;
+            regAdminThree.isHidden = true;
+            regAdminTwo.isHidden = false;
+            progressBar.progress = 0.15;
+        }
+        if regAdminFour.isHidden == false {
+            regThreeEntered = false;
+            regAdminFour.isHidden = true;
+            regAdminThree.isHidden = false;
+            progressBar.progress = 0.3;
+        }
+        if regAdminFive.isHidden == false {
+            regFourEntered = false;
+            regAdminFive.isHidden = true;
+            regAdminFour.isHidden = false;
+            progressBar.progress = 0.45;
+        }
+        if regAdminSix.isHidden == false {
+            regFiveEntered = false;
+            regAdminSix.isHidden = true;
+            regAdminFive.isHidden = false;
+            progressBar.progress = 0.6;
+        }
+        if regAdminSeven.isHidden == false || regAdminRestaurants.isHidden == false{
+            regSixEntered = false;
+            regAdminSeven.isHidden = true;
+            regAdminSix.isHidden = false;
+            progressBar.progress = 0.75
+        }
     }
     
     
     // MARK: - LIFECYCLE
     override func viewDidLoad() {
         configureUI();
+        regAdminRestaurants.delegate = self;
         hkb();
     }
     
@@ -396,6 +459,13 @@ class RegisterAdminController: UIViewController {
         regAdminSeven.padTop(from: progressBar.bottomAnchor, num: 20);
         regAdminSeven.centerTo(element: view.centerXAnchor);
         
+        view.addSubview(regAdminRestaurants);
+        regAdminRestaurants.isHidden = true;
+        regAdminRestaurants.setWidth(width: view.frame.width);
+        regAdminRestaurants.setHeight(height: view.frame.height / 1.25);
+        regAdminRestaurants.padTop(from: progressBar.bottomAnchor, num: 15);
+        regAdminRestaurants.centerTo(element: view.centerXAnchor);
+        
         view.addSubview(continueButton);
         continueButton.padBottom(from: view.safeAreaLayoutGuide.bottomAnchor, num: view.frame.height / 12); 
         continueButton.centerTo(element: view.centerXAnchor);
@@ -412,7 +482,5 @@ class RegisterAdminController: UIViewController {
         errorText.centerTo(element: view.centerXAnchor);
         errorText.setWidth(width: view.frame.width / 1.2);
         errorText.setHeight(height: 50);
-        
-        
     }
 }

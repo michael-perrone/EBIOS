@@ -43,7 +43,6 @@ class UserBookedMessageViewController: UIViewController, FromNotiBcnSelector {
     var bct: String? {
         didSet {
             bctTextField.text = bct! + ":";
-            print("bct was set")
         }
     }
     
@@ -85,7 +84,7 @@ class UserBookedMessageViewController: UIViewController, FromNotiBcnSelector {
     
     private let dateAskedText = Components().createNotAsLittleText(text: "Date: ");
     
-    private let employeeNameText = Components().createNotAsLittleText(text: "With Employee: ");
+    private let employeeNameText = Components().createNotAsLittleText(text: "With Employee: None");
     
     
     private let headerView: UITextView = {
@@ -229,8 +228,6 @@ class UserBookedMessageViewController: UIViewController, FromNotiBcnSelector {
                 }
                 
                 if let employee = res["employee"] as? String {
-                    print(employee);
-                    print("EMPLOYEE ABOVE")
                     self.employeeName = employee;
                 }
                 let timeBeginning = self.noti!.potentialStartTime;
@@ -280,7 +277,6 @@ class UserBookedMessageViewController: UIViewController, FromNotiBcnSelector {
         }
     }
 
-    
     @objc func acceptUserRequest() {
         if Utilities().getAdminToken() != "nil" {
             var businessId: String = "";
@@ -290,16 +286,14 @@ class UserBookedMessageViewController: UIViewController, FromNotiBcnSelector {
             API().post(url: myURL + "iosBooking/acceptedUserRequest", dataToSend: ["notiId": noti!.id, "businessId": businessId, "bcn": selectedBcn]) { res in
                 if res["statusCode"] as! Int == 200 {
                     let alert = Components().createActionAlert(title: "Booking Added", message: "This booking was succesfully added to your schedule.", buttonTitle: "Cool") { UIAlertAction in
-                        API().post(url: myURL + "notifications/changeAcceptedUserRequestNoti", dataToSend: ["notiId": self.noti!.id]) { res in
+                        API().post(url: myURL + "notifications/changeAcceptedUserRequestNoti", dataToSend: ["notiId": self.noti!.id, "businessId": businessId]) { res in
                             if res["statusCode"] as! Int == 200 {
                                 DispatchQueue.main.async {
                                     self.dismiss(animated: true, completion: nil);
                                     self.adminDelegate?.answerHit();
                                 }
                             }
-                            
                         }
-                        
                     }
                     DispatchQueue.main.async {
                         self.present(alert, animated: true, completion: nil);
@@ -324,7 +318,7 @@ class UserBookedMessageViewController: UIViewController, FromNotiBcnSelector {
                 }
                 if res["statusCode"] as! Int == 200 {
                     let alert = Components().createActionAlert(title: "Booking Added", message: "This booking was succesfully added to your schedule.", buttonTitle: "Cool") { UIAlertAction in
-                        API().post(url: myURL + "notifications/changeAcceptedUserRequestNoti", dataToSend: ["notiId": self.noti!.id]) { res in
+                        API().post(url: myURL + "notifications/changeAcceptedUserRequestNoti", dataToSend: ["notiId": self.noti!.id, "employeeId": id]) { res in
                             if res["statusCode"] as! Int == 200 {
                                 DispatchQueue.main.async {
                                     self.dismiss(animated: true, completion: nil);

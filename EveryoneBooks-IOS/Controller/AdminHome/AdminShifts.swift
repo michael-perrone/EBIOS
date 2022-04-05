@@ -1,21 +1,78 @@
-//
-//  AdminSchedule.swift
-//  EveryoneBooks-IOS
-//
-//  Created by Michael Perrone on 6/3/20.
-//  Copyright © 2020 Michael Perrone. All rights reserved.
-//
-
 import UIKit
 
-class AdminShifts: UIViewController {
+protocol EditingProtocol: AdminShifts {
+    func editShift(shift: Shift);
+}
+
+class AdminShifts: UIViewController, EditingProtocol {
+    
+    func editShift(shift: Shift) {
+        nowEditing = true;
+        self.editingShift = shift;
+        UIView.animate(withDuration: 0.45) {
+            self.viewAdd.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - UIScreen.main.bounds.height / 1.038, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.038 );
+        }
+        UIView.animate(withDuration: 1.3) {
+            self.cancelButton.alpha = 1.0;
+        }
+        let startRow = fromTimePicker.data.firstIndex(where: {$0 == shift.timeStart});
+        let endRow = fromTimePicker.data.firstIndex { any in
+            any == shift.timeEnd
+        }
+        fromTimePicker.selectRow(Int(startRow!), inComponent: 0, animated: true);
+        toTimePicker.selectRow(Int(endRow!), inComponent: 0, animated: true);
+        let employeeRow = employeePicker.employees?.firstIndex(where: { any in
+           return any["fullName"] == shift.employeeName;
+        })
+        employeePicker.selectRow(Int(employeeRow!), inComponent: 0, animated: true);
+        employeePicker.selectedEmployee = employeePicker.employees![employeeRow!]
+        let df = DateFormatter()
+        df.dateFormat = "MMM dd yyyy"
+        var shiftDateArray = shift.date.components(separatedBy: " ");
+        shiftDateArray.remove(at: 0);
+        let correctDate = shiftDateArray.joined(separator: " ");
+        let realDate = df.date(from: correctDate);
+        datePickerForShiftAdd.date = realDate!;
+        datePicker.setDate(realDate!, animated: true);
+        if shift.breakStart != "" && shift.breakStart != nil && shift.breakEnd != "" && shift.breakEnd != nil {
+            let breakStartTimePickerRow = breakFromTimePicker.data.firstIndex(where: {$0 == shift.breakStart});
+            breakFromTimePicker.selectRow(Int(breakStartTimePickerRow!), inComponent: 0, animated: true);
+            let breakEndTimePickerRow = breakToTimePicker.data.firstIndex(where: {$0 == shift.breakEnd});
+            breakToTimePicker.selectRow(Int(breakEndTimePickerRow!), inComponent: 0, animated: true);
+            breakFromTimePicker.selectedItem = breakFromTimePicker.data[Int(breakStartTimePickerRow!)]
+            breakToTimePicker.selectedItem = breakToTimePicker.data[Int(breakEndTimePickerRow!)]
+            self.isBreak = true;
+        }
+        cloneShift = false;
+        yesCloneButton.backgroundColor = .mainLav;
+        noCloneButton.backgroundColor = .mainLav;
+        
+    }
+    
     var schedule: Schedule? {
         didSet {
             getStartCloseNum(date: Date())
         }
     }
     
+    var editingShift: Shift?;
+    
     var closeNum: Int?
+    
+    var nowEditing = false {
+        didSet {
+            if nowEditing {
+                headerText.text = "Edit Shift";
+                let stringy = NSAttributedString(string: "Finish", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 30)]);
+                createShiftOnHit.setAttributedTitle(stringy, for: .normal);
+            }
+            else if !nowEditing && headerText.text == "Edit Shift" {
+                headerText.text = "Create Shift"
+                let stringy = NSAttributedString(string: "Create Shift", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 30)]);
+                createShiftOnHit.setAttributedTitle(stringy, for: .normal);
+            }
+        }
+    }
     
     var startNum: Int? {
         didSet {
@@ -25,9 +82,61 @@ class AdminShifts: UIViewController {
         }
     }
  
-    var isBreak: Bool?
+    var isBreak: Bool? {
+        didSet {
+            if isBreak! {
+                DispatchQueue.main.async {
+                    self.yesBreakButton.backgroundColor = .darkGray;
+                    self.yesBreakButton.tintColor = .mainLav;
+                    self.noBreakButton.tintColor = .black;
+                    self.noBreakButton.backgroundColor = .white;
+                    self.breakTimeText.isHidden = false;
+                    self.breakToTimePicker.isHidden = false;
+                    self.breakFromTimePicker.isHidden = false;
+                    self.dashText2.isHidden = false
+                }
+                
+            }
+            else {
+                DispatchQueue.main.async {
+                    self.noBreakButton.backgroundColor = .darkGray;
+                    self.noBreakButton.tintColor = .mainLav;
+                    self.yesBreakButton.tintColor = .black;
+                    self.yesBreakButton.backgroundColor = .white;
+                    self.breakTimeText.isHidden = true;
+                    self.breakToTimePicker.isHidden = true;
+                    self.breakFromTimePicker.isHidden = true;
+                    self.dashText2.isHidden = true;
+                }
+            }
+        }
+    }
     
-    var cloneShift: Bool?
+    var cloneShift: Bool? {
+        didSet {
+            if cloneShift! {
+                DispatchQueue.main.async {
+                    self.yesCloneButton.backgroundColor = .darkGray;
+                    self.yesCloneButton.tintColor = .mainLav;
+                    self.noCloneButton.tintColor = .black;
+                    self.noCloneButton.backgroundColor = .white;
+                    self.cloneNumberText.isHidden = false;
+                    self.oneThroughFiftyClone.isHidden = false;
+                }
+                
+            }
+            else {
+                DispatchQueue.main.async {
+                    self.noCloneButton.backgroundColor = .darkGray;
+                    self.noCloneButton.tintColor = .mainLav;
+                    self.yesCloneButton.tintColor = .black;
+                    self.yesCloneButton.backgroundColor = .white;
+                    self.cloneNumberText.isHidden = true;
+                    self.oneThroughFiftyClone.isHidden = true;
+                }
+            }
+        }
+    }
     
     var shifts: [Shift]? {
         didSet {
@@ -43,7 +152,6 @@ class AdminShifts: UIViewController {
     
     var shiftAddDate: String?
     
-   
     private let specialTable = ShiftsTableView();
     
     lazy var businessEditButton: UIButton = {
@@ -74,7 +182,6 @@ class AdminShifts: UIViewController {
         if #available(iOS 14, *) {
             dp.preferredDatePickerStyle = .wheels;
         }
-
         dp.setHeight(height: 110);
            dp.addTarget(self, action: #selector(dateAddChanged), for: .valueChanged);
            return dp;
@@ -95,6 +202,14 @@ class AdminShifts: UIViewController {
     }()
     
     @objc func showView() {
+        nowEditing = false;
+        employeePicker.selectRow(0, inComponent: 0, animated: true);
+        fromTimePicker.selectRow(0, inComponent: 0, animated: true);
+        toTimePicker.selectRow(0, inComponent: 0, animated: true);
+        breakFromTimePicker.selectRow(0, inComponent: 0, animated: true);
+        breakToTimePicker.selectRow(0, inComponent: 0, animated: true);
+        datePicker.setDate(Date(), animated: true);
+        
         UIView.animate(withDuration: 0.45) {
             self.viewAdd.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - UIScreen.main.bounds.height / 1.038, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.038 );
         }
@@ -107,7 +222,7 @@ class AdminShifts: UIViewController {
         let uisv = UIScrollView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.04));
         uisv.backgroundColor = .mainLav;
         uisv.contentInset = .zero;
-        uisv.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 900)
+        uisv.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 950);
         return uisv;
     }()
     
@@ -124,7 +239,7 @@ class AdminShifts: UIViewController {
         cancelB.tintColor = .black;
         cancelB.alpha = 0.0;
         return cancelB;
-   }()
+    }();
     
     private let chooseDateText: UITextView = {
         let uitv = Components().createSimpleText(text: "Choose Date");
@@ -239,158 +354,201 @@ class AdminShifts: UIViewController {
     }()
     
     @objc func createShift() {
-        var data: [String: Any];
-        if let isBreak = self.isBreak, let cloneShift = self.cloneShift {
-            if fromTimePicker.selectedItem == "12:00 AM" && toTimePicker.selectedItem == "12:00 AM" {
-                return;
-            }
-            else {
-                if isBreak {
-                    if breakFromTimePicker.selectedItem == "12:00 AM" && toTimePicker.selectedItem == "12:00 AM" {
+        if !nowEditing {
+            var data: [String: Any];
+            if let employeePicked = employeePicker.selectedEmployee {
+                if let isBreak = self.isBreak, let cloneShift = self.cloneShift {
+                    let time1: Int = Utilities.stit[fromTimePicker.selectedItem!]!;
+                    let time2: Int = Utilities.stit[toTimePicker.selectedItem!]!
+                    if time1 >= time2 {
+                        let alert = Components().createActionAlert(title: "Shift Time Error", message: "The time the shift ends needs to be later than the time the shift starts.", buttonTitle: "Okay!", handler: nil);
+                        self.present(alert, animated: true, completion: nil);
                         return;
                     }
                     else {
-                        if cloneShift {
-                            data = ["shiftDate": self.shiftAddDate!, "timeStart": fromTimePicker.selectedItem, "timeEnd": toTimePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"]!, "employeeName": employeePicker.selectedEmployee!["fullName"]!, "isBreak": isBreak, "breakStart": breakFromTimePicker.selectedItem, "breakEnd": breakToTimePicker.selectedItem, "employeeId": employeePicker.selectedEmployee!["_id"] as Any, "bookingColumnNumber": oneThroughFifty.selected, "cloneNumber": oneThroughFiftyClone.selected]
-                            
-                            API().post(url: myURL + "shifts/multiplecreate", dataToSend: data) { (res) in
-                                if let statusCode = res["statusCode"] as? Int {
-                                    if statusCode == 201 {
-                                        self.getShifts()
-                                        DispatchQueue.main.async {
-                                            UIView.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseIn, animations: {
-                                                self.viewAdd.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.032);
-                                                self.cancelButton.alpha = 0;
-                                            }, completion: nil)
-                                        }
-                                    }
-                                    
+                        if isBreak {
+                            let num1: Int = Utilities.stit[breakFromTimePicker.selectedItem!]!;
+                            let num2: Int = Utilities.stit[breakToTimePicker.selectedItem!]!
+                            if num1 >= num2 {
+                                let alert = Components().createActionAlert(title: "Shift Time Error", message: "The time the break ends needs to be later than the time the break starts.", buttonTitle: "Okay!", handler: nil);
+                                self.present(alert, animated: true, completion: nil);
+                                return;
+                            }
+                            else {
+                                if cloneShift {
+                                    data = ["shiftDate": self.shiftAddDate!, "timeStart": fromTimePicker.selectedItem, "timeEnd": toTimePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"]!, "employeeName": employeePicked["fullName"]!, "isBreak": isBreak, "breakStart": breakFromTimePicker.selectedItem, "breakEnd": breakToTimePicker.selectedItem, "employeeId": employeePicker.selectedEmployee!["_id"] as Any, "cloneNumber": oneThroughFiftyClone.selected, "bookingColumnNumber": oneThroughFifty.selected]
+                                    createMultipleShifts(data: data);
+                                }
+                                else {
+                                    data = ["shiftDate": self.shiftAddDate!, "timeStart": fromTimePicker.selectedItem, "timeEnd": toTimePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"]!, "employeeName": employeePicker.selectedEmployee!["fullName"]!, "isBreak": isBreak, "breakStart": breakFromTimePicker.selectedItem, "breakEnd": breakToTimePicker.selectedItem, "employeeId": employeePicker.selectedEmployee!["_id"] as Any, "bookingColumnNumber": oneThroughFifty.selected]
+                                    createShiftCall(data: data);
                                 }
                             }
                         }
                         else {
-                            data = ["shiftDate": self.shiftAddDate!, "timeStart": fromTimePicker.selectedItem, "timeEnd": toTimePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"]!, "employeeName": employeePicker.selectedEmployee!["fullName"]!, "isBreak": isBreak, "breakStart": breakFromTimePicker.selectedItem, "breakEnd": breakToTimePicker.selectedItem, "employeeId": employeePicker.selectedEmployee!["_id"] as Any, "bookingColumnNumber": oneThroughFifty.selected]
-                            API().post(url: myURL + "shifts/create", dataToSend: data) { (res) in
-                                if let statusCode = res["statusCode"] as? Int {
-                                    if statusCode == 201 {
-                                        self.getShifts()
-                                        DispatchQueue.main.async {
-                                            UIView.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseIn, animations: {
-                                                self.viewAdd.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.032);
-                                                self.cancelButton.alpha = 0;
-                                            }, completion: nil)
-                                        }
-                                    } else if statusCode == 406 {
-                                        let inputDataError = Components().createActionAlert(title: "Shift Add Error", message: "There was an error trying to add this shift to your business schedule. Please check that this employee is not already working on this day or check if this area has already been booked for an employee on this day and time.", buttonTitle: "Woops, okay!", handler: nil);
-                                        DispatchQueue.main.async {
-                                            self.present(inputDataError, animated: true, completion: nil);
-                                        }
-                                    }
-                                }
+                            if cloneShift {
+                                data = ["shiftDate": self.shiftAddDate!, "timeStart": fromTimePicker.selectedItem, "timeEnd": toTimePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"]!, "employeeName": employeePicker.selectedEmployee!["fullName"]!, "isBreak": isBreak, "breakStart": breakFromTimePicker.selectedItem, "breakEnd": breakToTimePicker.selectedItem, "employeeId": employeePicker.selectedEmployee!["_id"] as Any, "cloneNumber": oneThroughFiftyClone.selected, "bookingColumnNumber": oneThroughFifty.selected]
+                                createMultipleShifts(data: data)
+                            }
+                            else {
+                                data = ["shiftDate": self.shiftAddDate!, "timeStart": fromTimePicker.selectedItem, "timeEnd": toTimePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"]!, "employeeName": employeePicker.selectedEmployee!["fullName"]!, "isBreak": isBreak, "employeeId": employeePicker.selectedEmployee!["_id"] as Any, "bookingColumnNumber": oneThroughFifty.selected]
+                                createShiftCall(data: data);
                             }
                         }
                     }
                 }
                 else {
-                    if cloneShift {
-                        data = ["shiftDate": self.shiftAddDate!, "timeStart": fromTimePicker.selectedItem, "timeEnd": toTimePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"]!, "employeeName": employeePicker.selectedEmployee!["fullName"]!, "isBreak": isBreak, "breakStart": breakFromTimePicker.selectedItem, "breakEnd": breakToTimePicker.selectedItem, "employeeId": employeePicker.selectedEmployee!["_id"] as Any, "bookingColumnNumber": oneThroughFifty.selected, "cloneNumber": oneThroughFiftyClone.selected]
-                        
-                        API().post(url: myURL + "shifts/multiplecreate", dataToSend: data) { (res) in
-                            if let statusCode = res["statusCode"] as? Int {
-                                if statusCode == 201 {
-                                    self.getShifts()
-                                    DispatchQueue.main.async {
-                                        UIView.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseIn, animations: {
-                                            self.viewAdd.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.032);
-                                            self.cancelButton.alpha = 0;
-                                        }, completion: nil)
-                                    }
-                                }
-                                
-                            }
-                        }
-                        
-                    }
-                    else {
-                        data = ["shiftDate": self.shiftAddDate!, "timeStart": fromTimePicker.selectedItem, "timeEnd": toTimePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"]!, "employeeName": employeePicker.selectedEmployee!["fullName"]!, "isBreak": isBreak, "employeeId": employeePicker.selectedEmployee!["_id"] as Any, "bookingColumnNumber": oneThroughFifty.selected]
-                        API().post(url: myURL + "shifts/create", dataToSend: data) { (res) in
-                            if let statusCode = res["statusCode"] as? Int {
-                                if statusCode == 201 {
-                                    self.getShifts()
-                                    DispatchQueue.main.async {
-                                        UIView.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseIn, animations: {
-                                            self.viewAdd.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.032);
-                                            self.cancelButton.alpha = 0;
-                                        }, completion: nil)
-                                    }
-                                    
-                                }
-                                else if statusCode == 406 {
-                                    let inputDataError = Components().createActionAlert(title: "Shift Add Error", message: "There was an error trying to add this shift to your business schedule. Please check that this employee is not already working on this day or check if this area has already been booked for an employee on this day and time.", buttonTitle: "Woops, okay!", handler: nil);
-                                    DispatchQueue.main.async {
-                                        self.present(inputDataError, animated: true, completion: nil);
-                                    }
-                                }
-                            }
-                        }
+                    let dataAlertError = Components().createActionAlert(title: "Information Error", message: "Please choose if the employee selected selected will have a break and if this shift will be cloned(repeated on the same weekday at the same time in the future). ", buttonTitle: "Woops, okay!", handler: nil);
+                    DispatchQueue.main.async {
+                        self.present(dataAlertError, animated: true, completion: nil);
                     }
                 }
             }
+            else {
+                let alert = Components().createActionAlert(title: "Employee Error", message: "Your business has not added any employees yet! Please do this in the edit business menu.", buttonTitle: "Okay!", handler: nil);
+                self.present(alert, animated: true, completion: nil);
+            }
         }
         else {
-            let dataAlertError = Components().createActionAlert(title: "Information Error", message: "Please click if this employee has a shift during this break and please check if this shift should be cloned into future dates on this weekday at this time.", buttonTitle: "Woops, okay!", handler: nil);
-            DispatchQueue.main.async {
-                self.present(dataAlertError, animated: true, completion: nil);
+            if !isBreak! {
+                var data: [String: Any];
+                data = ["shiftDate": self.shiftAddDate!, "timeStart": fromTimePicker.selectedItem, "timeEnd": toTimePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"]!, "employeeName": employeePicker.selectedEmployee!["fullName"]!, "isBreak": isBreak, "employeeId": employeePicker.selectedEmployee!["_id"] as Any, "shiftId": editingShift?.id, "bookingColumnNumber": oneThroughFifty.selected]
+                editShifts(data: data)
+                
             }
-            
+            else {
+                var otherData: [String: Any]
+                otherData = ["shiftDate": self.shiftAddDate!, "timeStart": fromTimePicker.selectedItem, "timeEnd": toTimePicker.selectedItem, "businessId": Utilities().decodeAdminToken()!["businessId"]!, "employeeName": employeePicker.selectedEmployee!["fullName"]!, "isBreak": isBreak, "breakStart": breakFromTimePicker.selectedItem, "breakEnd": breakToTimePicker.selectedItem, "employeeId": employeePicker.selectedEmployee!["_id"] as Any, "shiftId": editingShift?.id, "bookingColumnNumber": oneThroughFifty.selected];
+                editShifts(data: otherData)
+            }
         }
     }
     
     
     
+    func editShifts(data: [String: Any]) {
+        API().post(url: myURL + "shifts/edit", dataToSend: data) { (res) in
+            if let statusCode = res["statusCode"] as? Int {
+                if statusCode == 200 {
+                    self.getShifts()
+                    DispatchQueue.main.async {
+                        UIView.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseIn, animations: {
+                            self.viewAdd.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.032);
+                            self.cancelButton.alpha = 0;
+                        }, completion: nil)
+                    }
+                }
+                else if statusCode == 406 {
+                    if let error = res["error"] as? String, let date = res["date"] as? String {
+                        var message: String = "";
+                        if error == "ee" {
+                            message = "This employee has a shift conflict on " + date + ".";
+                        }
+                        else if error == "ebcn" {
+                            message = "There is a booking area/column conflict on " + date + ". (The area which you are trying to book this employee in is already scheduled to be used.)"
+                        }
+                        let alertError = Components().createActionAlert(title: "Shift Creation Error", message: message, buttonTitle: "Oops, okay!", handler: nil);
+                        DispatchQueue.main.async {
+                            self.present(alertError, animated: true, completion: nil);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    func createShiftCall(data: [String: Any]) {
+        API().post(url: myURL + "shifts/create", dataToSend: data) { (res) in
+            if let statusCode = res["statusCode"] as? Int {
+                if statusCode == 201 {
+                    self.getShifts()
+                    DispatchQueue.main.async {
+                        UIView.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseIn, animations: {
+                            self.viewAdd.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.032);
+                            self.cancelButton.alpha = 0;
+                        }, completion: nil)
+                    }
+                    
+                }
+                else if statusCode == 406 {
+                    if let error = res["error"] as? String, let date = res["date"] as? String {
+                        var message: String = "";
+                        if error == "ee" {
+                            message = "This employee has a shift conflict on " + date + ".";
+                        }
+                        else if error == "ebcn" {
+                            message = "There is a booking area/column conflict on " + date + ". (The area which you are trying to book this employee in is already scheduled to be used.)"
+                        }
+                        let alertError = Components().createActionAlert(title: "Shift Creation Error", message: message, buttonTitle: "Oops, okay!", handler: nil);
+                        DispatchQueue.main.async {
+                            self.present(alertError, animated: true, completion: nil);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func createMultipleShifts(data: [String: Any]) {
+        API().post(url: myURL + "shifts/multiplecreate", dataToSend: data) { (res) in
+            if let statusCode = res["statusCode"] as? Int {
+                if statusCode == 201 {
+                    self.getShifts()
+                    DispatchQueue.main.async {
+                        UIView.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseIn, animations: {
+                            self.viewAdd.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.032);
+                            self.cancelButton.alpha = 0;
+                        }, completion: nil)
+                    }
+                }
+                else if statusCode == 406 {
+                    if let error = res["error"] as? String, let date = res["date"] as? String {
+                        var message: String = "";
+                        if error == "ee" {
+                            message = "This employee has a shift conflict on " + date + ".";
+                        }
+                        else if error == "ebcn" {
+                            message = "There is a booking area/column conflict on " + date + ". (The area which you are trying to book this employee in is already scheduled to be used.)"
+                        }
+                        let alertError = Components().createActionAlert(title: "Shift Creation Error", message: message, buttonTitle: "Oops, okay!", handler: nil);
+                        DispatchQueue.main.async {
+                            self.present(alertError, animated: true, completion: nil);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    
+    
     @objc func switcherYes() {
-        yesBreakButton.backgroundColor = .darkGray;
-        yesBreakButton.tintColor = .mainLav;
-        noBreakButton.tintColor = .black;
-        noBreakButton.backgroundColor = .white;
-        breakTimeText.isHidden = false;
-        breakToTimePicker.isHidden = false;
-        breakFromTimePicker.isHidden = false;
-        dashText2.isHidden = false;
         isBreak = true;
     }
     
     
     
     @objc func switcherNo() {
-        noBreakButton.backgroundColor = .darkGray;
-        noBreakButton.tintColor = .mainLav;
-        yesBreakButton.tintColor = .black;
-        yesBreakButton.backgroundColor = .white;
-        breakTimeText.isHidden = true;
-        breakToTimePicker.isHidden = true;
-        breakFromTimePicker.isHidden = true;
-        dashText2.isHidden = true;
         isBreak = false;
     }
     
+    
+    
     @objc func switcherCloneYes() {
-        yesCloneButton.backgroundColor = .darkGray;
-        yesCloneButton.tintColor = .mainLav;
-        noCloneButton.tintColor = .black;
-        noCloneButton.backgroundColor = .white;
-        cloneNumberText.isHidden = false;
-        oneThroughFiftyClone.isHidden = false;
+        if nowEditing {
+            cloneError()
+            return;
+        }
         cloneShift = true;
     }
     
     @objc func switcherCloneNo() {
-        noCloneButton.backgroundColor = .darkGray;
-        noCloneButton.tintColor = .mainLav;
-        yesCloneButton.tintColor = .black;
-        yesCloneButton.backgroundColor = .white;
-        cloneNumberText.isHidden = true;
-        oneThroughFiftyClone.isHidden = true;
+        if nowEditing {
+            cloneError()
+            return;
+        }
         cloneShift = false;
     }
     
@@ -401,6 +559,8 @@ class AdminShifts: UIViewController {
             self.viewAdd.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.032);
             self.cancelButton.alpha = 0;
         }
+        self.editingShift = nil;
+        self.nowEditing = false;
     }
     
     @objc func dateChanged() {
@@ -431,9 +591,9 @@ class AdminShifts: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI();
         getEmployees()
         getBookingColumnItem()
+        configureUI();
     }
     
     
@@ -443,7 +603,14 @@ class AdminShifts: UIViewController {
         }
     }
     
+    private let headerText: UITextView = {
+        let uitv = Components().createSimpleText(text: "Create Shift");
+        uitv.font = .boldSystemFont(ofSize: 18);
+        return uitv;
+    }();
+    
     func configureUI() {
+        specialTable.editingDelegate = self;
         navigationItem.title = "Shifts";
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: businessEditButton);
         view.addSubview(scheduleText);
@@ -472,8 +639,11 @@ class AdminShifts: UIViewController {
         cancelButton.padRight(from: viewAdd.rightAnchor, num: 10);
         cancelButton.setHeight(height: 20);
         cancelButton.setWidth(width: 20);
+        viewAdd.addSubview(headerText);
+        headerText.padTop(from: viewAdd.topAnchor, num: 10);
+        headerText.centerTo(element: viewAdd.centerXAnchor);
         viewAdd.addSubview(chooseEmployeeText);
-        chooseEmployeeText.padTop(from: viewAdd.topAnchor, num: 20);
+        chooseEmployeeText.padTop(from: headerText.bottomAnchor, num: 20);
         viewAdd.addSubview(employeePicker);
         employeePicker.setHeight(height: 100);
         employeePicker.setWidth(width: 350);
@@ -563,12 +733,19 @@ class AdminShifts: UIViewController {
         createShiftOnHit.padTop(from: breakToTimePicker.bottomAnchor, num: 20);
     }
     
+    var bct: String? {
+        didSet {
+            specialTable.bct = bct;
+        }
+    }
+    
     func getBookingColumnItem() {
         API().post(url: myURL + "business/bct", dataToSend: ["id": Utilities().decodeAdminToken()!["businessId"]]) { (res) in
             if let soonToBeSchedule = res["schedule"] as? [[String: String]] {
                 self.schedule = Schedule(dic: soonToBeSchedule)
             }
             if let bct = res["bct"] as? String {
+                self.bct = bct;
                 DispatchQueue.main.async {
                     self.bctText.text = bct + " Number";
                 }
@@ -584,13 +761,24 @@ class AdminShifts: UIViewController {
     
     func getShifts() {
         API().post(url: myURL + "shifts/get", dataToSend: ["shiftDate": self.scheduleDate!, "businessId": Utilities().decodeAdminToken()!["businessId"]]) { (res) in
-            guard let shifts = res["shifts"] as? [[String: String]] else {print("No Shifts"); self.shifts = []; return}
             var shiftsArray: [Shift] = [];
-            for shift in shifts {
-                shiftsArray.append(Shift(dic: shift))
+            if let shifts = res["shifts"] as? [[String: String]] {
+                for shift in shifts {
+                    shiftsArray.append(Shift(dic: shift))
+                }
+            }
+                else {
+                    shiftsArray = [];
             }
             self.shifts = shiftsArray;
+            print(shiftsArray);
         }
+    }
+    
+    func cloneError() {
+        let createActionAlert = Components().createActionAlert(title: "Edit Shift Error", message: "Clone Shifts cannot be created while editing a shift.", buttonTitle: "Okay!", handler: nil);
+        
+        self.present(createActionAlert, animated: true, completion: nil);
     }
     
     func getStartCloseNum(date: Date? = nil) {
@@ -654,6 +842,6 @@ class AdminShifts: UIViewController {
         toTimePicker.data = times;
         breakFromTimePicker.data = times;
         breakToTimePicker.data = times;
-        }
     }
+}
 

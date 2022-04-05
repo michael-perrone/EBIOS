@@ -16,10 +16,17 @@ class UserBookingsCollectionCell: UICollectionViewCell {
             timeText.text = "Time: " + self.booking!.time!;
             businessText.text = "At: " + self.booking!.businessName!;
             dateText.text = "Date: " + self.booking!.date!;
-            employeeNameText.text = "With: " +  self.booking!.employeeName!;
+            if let employeeName = self.booking!.employeeName {
+                employeeNameText.text = "With: " +  employeeName;
+            }
+            else {
+                employeeNameText.text = "Employee: None";
+            }
             costText.text = "Cost: " + self.booking!.cost!;
         }
     }
+    
+    var row: Int?;
     
     private let servicesText = Components().createLittleText(text: "Services");
     
@@ -31,7 +38,7 @@ class UserBookingsCollectionCell: UICollectionViewCell {
     }()
     
     
-    weak var viewClickedDelegate: UserBookingViewClicked?;
+    weak var cancelDelegate: UserBookingCancel?;
     
     private let timeText = Components().createLittleText(text: "");
     
@@ -43,16 +50,7 @@ class UserBookingsCollectionCell: UICollectionViewCell {
     
     private let costText = Components().createLittleText(text: "");
     
-    lazy var viewButton: UIButton = {
-        let uib = Components().createNormalButton(title: "View");
-        uib.setWidth(width: 120);
-        uib.setHeight(height: 44);
-        uib.backgroundColor = .white;
-        uib.tintColor = .black;
-        uib.showsTouchWhenHighlighted = true;
-        uib.addTarget(self, action: #selector(viewBooking), for: .touchUpInside)
-        return uib;
-    }()
+  
     
     lazy var cancelButton: UIButton = {
         let uib = Components().createNormalButton(title: "Cancel");
@@ -64,14 +62,10 @@ class UserBookingsCollectionCell: UICollectionViewCell {
         uib.addTarget(self, action: #selector(cancelBooking), for: .touchUpInside)
         return uib;
     }()
-    
-    @objc func viewBooking() {
-        viewClickedDelegate?.viewBooking(booking: booking!);
-        
-    }
-    
+
     @objc func cancelBooking() {
-        print("cancel this shit");
+        print("hello")
+        cancelDelegate?.cancelBooking(booking: self.booking!, row: row!);
     }
     
     func configureCell() {
@@ -105,11 +99,8 @@ class UserBookingsCollectionCell: UICollectionViewCell {
         servicesTable.setHeight(height: 140);
         servicesTable.setWidth(width: fullWidth / 2.1);
         addSubview(cancelButton);
-        cancelButton.padBottom(from: bottomAnchor, num: 5);
+        cancelButton.padBottom(from: costText.bottomAnchor, num: 0);
         cancelButton.padRight(from: servicesTable.rightAnchor, num: 30);
-        addSubview(viewButton);
-        viewButton.padBottom(from: cancelButton.topAnchor, num: 5);
-        viewButton.padRight(from: servicesTable.rightAnchor, num: 30);
         addSubview(servicesText);
         servicesText.centerTo(element: servicesTable.centerXAnchor);
         servicesText.padTop(from: topAnchor, num: 3);

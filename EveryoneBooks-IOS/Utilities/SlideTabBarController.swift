@@ -133,4 +133,12 @@ class SlideTabBarController: UITabBarController, SlideTabBarProtocol, MenuCellCl
         let nav3 = Components().createNavBarItemController(image: image3, viewController: tab3, title: title3);
         viewControllers = [nav1, nav2, nav3];
     }
+    
+    func setTabsAdmin(tab1: UIViewController, image1: UIImage, title1: String, tab2: UIViewController, image2: UIImage, title2: String, tab3: UIViewController, image3: UIImage, title3: String, image4: UIImage, title4: String, tab4: UIViewController) {
+        let nav1 = Components().createNavBarItemController(image: image1, viewController: tab1, title: title1);
+        let nav2 = Components().createNavBarItemController(image: image2, viewController: tab2, title: title2);
+        let nav3 = Components().createNavBarItemController(image: image3, viewController: tab3, title: title3);
+        let nav4 = Components().createNavBarItemController(image: image4, viewController: tab4, title: title4);
+        viewControllers = [nav1,nav2,nav3,nav4];
+    }
 }

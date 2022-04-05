@@ -21,7 +21,7 @@ class RemoveServicesTable: UITableView, UITableViewDelegate, UITableViewDataSour
     }
     
     override init(frame: CGRect, style: UITableView.Style) {
-        super.init(frame: CGRect.zero, style: UITableView.Style.insetGrouped);
+        super.init(frame: CGRect.zero, style: UITableView.Style.grouped);
         dataSource = self;
         delegate = self;
         register(RemoveServicesTableCell.self, forCellReuseIdentifier: "RSTC");

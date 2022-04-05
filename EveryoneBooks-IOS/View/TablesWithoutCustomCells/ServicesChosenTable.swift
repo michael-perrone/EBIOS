@@ -53,7 +53,14 @@ class ServicesChosenTable: UITableView, UITableViewDelegate, UITableViewDataSour
         cell.backgroundColor = .mainLav;
         if let services = servicesChosen {
             cell.selectionStyle = .none
-            cell.textLabel?.text = services[indexPath.row];
+            print(services)
+            print(indexPath.row)
+            print(services)
+            print(indexPath.row)
+            print(services.count)
+            if indexPath.row < services.count {
+                cell.textLabel?.text = services[indexPath.row];
+            }
             if let font = fontSize {
                 cell.textLabel?.font = .boldSystemFont(ofSize: font)
             }

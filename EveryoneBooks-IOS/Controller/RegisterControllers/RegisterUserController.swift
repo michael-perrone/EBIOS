@@ -124,7 +124,7 @@ class RegisterUserController: UIViewController {
             let url = "http://localhost:4000/api/usersSignup"
             let datatoSend = ["fullName": fullNameTextField.text!, "email": emailLoginTextField.text!, "createPassword": passwordLoginTextField.text!, "phoneNumber": phoneNumberTextField.text!];
             BasicCalls().register(urlString: url, dataToSend: datatoSend) { (token) in
-                if token != "406" && token != "409" && token != "405" {
+                if token != "406" && token != "409" && token != "405" && token != "403" {
                     if Utilities().setTokenInKeyChain(token: token, key: "token") {
                         DispatchQueue.main.async {
                             let userHome = UserHomeViewController();
@@ -137,6 +137,11 @@ class RegisterUserController: UIViewController {
                     }
                 }
                 else {
+//                    if token == "403" {
+//                        DispatchQueue.main.async {
+//                            
+//                        }
+//                    }
                     if token == "406" {
                         DispatchQueue.main.async {
                             self.errorText.text = "Please enter valid phone number.";

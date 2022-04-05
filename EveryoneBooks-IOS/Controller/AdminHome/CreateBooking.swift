@@ -1,4 +1,5 @@
 import UIKit
+import MobileCoreServices
 
 protocol BookingHit: CreateBooking {
     func bookHit();
@@ -10,7 +11,49 @@ protocol BookingHit: CreateBooking {
     func bcnNotSelected();
 }
 
-class CreateBooking: UIViewController, BookingHit {
+protocol ServiceChosenProtocol: CreateBooking {
+    func serviceChosen(service: Service);
+    func servicesRemoved();
+}
+
+class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
+    
+    func serviceChosen(service: Service) {
+        if let bookingRequiresEmployeeAlreadySet = self.bookingRequiresEmployee {
+            if bookingRequiresEmployeeAlreadySet {
+                if !service.requiresEmployee {
+                    let alert = Components().createActionAlert(title: "Services Issue", message: service.serviceName + " can not be booked with the other services you've selected because this service does not use an employee. Only services that use an employee can be booked together." , buttonTitle: "Okay!") { UIAlertAction in
+                        DispatchQueue.main.async {
+                            self.servicesTable.selectedServices = [];
+                            self.servicesTable.reloadData();
+                            self.bookingRequiresEmployee = nil;
+                        }
+                    };
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil);
+                    }
+                }
+            }
+            else {
+                if service.requiresEmployee {
+                    let alert = Components().createActionAlert(title: "Services Issue", message: service.serviceName + " can not be booked with the other services you've selected because this service uses an employee and other selected services do not. Only services that use an employee can be booked together." , buttonTitle: "Okay!") { UIAlertAction in
+                        DispatchQueue.main.async {
+                            self.servicesTable.selectedServices = [];
+                            self.servicesTable.reloadData();
+                            self.bookingRequiresEmployee = nil;
+                        }
+                    };
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil);
+                    }
+                }
+            }
+        }
+        self.bookingRequiresEmployee = service.requiresEmployee;
+    }
+    func servicesRemoved() {
+        self.bookingRequiresEmployee = nil;
+    }
     
     func bcnNotSelected() {
         let alert = Components().createActionAlert(title: "Column Number Not Selected", message: "Please choose the number area/column you would like this booking to take place.", buttonTitle: "Okay!", handler: nil);
@@ -38,7 +81,7 @@ class CreateBooking: UIViewController, BookingHit {
     }
     
     func bookHit() {
-        let bookSuccess = UIAlertController(title: "Success!", message: "You're request has been received and accepted.", preferredStyle: .alert);
+        let bookSuccess = UIAlertController(title: "Success!", message: "You're request has been received and created.", preferredStyle: .alert);
         let okayButton = UIAlertAction(title: "Exit!", style: .cancel) { (action: UIAlertAction) in
             UIView.animate(withDuration: 0.45) {
                 self.popUp.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.6);
@@ -82,6 +125,7 @@ class CreateBooking: UIViewController, BookingHit {
             self.costText.isHidden = true;
             self.startGuestRegisterButton.isHidden = true;
             self.cancelNewGuestRegisterButton.isHidden = false;
+            self.datesCollectionView.isHidden = true;
             self.saveButton.isHidden = false;
             self.newGuestNameInput.isHidden = false;
             if self.editButton.isHidden == false {
@@ -91,13 +135,67 @@ class CreateBooking: UIViewController, BookingHit {
         self.isNewGuestBeingRegistered = true;
     }
     
+    lazy var bookIfEmployeeNotNeededButton: UIButton = {
+        let uib = Components().createNormalButton(title: "Book");
+        uib.setHeight(height: 45);
+        uib.setWidth(width: 100);
+        uib.addTarget(self, action: #selector(bookIfEmployeeNotNeeded), for: .touchUpInside);
+        return uib;
+    }()
+    
+    @objc func bookIfEmployeeNotNeeded() {
+        if cloneBooking == "n" {
+            bookButtonHitSingle()
+        }
+        else if cloneBooking == "y" {
+            bookButtonHitClone()
+        }
+    }
+    
+    var bookingRequiresEmployee: Bool? {
+        didSet {
+            if bookingRequiresEmployee == nil || bookingRequiresEmployee == false {
+                DispatchQueue.main.async {
+                    self.employeesTable.isHidden = true;
+                    self.employeesAvailableText.isHidden = true;
+                    self.bookIfEmployeeNotNeededButton.isHidden = false;
+                }
+            }
+            else {
+                DispatchQueue.main.async {
+                    self.employeesTable.isHidden = false;
+                    self.employeesAvailableText.isHidden = false;
+                    self.bookIfEmployeeNotNeededButton.isHidden = true;
+                }
+            }
+        }
+    }
+    
+    private var datesForCollectionView: [String]? {
+        didSet {
+            datesCollectionView.dates = datesForCollectionView;
+            DispatchQueue.main.async {
+                self.datesCollectionView.reloadData();
+            }
+        }
+    }
+    
+    private let datesCollectionView: DatesCollectionView = {
+        let dcv = DatesCollectionView();
+        dcv.setHeight(height: 45);
+        dcv.setWidth(width: fullWidth / 2);
+        return dcv;
+    }()
+    
     var bct: String? {
         didSet {
             bctText.text = bct! + ":";
         }
     }
     
-    private let bctText = Components().createSimpleText(text: "");
+    var datesForClone: [String]?
+    
+    private let bctText = Components().createNotAsLittleText(text: "", color: .mainLav);
     
     var selectedBcn: Int? {
         didSet {
@@ -226,6 +324,7 @@ class CreateBooking: UIViewController, BookingHit {
         self.cancelNewGuestRegisterButton.isHidden = true;
         self.saveButton.isHidden = true;
         self.costText.isHidden = false;
+        self.datesCollectionView.isHidden = false;
         self.timeDurationText.isHidden = false;
         self.startGuestRegisterButton.isHidden = false;
         self.newGuestNameInput.isHidden = true;
@@ -235,12 +334,33 @@ class CreateBooking: UIViewController, BookingHit {
     weak var delegate: ReloadTableAfterBooking?;
     
     var start: Int?;
+    
+    var closed = false;
+    
+    var closedTodayText = Components().createNotAsLittleText(text: "Business Closed");
+    
     var close: Int? {
         didSet {
             var dataComing: [String] = [];
-            while start! <= close! {
-                dataComing.append(Utilities.itst[start!]!);
-                start = start! + 1;
+            guard var start = start, let close = close else {
+                closed = true;
+                DispatchQueue.main.async {
+                    self.closedTodayText.isHidden = false;
+                    self.timePicker.isHidden = true;
+                }
+                return;
+            }
+            if closed {
+                closed = false;
+                DispatchQueue.main.async {
+                    self.closedTodayText.isHidden = true;
+                    self.timePicker.isHidden = false;
+                }
+            }
+
+            while start <= close {
+                dataComing.append(Utilities.itst[start]!);
+                start = start + 1;
             }
             timePicker.data = dataComing;
         }
@@ -262,7 +382,7 @@ class CreateBooking: UIViewController, BookingHit {
                 bcnArray.append(i);
                 i+=1;
             }
-            bcnSelectorCV.bcns = bcnArray;
+           // bcnSelectorCV.bcns = bcnArray;
         }
     }
     
@@ -272,12 +392,7 @@ class CreateBooking: UIViewController, BookingHit {
         }
     }
     
-    var eq: String? {
-        didSet {
-            print("EQ SET");
-            print(eq);
-        }
-    }
+    var eq: String? ;
     
     var employeesAvailable: [Employee]? {
         didSet {
@@ -286,8 +401,12 @@ class CreateBooking: UIViewController, BookingHit {
             employeesTable.timeChosen = self.timePicker.selectedItem;
             employeesTable.services = servicesTable.selectedServices;
             employeesTable.businessId = Utilities().decodeAdminToken()!["businessId"] as! String;
+            employeesTable.dates = datesForCollectionView;
+            employeesTable.cost = self.costForTable;
         }
     }
+    
+    var costForTable: String = "";
     
     lazy var customerPhoneInput: UIView = {
         let uiv = Components().createInput(textField: customerPhoneTextField, view: view);
@@ -352,6 +471,13 @@ class CreateBooking: UIViewController, BookingHit {
         return uisv;
     }()
     
+    private let clonePopUp: UIView = {
+        let uisv = UIScrollView();
+        uisv.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.7);
+        uisv.backgroundColor = .mainLav;
+        return uisv;
+    }()
+    
     private let timePickerText = Components().createNotAsLittleText(text: "Choose Time:");
     
     private let timePicker = GenericDropDown();
@@ -360,6 +486,7 @@ class CreateBooking: UIViewController, BookingHit {
     
     private let servicesTable: ServicesTable = {
         let st = ServicesTable();
+        st.numForChars = 30;
         st.unselectedCellTextColor = .literGray;
         return st;
     }();
@@ -410,9 +537,41 @@ class CreateBooking: UIViewController, BookingHit {
         }
     }
     
+    
     @objc func continueHit() {
-        if servicesTable.selectedServices.count > 0 {
-            getAvailableEmployees()
+        if cloneBooking == "y" && servicesTable.selectedServices.count > 0 {
+            let dateFormatter = DateFormatter();
+            let realDate = "Feb 12, 2022 5:00 AM"
+            dateFormatter.dateFormat = "MMM dd, yyyy h:mm a";
+            let date = dateFormatter.date(from: dateChosen! + " " + timePicker.selectedItem!)
+            if date! < Date() {
+                let alert = Components().createActionAlert(title: "Invalid Date", message: "The date or time you have chosen has already passed and cannot be scheduled.", buttonTitle: "Woops, Got it!", handler: nil);
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil);
+                }
+                return;
+            }
+            UIView.animate(withDuration: 1.1) {
+                self.clonePopUp.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - UIScreen.main.bounds.height / 1.5, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5);
+                self.newView.isHidden = false;
+            }
+            return;
+        }
+        if servicesTable.selectedServices.count > 0 && cloneBooking == "n" && bookingRequiresEmployee == false {
+            getAvailableAreas();
+            return;
+        }
+        
+        if servicesTable.selectedServices.count > 0 && cloneBooking == "n" {
+            getAvailableEmployees();
+        }
+        else if servicesTable.selectedServices.count > 0 && cloneBooking == "q" {
+            let noCloneOptionSelected = UIAlertController(title: "No Clone Option Selected", message: "Please choose if you would like to clone this booking for multiple instances so that you can save time by avoiding putting in repeat bookings.", preferredStyle: .alert);
+            let okay = UIAlertAction(title: "Got it", style: .cancel, handler: nil);
+            noCloneOptionSelected.addAction(okay);
+            DispatchQueue.main.async {
+                self.present(noCloneOptionSelected, animated: true, completion: nil);
+            }
         }
         else {
             let noServicesSelected = UIAlertController(title: "No Services Selected", message: "Please select at least one service above that you would like performed.", preferredStyle: .alert);
@@ -421,6 +580,21 @@ class CreateBooking: UIViewController, BookingHit {
             DispatchQueue.main.async {
                 self.present(noServicesSelected, animated: true, completion: nil);
             }
+        }
+    }
+    
+    private let continueButton2: UIButton = {
+        let uib = Components().createContinueBookingButton()
+        uib.addTarget(self, action: #selector(continueHit2), for: .touchUpInside);
+        return uib;
+    }();
+    
+    @objc func continueHit2() {
+        if bookingRequiresEmployee == true {
+            getAvailableEmployeesClone();
+        }
+        else if bookingRequiresEmployee == false {
+            getAvailableAreasClone();
         }
     }
     
@@ -438,49 +612,205 @@ class CreateBooking: UIViewController, BookingHit {
         configureView()
         getTimes(date: Date())
         getServices()
+        setUpDrag()
     }
     
+    
+    private let cloneBookingText = Components().createNotAsLittleText(text: "Clone Booking?");
+    
+    lazy var yesCloneButton: UIButton = {
+           let uib = Components().createGoodButton(title: "Yes");
+           uib.addTarget(self, action: #selector(switcherCloneYes), for: .touchUpInside);
+           return uib;
+    }()
+       
+    lazy var noCloneButton: UIButton = {
+           let uib = Components().createGoodButton(title: "No");
+           uib.addTarget(self, action: #selector(switcherCloneNo), for: .touchUpInside);
+           return uib;
+    }()
+    
+    @objc func switcherCloneYes() {
+        cloneBooking = "y";
+        noCloneButton.backgroundColor = .literGray;
+        noCloneButton.tintColor = .darkGray2;
+        yesCloneButton.backgroundColor = .darkGray2;
+        yesCloneButton.tintColor = .literGray;
+     
+    }
+    
+    @objc func switcherCloneNo() {
+        cloneBooking = "n";
+        noCloneButton.backgroundColor = .darkGray2;
+        noCloneButton.tintColor = .literGray;
+        yesCloneButton.backgroundColor = .literGray;
+        yesCloneButton.tintColor = .darkGray2;
+    }
+    
+    var cloneBooking: String = "q";
+    
+    private let newView: UIView = {
+        let uiv = UIView();
+        uiv.setHeight(height: UIScreen.main.bounds.height);
+        uiv.setWidth(width: fullWidth);
+        uiv.backgroundColor = .black;
+        uiv.alpha = 0.8;
+        return uiv;
+    }()
+    
+    private let topBorder = Components().createBorder(height: 4, width: fullWidth / 1.3, color: .black);
+    
+    var dragGesture = UIPanGestureRecognizer()
+    
+    func setUpDrag() {
+        dragGesture = UIPanGestureRecognizer(target: self, action: #selector(dragView));
+        clonePopUp.isUserInteractionEnabled = true;
+        clonePopUp.addGestureRecognizer(dragGesture);
+    }
+    
+    @objc func dragView(_ sender:UIPanGestureRecognizer) {
+
+        if clonePopUp.center.y + 1 > view.frame.height / 1.5 {
+            let translation = sender.translation(in: self.view);
+            clonePopUp.center = CGPoint(x: clonePopUp.center.x, y: clonePopUp.center.y + translation.y);
+            sender.setTranslation(CGPoint.zero, in: self.view);
+        }
+        else  {
+            clonePopUp.center = CGPoint(x: clonePopUp.center.x, y: view.frame.height / 1.5)
+        }
+        if clonePopUp.center.y + 1 > view.frame.height - 40 {
+            UIView.animate(withDuration: 0.4) {
+                self.clonePopUp.frame = CGRect(x: 0, y: fullHeight, width: fullWidth, height: fullHeight / 1.5);
+                self.newView.isHidden = true;
+            }
+        }
+    }
+    
+    private let cloneOptionsText = Components().createNotAsLittleText(text: "Booking Clone Options", color: .mainLav);
+    
+    private let numOftimesToCloneText = Components().createNotAsLittleText(text: "Number of Times to Clone:", color: .mainLav);
+    
+    private let numWheel: CustomNumberPicker = {
+        let cnp = CustomNumberPicker();
+        cnp.bcn = 50;
+        cnp.setWidth(width: 120);
+        cnp.setHeight(height: 70);
+        return cnp;
+    }()
+    
+    private let cloneOptionsText2 = Components().createNotAsLittleText(text: "Days Between Bookings:", color: .mainLav);
+    
+    private let numWheel2: CustomNumberPicker = {
+        let cnp = CustomNumberPicker();
+        cnp.bcn = 31;
+        cnp.setWidth(width: 120);
+        cnp.setHeight(height: 70);
+        return cnp;
+    }()
+    
+    private let discountText = Components().createNotAsLittleText(text: "Package Discount Percent:", color: .mainLav);
+    
+    private let numWheel3: CustomNumberPicker = {
+        let cnp = CustomNumberPicker();
+        cnp.none = true;
+        cnp.bcn = 100;
+        cnp.setWidth(width: 120);
+        cnp.setHeight(height: 70);
+        return cnp;
+    }()
+    
+    private let pText = Components().createNotAsLittleText(text: "%", color: .mainLav);
+    
+    
     func configureView() {
+        servicesTable.requiresEmployeeDelegate = self;
         noServicesText.setWidth(width: fullWidth / 1.3);
         employeesTable.otherOtherDelegate = self;
         view.backgroundColor = .literGray;
         view.addSubview(datePickerText);
-        datePickerText.setWidth(width: fullWidth / 1.3);
-        datePickerText.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 20);
-        datePickerText.centerTo(element: view.centerXAnchor);
+        datePickerText.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 45);
+        datePickerText.padLeft(from: view.leftAnchor, num: 20);
         view.addSubview(datePicker);
-        datePicker.padTop(from: datePickerText.bottomAnchor, num: 0);
-        datePicker.centerTo(element: view.centerXAnchor);
+        datePicker.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 10);
+        datePicker.padLeft(from: datePickerText.rightAnchor, num: 30);
         view.addSubview(dismissButton);
         dismissButton.padTop(from: view.topAnchor, num: 28);
         dismissButton.padRight(from: view.rightAnchor, num: 24);
         view.addSubview(timePickerText);
-        timePickerText.setWidth(width: fullWidth / 1.3);
-        timePickerText.padTop(from: datePicker.bottomAnchor, num: 15);
-        timePickerText.centerTo(element: view.centerXAnchor);
+        timePickerText.padTop(from: datePicker.bottomAnchor, num: 5);
+        timePickerText.padLeft(from: view.leftAnchor, num: 20);
         view.addSubview(timePicker);
-        timePicker.setWidth(width: fullWidth / 1.3);
-        timePicker.padTop(from: timePickerText.bottomAnchor, num: 0);
-        timePicker.centerTo(element: view.centerXAnchor);
+        timePicker.padTop(from: timePickerText.topAnchor, num: -26);
+        timePicker.padLeft(from: timePickerText.rightAnchor, num: 22);
+        timePicker.setWidth(width: 150);
+        view.addSubview(closedTodayText);
+        closedTodayText.isHidden = true;
+        closedTodayText.padTop(from: timePickerText.topAnchor, num: 0);
+        closedTodayText.padLeft(from: timePickerText.rightAnchor, num: 10);
         view.addSubview(servicesText);
         servicesText.padTop(from: timePicker.bottomAnchor, num: 15);
-        servicesText.setWidth(width: fullWidth / 1.3);
-        servicesText.centerTo(element: view.centerXAnchor);
+        servicesText.padLeft(from: view.leftAnchor, num: 20);
         view.addSubview(servicesTable);
-        servicesTable.padTop(from: servicesText.bottomAnchor, num: 10);
+        servicesTable.padTop(from: servicesText.bottomAnchor, num: 20);
         servicesTable.centerTo(element: view.centerXAnchor);
-        servicesTable.setHeight(height: 130);
+        servicesTable.setHeight(height: 170);
         servicesTable.setWidth(width: fullWidth);
+        servicesTable.backgroundColor = .literGray;
+        view.addSubview(cloneBookingText);
+        cloneBookingText.padLeft(from: view.leftAnchor, num: 20);
+        cloneBookingText.padTop(from: servicesTable.bottomAnchor, num: 46);
+        view.addSubview(noCloneButton);
+        noCloneButton.padTop(from: servicesTable.bottomAnchor, num: 50);
+        noCloneButton.padRight(from: view.rightAnchor, num: 20);
+        view.addSubview(yesCloneButton);
+        yesCloneButton.padRight(from: noCloneButton.leftAnchor, num: 10);
+        yesCloneButton.padTop(from: servicesTable.bottomAnchor, num: 50);
         view.addSubview(continueButton);
-        continueButton.padTop(from: servicesTable.bottomAnchor, num: 30);
+        continueButton.padTop(from: noCloneButton.bottomAnchor, num: 40);
         continueButton.centerTo(element: view.centerXAnchor);
+        view.addSubview(newView);
+        newView.isHidden = true;
+        view.addSubview(clonePopUp);
+        clonePopUp.addSubview(topBorder);
+        topBorder.centerTo(element: clonePopUp.centerXAnchor);
+        topBorder.padTop(from: clonePopUp.topAnchor, num: 12);
+        clonePopUp.addSubview(cloneOptionsText);
+        cloneOptionsText.padTop(from: topBorder.bottomAnchor, num: 10);
+        cloneOptionsText.centerTo(element: clonePopUp.centerXAnchor);
+        clonePopUp.addSubview(numOftimesToCloneText);
+        numOftimesToCloneText.padTop(from: cloneOptionsText.bottomAnchor, num: 20);
+        numOftimesToCloneText.padLeft(from: clonePopUp.leftAnchor, num: 5);
+        clonePopUp.addSubview(numWheel);
+        numWheel.padTop(from: cloneOptionsText.bottomAnchor, num: 5);
+        numWheel.padLeft(from: numOftimesToCloneText.rightAnchor, num: 6);
+        clonePopUp.addSubview(cloneOptionsText2);
+        cloneOptionsText2.padTop(from: numOftimesToCloneText.bottomAnchor, num: 50);
+        cloneOptionsText2.padLeft(from: clonePopUp.leftAnchor, num: 5);
+        clonePopUp.addSubview(numWheel2);
+        numWheel2.padTop(from: numOftimesToCloneText.bottomAnchor, num: 34);
+        numWheel2.padLeft(from: numOftimesToCloneText.rightAnchor, num: 6);
+        clonePopUp.addSubview(discountText);
+        discountText.padTop(from: cloneOptionsText2.bottomAnchor, num: 50);
+        discountText.padLeft(from: clonePopUp.leftAnchor, num: 5);
+        clonePopUp.addSubview(continueButton2);
+        continueButton2.padTop(from: clonePopUp.topAnchor, num: clonePopUp.frame.height - 50);
+        continueButton2.centerTo(element: clonePopUp.centerXAnchor);
+        clonePopUp.addSubview(numWheel3);
+        numWheel3.padTop(from: cloneOptionsText2.bottomAnchor, num: 34);
+        numWheel3.padLeft(from: discountText.rightAnchor, num: 6);
+        clonePopUp.addSubview(pText);
+        pText.padLeft(from: numWheel3.rightAnchor, num: -5);
+        pText.padTop(from: discountText.topAnchor, num: 0);
         view.addSubview(popUp);
         popUp.addSubview(customerPhoneInput);
         customerPhoneInput.padTop(from: popUp.topAnchor, num: 32);
         customerPhoneInput.padLeft(from: popUp.leftAnchor, num: 20);
         popUp.addSubview(timeDurationText);
-        timeDurationText.padTop(from: customerPhoneInput.bottomAnchor, num: 10);
+        timeDurationText.padTop(from: customerPhoneInput.bottomAnchor, num: 18);
         timeDurationText.padLeft(from: popUp.leftAnchor, num: 20);
+        popUp.addSubview(datesCollectionView);
+        datesCollectionView.padTop(from: timeDurationText.topAnchor, num: -4);
+        datesCollectionView.padLeft(from: timeDurationText.rightAnchor, num: 20);
         popUp.addSubview(newGuestNameInput);
         newGuestNameInput.padTop(from: timeDurationText.topAnchor, num: 0);
         newGuestNameInput.padLeft(from: customerPhoneInput.leftAnchor, num: 0);
@@ -513,28 +843,35 @@ class CreateBooking: UIViewController, BookingHit {
         popUp.addSubview(servicesChosenTable);
         servicesChosenTable.padTop(from: servicesChosenText.bottomAnchor, num: 8);
         servicesChosenTable.centerTo(element: popUp.centerXAnchor);
+        popUp.addSubview(self.bctText);
+        bctText.padTop(from: servicesChosenTable.bottomAnchor, num: 34);
+        bctText.padLeft(from: popUp.leftAnchor, num: 20);
+        popUp.addSubview(bcnSelectorCV);
+        bcnSelectorCV.padTop(from: self.servicesChosenTable.bottomAnchor, num: 30);
+        bcnSelectorCV.padLeft(from: bctText.rightAnchor, num: 10);
+        bcnSelectorCV.setHeight(height: 40);
+        bcnSelectorCV.padRight(from: view.rightAnchor, num: 20);
+        bcnSelectorCV.del = self;
+        popUp.addSubview(bookIfEmployeeNotNeededButton);
+        bookIfEmployeeNotNeededButton.centerTo(element: popUp.centerXAnchor);
+        bookIfEmployeeNotNeededButton.padTop(from: bcnSelectorCV.bottomAnchor, num: 40);
+        bookIfEmployeeNotNeededButton.isHidden = true;
         if eq == "n" {
-            popUp.addSubview(self.bctText);
-            bctText.padTop(from: servicesChosenTable.bottomAnchor, num: 30);
-            bctText.padLeft(from: popUp.leftAnchor, num: 20);
-            popUp.addSubview(bcnSelectorCV);
-            bcnSelectorCV.padTop(from: self.servicesChosenTable.bottomAnchor, num: 30);
-            bcnSelectorCV.padLeft(from: bctText.rightAnchor, num: 10);
-            bcnSelectorCV.setHeight(height: 40);
-            bcnSelectorCV.padRight(from: view.rightAnchor, num: 20);
-            bcnSelectorCV.del = self;
+            print("NOOOOO")
+            bcnSelectorCV.isHidden = false;
             popUp.addSubview(employeesAvailableText);
             employeesAvailableText.padTop(from: bcnSelectorCV.bottomAnchor, num: 20);
             employeesAvailableText.centerTo(element: popUp.centerXAnchor);
-            popUp.addSubview(employeesTable)
+            popUp.addSubview(employeesTable);
             employeesTable.padTop(from: self.employeesAvailableText.bottomAnchor, num: 6);
             employeesTable.centerTo(element: self.popUp.centerXAnchor);
             employeesTable.setHeight(height: 200);
             employeesTable.setWidth(width: UIScreen.main.bounds.width);
             employeesTable.backgroundColor = .mainLav;
-
         }
         else {
+            print(eq)
+            bctText.isHidden = true;
             popUp.addSubview(employeesAvailableText);
             employeesAvailableText.padTop(from: servicesChosenTable.bottomAnchor, num: 20);
             employeesAvailableText.centerTo(element: popUp.centerXAnchor);
@@ -594,8 +931,14 @@ class CreateBooking: UIViewController, BookingHit {
     }
     
     
-    
     func getAvailableEmployees() {
+        if closed {
+            let alert = Components().createActionAlert(title: "Business Closed", message: "Your business is closed on this day.", buttonTitle: "Okay!", handler: nil);
+            DispatchQueue.main.async {
+                self.present(alert, animated: true, completion: nil);
+            }
+            return;
+        }
         var serviceIds: [String] = [];
         var serviceNames: [String] = []
         var timeDurationNum = 0;
@@ -611,9 +954,27 @@ class CreateBooking: UIViewController, BookingHit {
                 cost = cost + selectedService.cost;
             }
             let costString = String(cost);
+            var costStringArray = costString.components(separatedBy: ".");
+            if costStringArray[1].count == 1 {
+                costStringArray[1] = costStringArray[1] + "0";
+                self.costText.text = "Cost: " + "$" + costStringArray[0] + "." +  costStringArray[1];
+                self.costForTable = "$" + costStringArray[0] + "." +  costStringArray[1];
+            }
+            else {
+                self.costText.text = "Cost: " + "$" + costString;
+                self.costForTable = "$" + costString;
+            }
             let closeTime = Utilities.itst[Utilities.stit[self.timePicker.selectedItem!]! + timeDurationNum];
             
             API().post(url: myURL + "getBookings", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum]) { (res) in
+                if res["statusCode"] as! Int == 205 {
+                    let alert = UIAlertController(title: "Business Closed", message: "This booking is scheduled to end after your business has closed. Please choose a time that will not go past the business closing time.", preferredStyle: .alert);
+                    let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                    alert.addAction(woops);
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil);
+                    }
+                }
                 if res["statusCode"] as! Int == 409 {
                     let alert = UIAlertController(title: "Invalid Date", message: "The date or time you have chosen has already passed and cannot be scheduled.", preferredStyle: .alert);
                     let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
@@ -623,6 +984,8 @@ class CreateBooking: UIViewController, BookingHit {
                     }
                 }
                 if let bcnArray = res["bcnArray"] as? [Int] {
+                    print(bcnArray);
+                    print("bcnArray above")
                     self.bcnArray = bcnArray;
                 }
                 if let employees = res["employees"] as? [[String: String]] {
@@ -635,23 +998,22 @@ class CreateBooking: UIViewController, BookingHit {
                     self.servicesChosenTable.servicesChosen = serviceNames;
                     if newEmployeesArray.count > 0 {
                         DispatchQueue.main.async {
-                            self.timeDurationText.text = "From: " + self.timePicker.selectedItem! + "-" + closeTime!;
-                            var costStringArray = costString.components(separatedBy: ".");
-                            if costStringArray[1].count == 1 {
-                                costStringArray[1] = costStringArray[1] + "0";
-                                self.costText.text = "Cost: " + "$" + costStringArray[0] + "." +  costStringArray[1];
+                            if self.eq == "y" {
+                                self.bcnSelectorCV.isHidden = true;
+                                self.bctText.isHidden = true;
                             }
-                            else {
-                                self.costText.text = "Cost: " + "$" + costString;
-                            }
+                            self.bookIfEmployeeNotNeededButton.isHidden = true;
+                            self.timeDurationText.text = self.timePicker.selectedItem! + "-" + closeTime!;
                             UIView.animate(withDuration: 0.4) {
                                 self.popUp.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.00);
                             }
                         }
                     }
                 }
-                else if res["statusCode"] as! Int == 406 {
-                    // do the alert here
+                if let date = res["date"] as? String {
+                    self.datesForCollectionView = [date];
+                }
+                else if res["statusCode"] as! Int == 406 || res["statusCode"] as! Int == 401 {
                     let alert = UIAlertController(title: "Time Unavailable", message: "Your business does not have any availability at this time. Want us to check for other nearby times on this date?", preferredStyle: .alert);
                     let searchOthers = UIAlertAction(title: "Yes", style: .default) { (action: UIAlertAction) in
                         print("gotta go find the others")
@@ -667,5 +1029,432 @@ class CreateBooking: UIViewController, BookingHit {
                 }
             }
         }
+    
+    func getAvailableEmployeesClone() {
+        if closed {
+            let alert = Components().createActionAlert(title: "Business Closed", message: "Your business is closed on this day.", buttonTitle: "Okay!", handler: nil);
+            DispatchQueue.main.async {
+                self.present(alert, animated: true, completion: nil);
+            }
+            return;
+        }
+        var serviceIds: [String] = [];
+        var serviceNames: [String] = []
+        var timeDurationNum = 0;
+        var cost: Double = 0;
+        var servicesArray: [String] = [];
+        for service in servicesTable.selectedServices {
+            servicesArray.append(service.id);
+        }
+            for selectedService in servicesTable.selectedServices {
+                serviceIds.append(selectedService.id);
+                serviceNames.append(selectedService.serviceName);
+                timeDurationNum = timeDurationNum + Utilities.timeDurationStringToInt[selectedService.timeDuration]!;
+                cost = cost + selectedService.cost;
+            }
+        if numWheel3.selected != "None" {
+            let percentNum = Double(numWheel3.selected)! * 0.01;
+            let costMinus = percentNum * cost;
+            cost = cost - costMinus;
+            cost = round(cost * 100) / 100;
+        }
+        let closeTime = Utilities.itst[Utilities.stit[self.timePicker.selectedItem!]! + timeDurationNum];
+        let costString = String(cost);
+        var costStringArray = costString.components(separatedBy: ".");
+        if costStringArray[1].count == 1 {
+            costStringArray[1] = costStringArray[1] + "0";
+            self.costForTable = "$" + costStringArray[0] + "." +  costStringArray[1];
+            self.costText.text = "$" + costStringArray[0] + "." +  costStringArray[1];
+        }
+        else {
+            self.costText.text = "Cost: " + "$" + costString;
+            self.costForTable = "$" + costString;
+        }
+        let cloneNum = numWheel.selected;
+        let daysBetween = numWheel2.selected;
+        
+        API().post(url: myURL + "getBookings/clone", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum, "cloneNum": cloneNum, "daysBetween": daysBetween]) { (res) in
+            if res["statusCode"] as! Int == 205 {
+                if let dayError = res["day"] as? String {
+                    let alert = UIAlertController(title: "Clone Open Time Error", message: "You cannot clone this booking because your business is closed at the preferred time on " + dayError + ".", preferredStyle: .alert);
+                    let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                    alert.addAction(woops);
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil);
+                    }
+                }
+                if let openError = res["openError"] as? String {
+                    let alert = UIAlertController(title: "Clone Open Time Error", message: "You cannot clone this booking because your business is not open at the preferred time on " + openError + ".", preferredStyle: .alert);
+                    let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                    alert.addAction(woops);
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil);
+                    }
+                }
+                return;
+            }
+            if res["statusCode"] as! Int == 409 {
+                let alert = UIAlertController(title: "Invalid Date", message: "The date or time you have chosen has already passed and cannot be scheduled.", preferredStyle: .alert);
+                let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                alert.addAction(woops);
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil);
+                }
+            }
+            if let bcnArray = res["bcnArray"] as? [Int] {
+                self.bcnArray = bcnArray;
+            }
+            if let employees = res["employees"] as? [[String: String]], let dates = res["dates"] as? [String] {
+                self.datesForCollectionView = dates;
+                var newEmployeesArray: [Employee] = [];
+                for employee in employees {
+                    let newEmployee = Employee(dic: employee)
+                    newEmployeesArray.append(newEmployee);
+                }
+                self.employeesAvailable = newEmployeesArray;
+                self.servicesChosenTable.servicesChosen = serviceNames;
+                if newEmployeesArray.count > 0 {
+                    if dates.count > 0 {
+                        self.datesForClone = dates;
+                    }
+                    DispatchQueue.main.async {
+                        self.timeDurationText.text = self.timePicker.selectedItem! + "-" + closeTime!;
+                        UIView.animate(withDuration: 0.4) {
+                            self.popUp.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.00);
+                        }
+                    }
+                }
+            }
+            else if res["statusCode"] as! Int == 406 {
+                // do the alert here
+                let alert = UIAlertController(title: "Time Unavailable", message: "Your business does not have any availability at this time. Want us to check for other nearby times on this date?", preferredStyle: .alert);
+                let searchOthers = UIAlertAction(title: "Yes", style: .default) { (action: UIAlertAction) in
+                    print("gotta go find the others")
+                }
+                alert.addAction(searchOthers);
+                let noThanks = UIAlertAction(title: "Nope", style: .cancel) { (action: UIAlertAction) in
+                    print("lol")
+                }
+                alert.addAction(noThanks)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil);
+                }
+            }
+        }
     }
-
+    
+    
+    func getAvailableAreas() {
+        if closed {
+            let alert = Components().createActionAlert(title: "Business Closed", message: "Your business is closed on this day.", buttonTitle: "Okay!", handler: nil);
+            DispatchQueue.main.async {
+                self.present(alert, animated: true, completion: nil);
+            }
+            return;
+        }
+        var serviceIds: [String] = [];
+        var serviceNames: [String] = []
+        var timeDurationNum = 0;
+        var cost: Double = 0;
+        var servicesArray: [String] = [];
+        for service in servicesTable.selectedServices {
+            servicesArray.append(service.id);
+        }
+        for selectedService in servicesTable.selectedServices {
+            serviceIds.append(selectedService.id);
+            serviceNames.append(selectedService.serviceName);
+            timeDurationNum = timeDurationNum + Utilities.timeDurationStringToInt[selectedService.timeDuration]!;
+            cost = cost + selectedService.cost;
+        }
+        let costString = String(cost);
+        var costStringArray = costString.components(separatedBy: ".");
+        if costStringArray[1].count == 1 {
+            costStringArray[1] = costStringArray[1] + "0";
+            self.costText.text = "Cost: " + "$" + costStringArray[0] + "." +  costStringArray[1];
+            self.costForTable = "$" + costStringArray[0] + "." +  costStringArray[1];
+        }
+        else {
+            self.costText.text = "Cost: " + "$" + costString;
+            self.costForTable = "$" + costString;
+        }
+        let closeTime = Utilities.itst[Utilities.stit[self.timePicker.selectedItem!]! + timeDurationNum];
+        
+        API().post(url: myURL + "getBookings/areas", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum]) { (res) in
+            if res["statusCode"] as! Int == 205 {
+                let alert = UIAlertController(title: "Business Closed", message: "This booking is scheduled to end after your business has closed. Please choose a time that will not go past the business closing time.", preferredStyle: .alert);
+                let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                alert.addAction(woops);
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil);
+                }
+                return;
+            }
+            if res["statusCode"] as! Int == 409 {
+                let alert = UIAlertController(title: "Invalid Date", message: "The date or time you have chosen has already passed and cannot be scheduled.", preferredStyle: .alert);
+                let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                alert.addAction(woops);
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil);
+                }
+                return;
+            }
+            if let bcnArray = res["bcnArray"] as? [Int] {
+                if self.eq == "y" {
+                    DispatchQueue.main.async {
+                        self.bctText.isHidden = false;
+                        self.bcnSelectorCV.isHidden = false;
+                        self.bookIfEmployeeNotNeededButton.isHidden = false;
+                    }
+                }
+                self.bcnArray = bcnArray;
+                self.servicesChosenTable.servicesChosen = serviceNames;
+                if bcnArray.count > 0 {
+                    DispatchQueue.main.async {
+                        self.timeDurationText.text = self.timePicker.selectedItem! + "-" + closeTime!;
+                        UIView.animate(withDuration: 0.4) {
+                            self.popUp.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.00);
+                        }
+                    }
+                }
+            }
+            else if res["statusCode"] as? Int == 401 {
+                let alert = UIAlertController(title: "Time Unavailable", message: "Your business does not have any availability at this time. Want us to check for other nearby times on this date?", preferredStyle: .alert);
+                let searchOthers = UIAlertAction(title: "Yes", style: .default) { (action: UIAlertAction) in
+                    print("gotta go find the others")
+                }
+                alert.addAction(searchOthers);
+                let noThanks = UIAlertAction(title: "Nope", style: .cancel) { (action: UIAlertAction) in
+                    print("lol")
+                }
+                alert.addAction(noThanks)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil);
+                }
+            }
+        }
+    }
+    
+    func getAvailableAreasClone() {
+        if closed {
+            let alert = Components().createActionAlert(title: "Business Closed", message: "Your business is closed on this day.", buttonTitle: "Okay!", handler: nil);
+            DispatchQueue.main.async {
+                self.present(alert, animated: true, completion: nil);
+            }
+            return;
+        }
+        var serviceIds: [String] = [];
+        var serviceNames: [String] = []
+        var timeDurationNum = 0;
+        var cost: Double = 0;
+        var servicesArray: [String] = [];
+        for service in servicesTable.selectedServices {
+            servicesArray.append(service.id);
+        }
+            for selectedService in servicesTable.selectedServices {
+                serviceIds.append(selectedService.id);
+                serviceNames.append(selectedService.serviceName);
+                timeDurationNum = timeDurationNum + Utilities.timeDurationStringToInt[selectedService.timeDuration]!;
+                cost = cost + selectedService.cost;
+            }
+        if numWheel3.selected != "None" {
+            let percentNum = Double(numWheel3.selected)! * 0.01;
+            let costMinus = percentNum * cost;
+            cost = cost - costMinus;
+            cost = round(cost * 100) / 100;
+        }
+        let closeTime = Utilities.itst[Utilities.stit[self.timePicker.selectedItem!]! + timeDurationNum];
+        let costString = String(cost);
+        var costStringArray = costString.components(separatedBy: ".");
+        if costStringArray[1].count == 1 {
+            costStringArray[1] = costStringArray[1] + "0";
+            self.costForTable = "$" + costStringArray[0] + "." +  costStringArray[1];
+            self.costText.text = "$" + costStringArray[0] + "." +  costStringArray[1];
+        }
+        else {
+            self.costText.text = "Cost: " + "$" + costString;
+            self.costForTable = "$" + costString;
+        }
+        let cloneNum = numWheel.selected;
+        let daysBetween = numWheel2.selected;
+        
+        API().post(url: myURL + "getBookings/cloneAreas", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum, "cloneNum": cloneNum, "daysBetween": daysBetween]) { (res) in
+            if res["statusCode"] as! Int == 205 {
+                if let dayError = res["day"] as? String {
+                    let alert = UIAlertController(title: "Clone Open Time Error", message: "You cannot clone this booking because your business is closed at the preferred time on " + dayError + ".", preferredStyle: .alert);
+                    let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                    alert.addAction(woops);
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil);
+                    }
+                }
+                if let openError = res["openError"] as? String {
+                    let alert = UIAlertController(title: "Clone Open Time Error", message: "You cannot clone this booking because your business is not open at the preferred time on " + openError + ".", preferredStyle: .alert);
+                    let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                    alert.addAction(woops);
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil);
+                    }
+                }
+                return;
+            }
+            if res["statusCode"] as! Int == 409 {
+                let alert = UIAlertController(title: "Invalid Date", message: "The date or time you have chosen has already passed and cannot be scheduled.", preferredStyle: .alert);
+                let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
+                alert.addAction(woops);
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil);
+                }
+            }
+            if let dates = res["dates"] as? [String], let bcnArray = res["bcnArray"] as? [Int] {
+                self.bcnArray = bcnArray;
+                self.datesForCollectionView = dates;
+                self.servicesChosenTable.servicesChosen = serviceNames;
+                if dates.count > 0 {
+                    if dates.count > 0 {
+                        self.datesForClone = dates;
+                    }
+                    DispatchQueue.main.async {
+                        self.timeDurationText.text = self.timePicker.selectedItem! + "-" + closeTime!;
+                        UIView.animate(withDuration: 0.4) {
+                            self.popUp.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.00);
+                        }
+                    }
+                }
+            }
+            else if res["statusCode"] as! Int == 406 {
+                // do the alert here
+                let alert = UIAlertController(title: "Time Unavailable", message: "Your business does not have any availability at this time. Want us to check for other nearby times on this date?", preferredStyle: .alert);
+                let searchOthers = UIAlertAction(title: "Yes", style: .default) { (action: UIAlertAction) in
+                    print("gotta go find the others")
+                }
+                alert.addAction(searchOthers);
+                let noThanks = UIAlertAction(title: "Nope", style: .cancel) { (action: UIAlertAction) in
+                    print("lol")
+                }
+                alert.addAction(noThanks)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil);
+                }
+            }
+        }
+    }
+            
+    
+    func bookButtonHitSingle() {
+        var serviceIdsArray: [String] = [];
+        for service in servicesTable.selectedServices {
+            serviceIdsArray.append(service.id);
+        }
+        if let timeStart = self.timePicker.selectedItem, let date = self.dateChosen, let businessId = Utilities().decodeAdminToken()!["businessId"] as? String {
+            if let phone = customerPhoneTextField.text {
+                if phone != "" {
+                    if !newGuestInfoSaved {
+                        if !isNewGuestBeingRegistered {
+                            var data: [String: Any];
+                            if let selectedBcn = selectedBcn {
+                                data = ["phone": phone ,"timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn, "cost": costForTable]
+                            }
+                            else {
+                                data = ["phone": phone ,"timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "businessId": Utilities().decodeAdminToken()!["businessId"], "cost": costForTable]
+                            }
+                            API().post(url: myURL + "iosBooking/admin/area", dataToSend: data) { (res) in
+                                if res["statusCode"] as! Int == 200 {
+                                    self.bookHit();
+                                }
+                                else if res["statusCode"] as! Int == 406 {
+                                    self.badPhone();
+                                }
+                                else if res["statusCode"] as! Int == 409 {
+                                    self.bcnNotSelected();
+                                }
+                            }
+                        }
+                        else {
+                            self.notFinished();
+                        }
+                    }
+                    else {
+                        let data: [String: Any];
+                        if let selectedBcn = selectedBcn {
+                            data = ["phone": phone, "name": newGuestNameTextField.text!, "timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn, "cost": costForTable];
+                        }
+                        else {
+                            data = ["phone": phone, "name": newGuestNameTextField.text!, "timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "businessId": Utilities().decodeAdminToken()!["businessId"], "cost": costForTable];
+                        }
+                        API().post(url: myURL + "iosBooking/admin/newGuest/area", dataToSend: data) { (res) in
+                            if res["statusCode"] as! Int == 200 {
+                                self.bookHit();
+                            }
+                            else {
+                                if res["statusCode"] as! Int == 409 {
+                                    self.alreadyRegisted();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                self.noPhone()
+            }
+        }
+    }
+    
+    func bookButtonHitClone() {
+        var serviceIdsArray: [String] = [];
+        for service in servicesTable.selectedServices {
+                serviceIdsArray.append(service.id);
+            }
+        if let timeStart = self.timePicker.selectedItem, let date = self.dateChosen, let businessId = Utilities().decodeAdminToken()!["businessId"] as? String {
+                    if let phone = customerPhoneTextField.text {
+                        if !newGuestInfoSaved {
+                            if !isNewGuestBeingRegistered {
+                                var data: [String: Any];
+                                if let selectedBcn = selectedBcn {
+                                    data = ["phone": phone ,"timeStart": timeStart, "date": date, "dates": datesForClone, "serviceIds": serviceIdsArray, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn, "cost": costForTable]
+                                }
+                                else {
+                                    data = ["phone": phone ,"timeStart": timeStart, "date": date, "dates": datesForClone, "serviceIds": serviceIdsArray, "businessId": Utilities().decodeAdminToken()!["businessId"], "cost": costForTable]
+                                }
+                                API().post(url: myURL + "iosBooking/admin/clone", dataToSend: data) { (res) in
+                                    if res["statusCode"] as! Int == 200 {
+                                        self.bookHit();
+                                    }
+                                    else if res["statusCode"] as! Int == 406 {
+                                        self.badPhone();
+                                    }
+                                    else if res["statusCode"] as! Int == 409 {
+                                        self.bcnNotSelected();
+                                    }
+                                }
+                            }
+                            else {
+                                self.notFinished();
+                            }
+                        }
+                        else {
+                            let data: [String: Any];
+                            if let selectedBcn = selectedBcn {
+                                data = ["phone": phone, "name": newGuestNameTextField.text!, "timeStart": timeStart, "date": date, "dates": datesForClone, "serviceIds": serviceIdsArray, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn, "cost": costForTable];
+                            }
+                            else {
+                                data = ["phone": phone, "name": newGuestNameTextField.text!, "timeStart": timeStart, "date": date, "dates": datesForClone, "serviceIds": serviceIdsArray, "businessId": Utilities().decodeAdminToken()!["businessId"], "cost": costForTable];
+                            }
+                            API().post(url: myURL + "iosBooking/admin/newGuest/clone", dataToSend: data) { (res) in
+                                if res["statusCode"] as! Int == 200 {
+                                    self.bookHit();
+                                }
+                                else {
+                                    if res["statusCode"] as! Int == 409 {
+                                        self.alreadyRegisted();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        self.noPhone()
+                }
+            }
+        }
+    }

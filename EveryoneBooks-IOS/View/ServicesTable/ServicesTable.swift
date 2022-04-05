@@ -19,18 +19,32 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
         selectedServices.removeAll(where: { (eachService) -> Bool in
            return service.id == eachService.id
         })
+        print(selectedServices);
+        if selectedServices.count == 0 {
+            self.requiresEmployeeDelegate?.servicesRemoved();
+            self.servicesDelegate?.servicesRemoved();
+        }
         reloadData();
     }
     
     func addService(service: Service) {
         selectedServices.append(service);
+        self.requiresEmployeeDelegate?.serviceChosen(service: service);
+        self.servicesDelegate?.serviceChosen(service: service);
         reloadData();
     }
     /// Delegate Functions
+    ///
+    
+    var numForChars: Int?
     
     var shortText: Bool = false;
 
     var selectedServices: [Service] = [];
+    
+    weak var servicesDelegate: ServiceChosenProtocolUser?
+    
+    weak var requiresEmployeeDelegate: ServiceChosenProtocol?
     
     var data: [Service]? {
         didSet {
@@ -45,7 +59,7 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
     var unselectedCellTextColor: UIColor?;
     
     override init(frame: CGRect, style: UITableView.Style) {
-        super.init(frame: frame, style: UITableView.Style.grouped)
+        super.init(frame: frame, style: UITableView.Style.plain)
         delegate = self;
         dataSource = self;
         register(ServiceSelectedTableCell.self, forCellReuseIdentifier: "SC");
@@ -75,6 +89,9 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
                 let unSelectedCell = dequeueReusableCell(withIdentifier: "SC", for: indexPath) as! ServiceSelectedTableCell;
                 unSelectedCell.service = data[indexPath.row];
                 unSelectedCell.delegate = self;
+                if let numForChars = numForChars {
+                    unSelectedCell.numForChars = numForChars;
+                }
                 if shortText {
                     unSelectedCell.shortText = true;
                 }
@@ -91,7 +108,9 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
                 if let tColorComingIn = unselectedCellTextColor {
                     selectedCell.tColor = tColorComingIn;
                 }
-                
+                if let numForChars = numForChars {
+                    selectedCell.numForChars = numForChars;
+                }
                 selectedCell.service = data[indexPath.row];
                 selectedCell.delegate = self;
                 if shortText {

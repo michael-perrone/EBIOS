@@ -143,6 +143,13 @@ class Utilities {
         return stringToReturn;
     }
     
+    func globalError(view: UIViewController) {
+        let alert = Components().createActionAlert(title: "Error", message: "We are having some trouble on our end. Please try again.", buttonTitle: "Okay!", handler: nil);
+        DispatchQueue.main.async {
+            view.present(alert, animated: true, completion: nil);
+        }
+    }
+    
    
     
     
@@ -167,6 +174,23 @@ class Utilities {
     
     static let timeDurationIntToString: [Int: String] = [1: "5 Minutes", 2: "10 Minutes", 3: "15 Minutes", 4: "20 Minutes", 5: "25 Minutes", 6: "30 Minutes", 7: "35 Minutes", 8: "40 Minutes", 9: "45 Minutes", 10: "50 Minutes", 11: "55 Minutes", 12: "1 Hour", 13: "1 Hour 5 Minutes", 14: "1 Hour 10 Minutes", 15: "1 Hour 15 Minutes", 16: "1 Hour 20 Minutes", 17: "1 Hour 25 Minutes", 18: "1 Hour 30 Minutes", 19: "1 Hour 35 Minutes", 20 : "1 Hour 40 Minutes", 21: "1 Hour 45 Minutes", 22: "1 Hour 50 Minutes", 23: "1 Hour 55 Minutes", 24: "2 Hours"];
     
+    
+    func cutStringIfNeeded(string: String, num: Int) -> String {
+        let myString = Array(string);
+        if myString.count >  num {
+            var emptyString = "";
+            var i = 0;
+            while i < num {
+                emptyString += String(myString[i]);
+                i = i + 1;
+            }
+            emptyString = emptyString + "..."
+            return emptyString;
+        }
+        else {
+            return string;
+        }
+    }
     
     func determineColumnHeight(dayStart: String, dayEnd: String) -> Double {
         var blockNum = 16;

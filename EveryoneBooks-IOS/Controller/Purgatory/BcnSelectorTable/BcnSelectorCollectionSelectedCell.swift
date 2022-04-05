@@ -33,7 +33,6 @@ class BcnSelectorCollectionSelectedCell: UICollectionViewCell {
          bcnText.textAlignment = .center;
          bcnText.backgroundColor = .darkGray2;
          bcnText.textColor = .mainLav;
-         print(contentView.frame);
          contentView.setHeight(height: 40);
          contentView.setWidth(width: 40);
      }

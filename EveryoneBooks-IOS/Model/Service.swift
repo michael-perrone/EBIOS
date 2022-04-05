@@ -14,11 +14,13 @@ struct Service {
     let timeDuration: String;
     let serviceName: String;
     let id: String;
+    let requiresEmployee: Bool;
     
     init(dic: [String: Any]) {
         self.cost = dic["cost"]! as! Double;
         self.timeDuration = dic["timeDuration"]! as! String;
         self.serviceName = dic["serviceName"]! as! String;
         self.id = dic["_id"] as! String;
+        self.requiresEmployee = dic["requiresEmployee"] as! Bool;
     }
 }

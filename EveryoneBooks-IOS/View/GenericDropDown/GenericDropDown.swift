@@ -66,6 +66,4 @@ class GenericDropDown: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSourc
         setHeight(height: 90);
         setWidth(width: 300)
     }
-    
-    
 }

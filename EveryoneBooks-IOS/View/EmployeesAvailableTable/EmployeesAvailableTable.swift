@@ -8,7 +8,15 @@ class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDe
     
     weak var otherDelegate: EmployeesTable?;
     
-    weak var otherOtherDelegate: BookingHit?
+    weak var otherOtherDelegate: BookingHit?;
+    
+    var cost = "" {
+        didSet {
+            
+        }
+    }
+    
+    var dates: [String]?;
     
     var eq: Bool?
     
@@ -30,19 +38,107 @@ class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDe
     
     var isNewGuestBeingRegistered = false;
     
-    var selectedBcn: Int? {
-        didSet {
-            print(selectedBcn!);
-            print("IN EMPLOYEES AVAILABLE TABLE");
+    var selectedBcn: Int?
+    
+    func bookEmployee(employeeId: String) {
+        if let dates = dates {
+            if dates.count > 0 {
+                bookEmployeeClone(employeeId: employeeId);
+            }
+        }
+        else {
+            bookEmployeeSingle(employeeId: employeeId);
         }
     }
     
-    func bookEmployee(employeeId: String) {
+    func bookEmployeeClone(employeeId: String) {
+            var serviceIdsArray: [String] = [];
+            for service in services! {
+                serviceIdsArray.append(service.id);
+            }
+            if let timeStart = self.timeChosen, let date = self.dateChosen, let businessId = businessId {
+                if let fromBusiness = fromBusiness {
+                    if let phone = phone {
+                        if !newGuestInfoSaved {
+                            if !isNewGuestBeingRegistered {
+                                var data: [String: Any];
+                                if let selectedBcn = selectedBcn {
+                                    data = ["phone": phone ,"timeStart": timeStart, "date": date, "dates": dates!, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn, "cost": cost]
+                                }
+                                else {
+                                    data = ["phone": phone ,"timeStart": timeStart, "date": date, "dates": dates!, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "cost": cost]
+                                }
+                                API().post(url: myURL + "iosBooking/admin/clone", dataToSend: data) { (res) in
+                                    if res["statusCode"] as! Int == 200 {
+                                        self.otherOtherDelegate?.bookHit();
+                                    }
+                                    else if res["statusCode"] as! Int == 406 {
+                                        self.otherOtherDelegate?.badPhone();
+                                    }
+                                    else if res["statusCode"] as! Int == 409 {
+                                        self.otherOtherDelegate?.bcnNotSelected();
+                                    }
+                                }
+                            }
+                            else {
+                                self.otherOtherDelegate?.notFinished();
+                            }
+                        }
+                        else {
+                            let data: [String: Any];
+                            if let selectedBcn = selectedBcn {
+                                data = ["phone": phone, "name": fullName, "timeStart": timeStart, "date": date, "dates": dates!, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn, "cost": cost];
+                            }
+                            else {
+                                data = ["phone": phone, "name": fullName, "timeStart": timeStart, "date": date, "dates": dates!, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "cost": cost];
+                                
+                            }
+                            API().post(url: myURL + "iosBooking/admin/newGuest/clone", dataToSend: data) { (res) in
+                                if res["statusCode"] as! Int == 200 {
+                                    self.otherOtherDelegate?.bookHit();
+                                }
+                                else {
+                                    if res["statusCode"] as! Int == 409 {
+                                        self.otherOtherDelegate?.alreadyRegisted();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        otherOtherDelegate!.noPhone()
+                }
+            }
+            else {
+                let data = ["timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": businessId] as [String : Any];
+            //   if self.eq! {
+    //                API().post(url: myURL + "iosBooking/user", headerToSend: Utilities().getToken(), dataToSend: data) { (res) in
+    //                    print(res)
+    //                    if res["statusCode"] as! Int == 200 {
+    //                        self.otherDelegate?.bookHit()
+    //                    } else {
+    //                        print("here")
+    //                        self.otherOtherDelegate?.badPhone();
+    //                    }
+    //                }
+             //   }
+            //    else {
+                    API().post(url: myURL + "iosBooking/sendNotiFromUser", headerToSend: Utilities().getToken(), dataToSend: data) { (res) in
+                        if res["statusCode"] as! Int == 200 {
+                            self.otherDelegate?.userNotiSent()
+                        }
+                    }
+          //      }
+            }
+        }
+    }
+
+    
+    func bookEmployeeSingle(employeeId: String) {
         var serviceIdsArray: [String] = [];
         for service in services! {
             serviceIdsArray.append(service.id);
         }
-
         if let timeStart = self.timeChosen, let date = self.dateChosen, let businessId = businessId {
             if let fromBusiness = fromBusiness {
                 if let phone = phone {
@@ -50,10 +146,10 @@ class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDe
                         if !isNewGuestBeingRegistered {
                             var data: [String: Any];
                             if let selectedBcn = selectedBcn {
-                                data = ["phone": phone ,"timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn]
+                                data = ["phone": phone ,"timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn, "cost": cost]
                             }
                             else {
-                                data = ["phone": phone ,"timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"]]
+                                data = ["phone": phone ,"timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "cost": cost]
                             }
                             API().post(url: myURL + "iosBooking/admin", dataToSend: data) { (res) in
                                 if res["statusCode"] as! Int == 200 {
@@ -74,10 +170,10 @@ class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDe
                     else {
                         let data: [String: Any];
                         if let selectedBcn = selectedBcn {
-                            data = ["phone": phone, "name": fullName, "timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn];
+                            data = ["phone": phone, "name": fullName, "timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "bcn": selectedBcn, "cost": cost];
                         }
                         else {
-                            data = ["phone": phone, "name": fullName, "timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"]];
+                            data = ["phone": phone, "name": fullName, "timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "employeeId": employeeId, "businessId": Utilities().decodeAdminToken()!["businessId"], "cost": cost];
                         }
                         API().post(url: myURL + "iosBooking/admin/newGuest", dataToSend: data) { (res) in
                             if res["statusCode"] as! Int == 200 {
@@ -118,6 +214,12 @@ class EmployeesAvailableTable: UITableView, UITableViewDataSource, UITableViewDe
         }
     }
 }
+    
+    
+    
+    
+    
+    
     
        var employees: [Employee]? {
            didSet {

@@ -41,7 +41,7 @@ class API {
                 catch let error {
                     print(error)
                     print("error hit")
-                    if response.statusCode == 200 {
+                    if response.statusCode == 200 || response.statusCode == 204 || response.statusCode == 205 {
                         completion(["statusCode": response.statusCode])
                     }
                     else {

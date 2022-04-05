@@ -30,6 +30,5 @@ class UserProfileController: UIViewController {
         view.addSubview(exitButton);
         exitButton.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 20);
         exitButton.padRight(from: view.rightAnchor, num: 20);
-        print(Utilities().decodeUserToken())
     }
 }

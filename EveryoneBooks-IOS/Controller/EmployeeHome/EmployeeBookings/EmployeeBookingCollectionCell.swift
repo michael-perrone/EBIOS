@@ -24,7 +24,12 @@ class EmployeeBookingCollectionCell: UICollectionViewCell {
     var bct: String? {
         didSet {
             if let booking = booking {
-                bctnText.text = bct! + " " + booking.bcn!
+                if let bct = bct {
+                    if let bcn = booking.bcn {
+                        print(bcn)
+                        bctnText.text = bct + " " + bcn;
+                    }
+                }
             }
         }
     }
