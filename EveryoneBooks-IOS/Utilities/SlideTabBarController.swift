@@ -81,7 +81,7 @@ class SlideTabBarController: UITabBarController, SlideTabBarProtocol, MenuCellCl
     
     lazy var menu: Menu = {
         if Utilities().getAdminToken() != "nil" {
-            let uiv = Menu(selectionItems: [SelectionItem(vc: BusinessProfileController(), title: "Business Info", image: "🏢"), SelectionItem(vc: EditBusinessProfile(), title: "Edit Business", image: "📎"), SelectionItem(vc: BusinessPerformanceController(), title: "Business Performance", image: "💰"), SelectionItem(vc: AdminEmployeePerformanceViewController(), title: "Employee Performance", image: "👥"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
+            let uiv = Menu(selectionItems: [SelectionItem(vc: BusinessProfileController(), title: "Business Info", image: "🏢"), SelectionItem(vc: EditBusinessProfile(), title: "Edit Business", image: "📎"), SelectionItem(vc: BusinessPerformanceController(), title: "Business Performance", image: "💰"), SelectionItem(vc: AdminEmployeePerformanceViewController(), title: "Employee Performance", image: "👥"), SelectionItem(vc: PayrollViewController(), title: "Payroll Suite", image: "💸"), SelectionItem(vc: LoginController(), title: "Logout", image: "👋")]);
             uiv.cancelDelegate = self;
             uiv.cellClickedDelegate = self;
             uiv.frame = CGRect(x: -(fullWidth / 1.45), y: 0, width: fullWidth / 1.45, height: fullHeight)

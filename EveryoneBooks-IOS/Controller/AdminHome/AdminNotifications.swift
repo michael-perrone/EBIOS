@@ -62,7 +62,7 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
         }
     }
     
-    private let testText = Components().createSimpleText(text: "You do not have any notifications at this time. We will let you know when you do!");
+    private let testText = Components().createNotAsLittleText(text: "You do not have any notifications at this time. We will let you know when you do!", color: .mainLav);
     
     var eq: String?;
     
@@ -125,7 +125,7 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
                         if notis.count == 0 && self.testText.isHidden == true {
                             self.testText.isHidden = false;
                         }
-                        else if self.testText.isHidden == false {
+                        else if self.testText.isHidden == false && notis.count > 0 {
                             self.testText.isHidden = true
                         }
                     }

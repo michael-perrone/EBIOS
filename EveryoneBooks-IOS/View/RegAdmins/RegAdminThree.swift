@@ -36,7 +36,7 @@ class RegAdminThree: UIView {
     }()
     
     lazy var streetInput: UIView = {
-        let uiv = Components().createInput(textField: streetTextField, view: self, typeOfInput: nil, width: UIScreen.main.bounds.width / 1.3);
+        let uiv = Components().createInput(textField: streetTextField, view: self, width: UIScreen.main.bounds.width / 1.3);
         return uiv;
     }()
     
@@ -46,7 +46,7 @@ class RegAdminThree: UIView {
     }()
     
     lazy var cityInput: UIView = {
-        let uiv = Components().createInput(textField: cityTextField, view: self, typeOfInput: nil, width: UIScreen.main.bounds.width / 1.3);
+        let uiv = Components().createInput(textField: cityTextField, view: self, width: UIScreen.main.bounds.width / 1.3);
         return uiv;
     }()
     
@@ -56,7 +56,7 @@ class RegAdminThree: UIView {
     }()
     
     lazy var stateInput: UIView = {
-        let uiv = Components().createInput(textField: stateTextField, view: self, typeOfInput: nil, width: UIScreen.main.bounds.width / 1.3);
+        let uiv = Components().createInput(textField: stateTextField, view: self, width: UIScreen.main.bounds.width / 1.3);
         return uiv;
     }()
     
@@ -66,7 +66,7 @@ class RegAdminThree: UIView {
     }()
     
     lazy var zipInput: UIView = {
-        let uiv = Components().createInput(textField: zipTextField, view: self, typeOfInput: nil, width: UIScreen.main.bounds.width / 1.3);
+        let uiv = Components().createInput(textField: zipTextField, view: self, width: UIScreen.main.bounds.width / 1.3);
         return uiv;
     }()
     

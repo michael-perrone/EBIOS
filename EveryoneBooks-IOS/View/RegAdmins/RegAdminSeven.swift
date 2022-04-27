@@ -34,7 +34,7 @@ class RegAdminSeven: UIView {
     }()
     
     lazy var bookingThingInput: UIView = {
-        let uiv = Components().createInput(textField: bookingThingTextField, view: self, typeOfInput: nil, width: UIScreen.main.bounds.width / 1.3)
+        let uiv = Components().createInput(textField: bookingThingTextField, view: self, width: UIScreen.main.bounds.width / 1.3)
         return uiv;
     }()
 

@@ -47,9 +47,10 @@ class EditBusinessProfile: UITabBarController {
 
     func configureTabs() {
         let addEmployees = Components().createNavBarItemController(image: UIImage(named: "employee"), viewController: AddEmployees(), title: "Employees");
-        let addServices = Components().createNavBarItemController(image: UIImage(named: "ds"), viewController: AddServices(), title: "Services")
+        let addServices = Components().createNavBarItemController(image: UIImage(named: "shake"), viewController: AddServices(), title: "Services")
         let products = Components().createNavBarItemController(image: UIImage(named: "product"), viewController: Products(), title: "Products");
-        viewControllers = [addEmployees, addServices, products]
+        let payroll = Components().createNavBarItemController(image: UIImage(named: "pencil"), viewController: PayrollSetupViewController(), title: "Payroll");
+        viewControllers = [addEmployees, addServices, products, payroll]
     }
     
     func getProfile() {

@@ -15,16 +15,6 @@ class BusinessSearchCell: UICollectionViewCell {
     var index_: Int?;
     
     weak var delegate: BusinessSearchDelegate?;
-    
-    var following: Bool? {
-        didSet {
-            if self.following == true {
-                self.followButton.setTitle("Unfollow", for: .normal);
-            } else {
-                self.followButton.setTitle("Follow", for: .normal);
-            }
-        }
-    }
         
     var business: Business? {
         didSet {
@@ -84,43 +74,25 @@ class BusinessSearchCell: UICollectionViewCell {
        }
     
     lazy var followButton: UIButton = {
-        let uib = Components().createNormalButton(title: "");
+        let uib = Components().createNormalButton(title: "Follow");
         uib.setHeight(height: 44);
         uib.setWidth(width: 100);
         uib.backgroundColor = .mainLav;
-        uib.addTarget(self, action: #selector(follow_unfollow), for: .touchUpInside)
-        uib.showsTouchWhenHighlighted = true;
+        uib.addTarget(self, action: #selector(follow), for: .touchUpInside)
         return uib;
     }()
     
-    @objc func follow_unfollow() {
-        if let amFollowing = self.following {
-            if amFollowing {
-                let data = ["businessId": bID!, "userId": Utilities().getUserId()!]
-                API().post(url: "http://localhost:4000/api/userSubscribe/unfollow", dataToSend: data) { (res) in
-                    if res["statusCode"] as? Int == 200 {
-                        DispatchQueue.main.async {
-                            self.followButton.setTitle("Follow", for: .normal);
-                            self.following = false;
-                            self.delegate?.unFollowBusiness(idParameter: self.bID!)
-                        }
-                    }
-                }
-            }
-            else {
+    @objc func follow() {
                 let data = ["businessId": bID!, "userId": Utilities().getUserId()!]
                 API().post(url: "http://localhost:4000/api/userSubscribe", dataToSend: data) { (res) in
                     if res["statusCode"] as? Int == 200 {
                         DispatchQueue.main.async {
-                            self.followButton.setTitle("Unfollow", for: .normal);
-                            self.following = true;
                             self.delegate?.followBusiness(index: self.index_!);
                         }
                     }
                 }
             }
-        }
-    }
+    
     
     lazy var bookButton: UIButton = {
         let uib = Components().createNormalButton(title: "Book");

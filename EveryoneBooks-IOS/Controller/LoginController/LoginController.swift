@@ -45,12 +45,12 @@ class LoginController: UIViewController {
     }()
     
     lazy var loginInput: UIView = {
-        let uiv = Components().createInput( textField: emailLoginText, view: view, typeOfInput: "mail")
+        let uiv = Components().createInput( textField: emailLoginText, view: view)
         return uiv;
     }()
     
     lazy var passwordInput: UIView = {
-        let uiv = Components().createInput(textField: passwordLoginText, view: view, typeOfInput: "lock")
+        let uiv = Components().createInput(textField: passwordLoginText, view: view)
         return uiv;
     }()
     

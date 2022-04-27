@@ -55,11 +55,6 @@ class RegAdminOne: UIView {
           return uitv;
       }()
       
-     private let typeOfBusinessText: UITextView = {
-          let uitv = Components().createSimpleText(text: "Type of Business")
-          return uitv;
-      }()
-      
     private let businessPicker: BusinessPicker = {
           let uipv = BusinessPicker();
           uipv.setHeight(height: 140);
@@ -96,18 +91,5 @@ class RegAdminOne: UIView {
         addSubview(businessPicker);
         businessPicker.centerTo(element: centerXAnchor);
         businessPicker.padTop(from: typeBusinessText.bottomAnchor, num: 0);
-        
-        
-        
-        
-        
-        
-        
-   
-        
-        
-       
-        
     }
-    
 }

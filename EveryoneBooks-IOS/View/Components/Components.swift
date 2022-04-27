@@ -128,7 +128,7 @@ class Components {
     
     
     // MARK: - INPUT
-    func createInput( textField: UITextField, view: UIView?, typeOfInput: String? = nil, width: CGFloat? = nil) -> UIView {
+    func createInput( textField: UITextField, view: UIView?, width: CGFloat? = nil) -> UIView {
         let uiv = UIView();
         let bottomBorder = UIView();
         if let viewComing = view {
@@ -170,6 +170,19 @@ class Components {
          uib.layer.cornerRadius = 30.0;
          return uib;
     }
+    
+    func createIncredibleButton(title: String, width: CGFloat, fontSize: CGFloat, height: CGFloat) -> UIButton {
+        let uib = UIButton(type: .system);
+        uib.setAttributedTitle(NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize)]), for: .normal);
+        uib.backgroundColor = .literGray;
+        uib.layer.borderColor = .CGBlack;
+        uib.layer.borderWidth = 0.8;
+        uib.layer.cornerRadius = 3;
+        uib.setHeight(height: height)
+        uib.setWidth(width: width);
+        return uib;
+    }
+    
     
     // MARK: -CREATE TITLE TEXT
     

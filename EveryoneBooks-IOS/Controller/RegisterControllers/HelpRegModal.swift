@@ -106,7 +106,7 @@ class HelpRegModal: UIViewController {
     }();
     
     private let details8: UITextView = {
-        let uitv = Components().createDetailText(text: "Enter the area which your business will need to be booked for appointments. For example: a massage parlor takes appointments in an individual room, a tattoo studio may conduct appointments in individual rooms or chairs, and a medical office would book out individual offices.");
+        let uitv = Components().createDetailText(text: "Please enter the area which your business will be booked. For example: a massage parlor takes appointments in an individual room, a tattoo studio may conduct appointments in individual rooms or chairs, and a tennis club would book out individual tennis courts. (For tattoo studio you can type 'Room', and tennis club type 'Court')");
         return uitv;
     }();
     

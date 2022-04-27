@@ -1,11 +1,3 @@
-//
-//  GenericDropDown.swift
-//  EveryoneBooks-IOS
-//
-//  Created by Michael Perrone on 7/17/20.
-//  Copyright © 2020 Michael Perrone. All rights reserved.
-//
-
 import UIKit
 
 class GenericDropDown: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -21,7 +13,6 @@ class GenericDropDown: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSourc
             DispatchQueue.main.async {
                 self.reloadAllComponents()
             }
-          
         }
     }
     
@@ -29,7 +20,8 @@ class GenericDropDown: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSourc
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureView()
+        // default height: 90
+        // default width: 300
         dataSource = self;
         delegate = self;
     }
@@ -62,8 +54,5 @@ class GenericDropDown: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSourc
         }
     }
     
-    func configureView() {
-        setHeight(height: 90);
-        setWidth(width: 300)
-    }
+   
 }

@@ -35,7 +35,6 @@ class AddEmployees: UIViewController, DeleteEmployeesProtocol {
                        headerToSend: Utilities().getAdminToken(), dataToSend: ["employeeId": employee.id]) { (res) in
                 if let status = res["statusCode"] as? Int {
                     if status == 200 {
-                        
                         DispatchQueue.main.async {
                             self.employeesPending.remove(at: row);
                             self.employeesPendingTable.deleteRows(at: indexPath, with: UITableView.RowAnimation.fade);
@@ -203,9 +202,9 @@ class AddEmployees: UIViewController, DeleteEmployeesProtocol {
     }
     
     @objc func addEmployee() {
-        let dataToSend = ["employeeId": self.employeeId, "business": Utilities().getBusinessId()];
+        let dataToSend = ["employeeId": self.employeeId];
         let url = myURL + "businessProfile/addEmployeeToBusinessApp";
-        API().post(url: url, dataToSend: dataToSend) { (res) in
+        API().post(url: url, headerToSend: Utilities().getAdminToken(), dataToSend: dataToSend) { (res) in
             if res["statusCode"] as! Int != 406 {
                 let newEmployee = Employee(dic: ["fullName": self.employeeName, "_id": self.employeeId!]);
                 
@@ -240,7 +239,6 @@ class AddEmployees: UIViewController, DeleteEmployeesProtocol {
                 let url = myURL + "employeeList";
                 let dataToSend = ["employeeId": eID];
                 API().post(url: url, dataToSend: dataToSend) { (res) in
-                    
                     if let failure = res["fail"] {
                         if failure as! Bool{
                             DispatchQueue.main.async {

@@ -528,14 +528,11 @@ class AdminShifts: UIViewController, EditingProtocol {
         isBreak = true;
     }
     
-    
-    
     @objc func switcherNo() {
         isBreak = false;
     }
     
-    
-    
+
     @objc func switcherCloneYes() {
         if nowEditing {
             cloneError()

@@ -17,6 +17,15 @@
 		8927BDC127AB0DEB00E24477 /* BookingHistoryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8927BDC027AB0DEB00E24477 /* BookingHistoryTableCell.swift */; };
 		8927BDC327AB12AD00E24477 /* NoPastBookingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8927BDC227AB12AD00E24477 /* NoPastBookingsCell.swift */; };
 		8932B9C92582ED4200B5AAAF /* NoBookingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8932B9C82582ED4200B5AAAF /* NoBookingsCell.swift */; };
+		8935C99028049E9600AF40A8 /* GroupTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8935C98F28049E9600AF40A8 /* GroupTable.swift */; };
+		8935C99228049ED500AF40A8 /* GroupTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8935C99128049ED500AF40A8 /* GroupTableCell.swift */; };
+		8935C9942805DB9600AF40A8 /* PayrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8935C9932805DB9600AF40A8 /* PayrollViewController.swift */; };
+		8935C9962805E4D300AF40A8 /* PayrollSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8935C9952805E4D300AF40A8 /* PayrollSetupViewController.swift */; };
+		8935C9982805E6CC00AF40A8 /* PayrollDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8935C9972805E6CC00AF40A8 /* PayrollDirections.swift */; };
+		8935C99A2805EC7A00AF40A8 /* EmployeeDropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8935C9992805EC7A00AF40A8 /* EmployeeDropDown.swift */; };
+		8935C99C280607F000AF40A8 /* EmployeePayroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8935C99B280607F000AF40A8 /* EmployeePayroll.swift */; };
+		8935C99E280931E700AF40A8 /* PayrollCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8935C99D280931E700AF40A8 /* PayrollCollectionView.swift */; };
+		8935C9A02809380B00AF40A8 /* PayrollCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8935C99F2809380B00AF40A8 /* PayrollCollectionViewCell.swift */; };
 		8937C66724BBEF34001BB785 /* ShiftsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937C66624BBEF34001BB785 /* ShiftsTableView.swift */; };
 		8937C66924BBFEAA001BB785 /* ShiftsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937C66824BBFEAA001BB785 /* ShiftsTableViewCell.swift */; };
 		893E71B1248BE168001C66E9 /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893E71B0248BE168001C66E9 /* Business.swift */; };
@@ -77,6 +86,9 @@
 		894B09CE2451341A009D2A5E /* RegisterEmployeeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894B09CD2451341A009D2A5E /* RegisterEmployeeController.swift */; };
 		894B947E2457D2FF008E582E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894B947D2457D2FF008E582E /* Constants.swift */; };
 		894C5007256AD48700FB2DD1 /* EmployeeProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894C5006256AD48700FB2DD1 /* EmployeeProfileController.swift */; };
+		894C62A22800F82C0057F1C5 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894C62A12800F82C0057F1C5 /* Friend.swift */; };
+		894C62A42800F9F90057F1C5 /* ConnectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894C62A32800F9F90057F1C5 /* ConnectCell.swift */; };
+		894C62A6280112F40057F1C5 /* ConnectSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894C62A5280112F40057F1C5 /* ConnectSearchViewController.swift */; };
 		894DA4952577177D003EEAA5 /* UserHistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894DA4942577177C003EEAA5 /* UserHistoryController.swift */; };
 		894ED9E624A7D87C00A24858 /* BusinessPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894ED9E524A7D87C00A24858 /* BusinessPageController.swift */; };
 		8957A7EA24A8E51E00C250FF /* BusinessesFollowingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8957A7E924A8E51E00C250FF /* BusinessesFollowingController.swift */; };
@@ -121,6 +133,7 @@
 		898A1562268BA79000A75723 /* ServiceSelectedTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A1561268BA79000A75723 /* ServiceSelectedTableCell.swift */; };
 		898A1565268BB03B00A75723 /* ServiceUnselectedTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A1564268BB03B00A75723 /* ServiceUnselectedTableCell.swift */; };
 		898AA1B92527E43400FE0A75 /* SelectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898AA1B82527E43400FE0A75 /* SelectionItem.swift */; };
+		898D0613280AF2F10097A48F /* PayrollNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898D0612280AF2F10097A48F /* PayrollNumbers.swift */; };
 		898D408C24CCCC9E00FE10B7 /* ServicesChosenTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898D408B24CCCC9E00FE10B7 /* ServicesChosenTable.swift */; };
 		89926A9A25379931002601B2 /* EmployeeBusinessPerformanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89926A9925379931002601B2 /* EmployeeBusinessPerformanceController.swift */; };
 		89939D2E27BAC450006AB4EE /* DatesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89939D2D27BAC450006AB4EE /* DatesCollectionView.swift */; };
@@ -136,8 +149,13 @@
 		89ADB292277A571F00A22D63 /* ProductUnselectedTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB291277A571F00A22D63 /* ProductUnselectedTableCell.swift */; };
 		89ADB295277B7D8400A22D63 /* EditProductsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB294277B7D8400A22D63 /* EditProductsTable.swift */; };
 		89ADB297277B7EC300A22D63 /* EditingProductsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ADB296277B7EC300A22D63 /* EditingProductsCell.swift */; };
+		89B0A4EF28032CAE00DEBA3E /* SearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B0A4EE28032CAE00DEBA3E /* SearchTable.swift */; };
+		89B0A4F128032FC400DEBA3E /* SearchTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B0A4F028032FC400DEBA3E /* SearchTableCell.swift */; };
 		89B2BCC327F8DE2E0010A9AC /* RestaurantBuilderDropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B2BCC227F8DE2E0010A9AC /* RestaurantBuilderDropdown.swift */; };
 		89B2BCC527FB8C660010A9AC /* RTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B2BCC427FB8C660010A9AC /* RTable.swift */; };
+		89B2BCC727FFD2C40010A9AC /* UserConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B2BCC627FFD2C40010A9AC /* UserConnect.swift */; };
+		89B2BCC927FFF44A0010A9AC /* BusinessSearchCellFollowing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B2BCC827FFF44A0010A9AC /* BusinessSearchCellFollowing.swift */; };
+		89B2BCCB2800C4B80010A9AC /* ConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B2BCCA2800C4B80010A9AC /* ConnectViewController.swift */; };
 		89B5FEEA278431AE0009F1D1 /* RemoveServicesTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B5FEE9278431AE0009F1D1 /* RemoveServicesTable.swift */; };
 		89B5FEEC278435AB0009F1D1 /* RemoveServicesTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B5FEEB278435AB0009F1D1 /* RemoveServicesTableCell.swift */; };
 		89B5FEEE278674810009F1D1 /* ColumnScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B5FEED278674810009F1D1 /* ColumnScrollView.swift */; };
@@ -186,6 +204,15 @@
 		8927BDC027AB0DEB00E24477 /* BookingHistoryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingHistoryTableCell.swift; sourceTree = "<group>"; };
 		8927BDC227AB12AD00E24477 /* NoPastBookingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPastBookingsCell.swift; sourceTree = "<group>"; };
 		8932B9C82582ED4200B5AAAF /* NoBookingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoBookingsCell.swift; sourceTree = "<group>"; };
+		8935C98F28049E9600AF40A8 /* GroupTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTable.swift; sourceTree = "<group>"; };
+		8935C99128049ED500AF40A8 /* GroupTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableCell.swift; sourceTree = "<group>"; };
+		8935C9932805DB9600AF40A8 /* PayrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayrollViewController.swift; sourceTree = "<group>"; };
+		8935C9952805E4D300AF40A8 /* PayrollSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayrollSetupViewController.swift; sourceTree = "<group>"; };
+		8935C9972805E6CC00AF40A8 /* PayrollDirections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayrollDirections.swift; sourceTree = "<group>"; };
+		8935C9992805EC7A00AF40A8 /* EmployeeDropDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeDropDown.swift; sourceTree = "<group>"; };
+		8935C99B280607F000AF40A8 /* EmployeePayroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeePayroll.swift; sourceTree = "<group>"; };
+		8935C99D280931E700AF40A8 /* PayrollCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayrollCollectionView.swift; sourceTree = "<group>"; };
+		8935C99F2809380B00AF40A8 /* PayrollCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayrollCollectionViewCell.swift; sourceTree = "<group>"; };
 		8937C66624BBEF34001BB785 /* ShiftsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsTableView.swift; sourceTree = "<group>"; };
 		8937C66824BBFEAA001BB785 /* ShiftsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsTableViewCell.swift; sourceTree = "<group>"; };
 		893E71B0248BE168001C66E9 /* Business.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
@@ -248,6 +275,9 @@
 		894B09CD2451341A009D2A5E /* RegisterEmployeeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterEmployeeController.swift; sourceTree = "<group>"; };
 		894B947D2457D2FF008E582E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		894C5006256AD48700FB2DD1 /* EmployeeProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeProfileController.swift; sourceTree = "<group>"; };
+		894C62A12800F82C0057F1C5 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		894C62A32800F9F90057F1C5 /* ConnectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectCell.swift; sourceTree = "<group>"; };
+		894C62A5280112F40057F1C5 /* ConnectSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectSearchViewController.swift; sourceTree = "<group>"; };
 		894DA4942577177C003EEAA5 /* UserHistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistoryController.swift; sourceTree = "<group>"; };
 		894ED9E524A7D87C00A24858 /* BusinessPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessPageController.swift; sourceTree = "<group>"; };
 		8957A7E924A8E51E00C250FF /* BusinessesFollowingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessesFollowingController.swift; sourceTree = "<group>"; };
@@ -292,6 +322,7 @@
 		898A1561268BA79000A75723 /* ServiceSelectedTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSelectedTableCell.swift; sourceTree = "<group>"; };
 		898A1564268BB03B00A75723 /* ServiceUnselectedTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceUnselectedTableCell.swift; sourceTree = "<group>"; };
 		898AA1B82527E43400FE0A75 /* SelectionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionItem.swift; sourceTree = "<group>"; };
+		898D0612280AF2F10097A48F /* PayrollNumbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayrollNumbers.swift; sourceTree = "<group>"; };
 		898D408B24CCCC9E00FE10B7 /* ServicesChosenTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesChosenTable.swift; sourceTree = "<group>"; };
 		89926A9925379931002601B2 /* EmployeeBusinessPerformanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeBusinessPerformanceController.swift; sourceTree = "<group>"; };
 		89939D2D27BAC450006AB4EE /* DatesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesCollectionView.swift; sourceTree = "<group>"; };
@@ -307,8 +338,13 @@
 		89ADB291277A571F00A22D63 /* ProductUnselectedTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUnselectedTableCell.swift; sourceTree = "<group>"; };
 		89ADB294277B7D8400A22D63 /* EditProductsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProductsTable.swift; sourceTree = "<group>"; };
 		89ADB296277B7EC300A22D63 /* EditingProductsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProductsCell.swift; sourceTree = "<group>"; };
+		89B0A4EE28032CAE00DEBA3E /* SearchTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTable.swift; sourceTree = "<group>"; };
+		89B0A4F028032FC400DEBA3E /* SearchTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableCell.swift; sourceTree = "<group>"; };
 		89B2BCC227F8DE2E0010A9AC /* RestaurantBuilderDropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantBuilderDropdown.swift; sourceTree = "<group>"; };
 		89B2BCC427FB8C660010A9AC /* RTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTable.swift; sourceTree = "<group>"; };
+		89B2BCC627FFD2C40010A9AC /* UserConnect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConnect.swift; sourceTree = "<group>"; };
+		89B2BCC827FFF44A0010A9AC /* BusinessSearchCellFollowing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessSearchCellFollowing.swift; sourceTree = "<group>"; };
+		89B2BCCA2800C4B80010A9AC /* ConnectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectViewController.swift; sourceTree = "<group>"; };
 		89B5FEE9278431AE0009F1D1 /* RemoveServicesTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveServicesTable.swift; sourceTree = "<group>"; };
 		89B5FEEB278435AB0009F1D1 /* RemoveServicesTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveServicesTableCell.swift; sourceTree = "<group>"; };
 		89B5FEED278674810009F1D1 /* ColumnScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnScrollView.swift; sourceTree = "<group>"; };
@@ -467,6 +503,9 @@
 				89605B8C27C431B400074609 /* Group.swift */,
 				897C496627F0BDEC007D9D77 /* Break.swift */,
 				89B2BCC427FB8C660010A9AC /* RTable.swift */,
+				894C62A12800F82C0057F1C5 /* Friend.swift */,
+				8935C99B280607F000AF40A8 /* EmployeePayroll.swift */,
+				898D0612280AF2F10097A48F /* PayrollNumbers.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -521,6 +560,7 @@
 		894A4C46248A735A00A110E7 /* UserHome */ = {
 			isa = PBXGroup;
 			children = (
+				89B0A4ED28032C8300DEBA3E /* Connect */,
 				8995D39124B10C5000533154 /* UserBookingSomething.swift */,
 				894A4C47248A738800A110E7 /* BusinessSearch.swift */,
 				894ED9E524A7D87C00A24858 /* BusinessPageController.swift */,
@@ -605,6 +645,8 @@
 				89D11B97248DCEF70018D1BC /* AddServices.swift */,
 				89D11B99248DCFAD0018D1BC /* Products.swift */,
 				89D11B9B248E80550018D1BC /* EditBusinessHelp.swift */,
+				8935C9952805E4D300AF40A8 /* PayrollSetupViewController.swift */,
+				8935C9972805E6CC00AF40A8 /* PayrollDirections.swift */,
 			);
 			path = EditBusinessProfile;
 			sourceTree = "<group>";
@@ -691,6 +733,7 @@
 				89742FFA25944400000C8E0D /* NoBusinessSearchCell.swift */,
 				8957A7EB24A8E8A000C250FF /* BusinessesFollowingCellCollectionViewCell.swift */,
 				8907BC32258005DA0049C213 /* NoFollowingOrBookingsCells */,
+				89B2BCC827FFF44A0010A9AC /* BusinessSearchCellFollowing.swift */,
 			);
 			path = TableCollectionCells;
 			sourceTree = "<group>";
@@ -892,6 +935,21 @@
 			path = EditProductsTable;
 			sourceTree = "<group>";
 		};
+		89B0A4ED28032C8300DEBA3E /* Connect */ = {
+			isa = PBXGroup;
+			children = (
+				894C62A32800F9F90057F1C5 /* ConnectCell.swift */,
+				894C62A5280112F40057F1C5 /* ConnectSearchViewController.swift */,
+				89B2BCC627FFD2C40010A9AC /* UserConnect.swift */,
+				89B2BCCA2800C4B80010A9AC /* ConnectViewController.swift */,
+				89B0A4EE28032CAE00DEBA3E /* SearchTable.swift */,
+				89B0A4F028032FC400DEBA3E /* SearchTableCell.swift */,
+				8935C98F28049E9600AF40A8 /* GroupTable.swift */,
+				8935C99128049ED500AF40A8 /* GroupTableCell.swift */,
+			);
+			path = Connect;
+			sourceTree = "<group>";
+		};
 		89B18F422506F3D8000CAC20 /* RegisterControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -918,8 +976,12 @@
 			isa = PBXGroup;
 			children = (
 				89926A9925379931002601B2 /* EmployeeBusinessPerformanceController.swift */,
+				8935C9932805DB9600AF40A8 /* PayrollViewController.swift */,
 				89B65FB7253AB38200299CB2 /* AdminEmployeePerformanceViewController.swift */,
 				89B65FAC2539249C00299CB2 /* BusinessProfileController.swift */,
+				8935C9992805EC7A00AF40A8 /* EmployeeDropDown.swift */,
+				8935C99D280931E700AF40A8 /* PayrollCollectionView.swift */,
+				8935C99F2809380B00AF40A8 /* PayrollCollectionViewCell.swift */,
 			);
 			path = AdminMenuControllers;
 			sourceTree = "<group>";
@@ -1070,6 +1132,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				898D408C24CCCC9E00FE10B7 /* ServicesChosenTable.swift in Sources */,
+				894C62A6280112F40057F1C5 /* ConnectSearchViewController.swift in Sources */,
 				8981B1BB248897B000A6AAE1 /* AdminHomeController.swift in Sources */,
 				89D8D1F5247A04EC00060B53 /* RegisterAdminController.swift in Sources */,
 				894534E724818B2400404F2C /* RegAdminSix.swift in Sources */,
@@ -1077,10 +1140,12 @@
 				897F45D5248DC94200080381 /* AddEmployees.swift in Sources */,
 				8947AD9024C546A400C525BD /* EmployeeAvailableCell.swift in Sources */,
 				8944DCEF244F5678004A2819 /* Extensions.swift in Sources */,
+				89B2BCCB2800C4B80010A9AC /* ConnectViewController.swift in Sources */,
 				897853C224B575E300705C99 /* EmployeePickerView.swift in Sources */,
 				89D11B9A248DCFAD0018D1BC /* Products.swift in Sources */,
 				898A1565268BB03B00A75723 /* ServiceUnselectedTableCell.swift in Sources */,
 				89419C6724AD25980027DF0B /* ServicesDisplayTable.swift in Sources */,
+				8935C99028049E9600AF40A8 /* GroupTable.swift in Sources */,
 				8981B1B92488936D00A6AAE1 /* AdminShifts.swift in Sources */,
 				895C716D25564F0F00999EE6 /* EmployeeBookingCollectionCell.swift in Sources */,
 				893F401B25139F3300EDFAE2 /* RoomAreaCollectionView.swift in Sources */,
@@ -1094,21 +1159,26 @@
 				89E93AB924D5FE030042E46E /* EmployeeBusinessSearchCollection.swift in Sources */,
 				898AA1B92527E43400FE0A75 /* SelectionItem.swift in Sources */,
 				897DEE8B279CBF9E004F826E /* BcnSelectorCollectionCell.swift in Sources */,
+				89B2BCC727FFD2C40010A9AC /* UserConnect.swift in Sources */,
 				89605B9C27C6A2D100074609 /* CustomerTable.swift in Sources */,
 				8932B9C92582ED4200B5AAAF /* NoBookingsCell.swift in Sources */,
 				89B2BCC327F8DE2E0010A9AC /* RestaurantBuilderDropdown.swift in Sources */,
+				8935C99E280931E700AF40A8 /* PayrollCollectionView.swift in Sources */,
 				89B65FB8253AB38200299CB2 /* AdminEmployeePerformanceViewController.swift in Sources */,
 				8945975E24B2438F0027BDBB /* MyDatePicker.swift in Sources */,
 				893F401D25139FF400EDFAE2 /* RoomAreaColumn.swift in Sources */,
+				8935C9982805E6CC00AF40A8 /* PayrollDirections.swift in Sources */,
 				895C716A25564C7600999EE6 /* EmployeeBookingsCollection.swift in Sources */,
 				89C343442548888300149F46 /* Product.swift in Sources */,
 				89B2BCC527FB8C660010A9AC /* RTable.swift in Sources */,
 				894ED9E624A7D87C00A24858 /* BusinessPageController.swift in Sources */,
+				89B0A4F128032FC400DEBA3E /* SearchTableCell.swift in Sources */,
 				894B947E2457D2FF008E582E /* Constants.swift in Sources */,
 				895C71702557C3A200999EE6 /* ViewBookingViewController.swift in Sources */,
 				894634F924A0282E0043A6EA /* BusinesSearchCell.swift in Sources */,
 				893E71B7248BE7CC001C66E9 /* API.swift in Sources */,
 				894634F5249FC2F50043A6EA /* AdminProfileHelpCell.swift in Sources */,
+				8935C9942805DB9600AF40A8 /* PayrollViewController.swift in Sources */,
 				894600D9248327080001A453 /* BookingItemPicker.swift in Sources */,
 				8947AD8E24C5459B00C525BD /* EmployeesAvailableTable.swift in Sources */,
 				895B0B5D2454E5B5004D058B /* TimeDrop.swift in Sources */,
@@ -1122,6 +1192,7 @@
 				893F401F2515180900EDFAE2 /* ColumnTableView.swift in Sources */,
 				893F40292519142700EDFAE2 /* CustomNumberPicker.swift in Sources */,
 				894210272550882A006BEF0A /* EmployeePerformanceTableView.swift in Sources */,
+				8935C99228049ED500AF40A8 /* GroupTableCell.swift in Sources */,
 				894A4C4A248A73EA00A110E7 /* UserBookings.swift in Sources */,
 				8946CA8724CDD55A00556D83 /* UserBookingsCollectionCell.swift in Sources */,
 				8927BDC127AB0DEB00E24477 /* BookingHistoryTableCell.swift in Sources */,
@@ -1135,6 +1206,7 @@
 				89A78F5724C13A82006DDEB9 /* ServicesTable.swift in Sources */,
 				896EC43427CEDB610028C1AE /* UserNotifications.swift in Sources */,
 				89742FFF259BABF7000C8E0D /* Customer.swift in Sources */,
+				89B2BCC927FFF44A0010A9AC /* BusinessSearchCellFollowing.swift in Sources */,
 				89B5FEF62787EBF80009F1D1 /* HolderCell.swift in Sources */,
 				897D3EF827F2112C003AF08D /* BreakView.swift in Sources */,
 				8944DCD1244F53B7004A2819 /* AppDelegate.swift in Sources */,
@@ -1173,6 +1245,7 @@
 				89B5FEEC278435AB0009F1D1 /* RemoveServicesTableCell.swift in Sources */,
 				89B65FB4253A1ECC00299CB2 /* EditableText.swift in Sources */,
 				8957A7EA24A8E51E00C250FF /* BusinessesFollowingController.swift in Sources */,
+				894C62A22800F82C0057F1C5 /* Friend.swift in Sources */,
 				89B5FEF02786E9AC0009F1D1 /* BookingView.swift in Sources */,
 				8912385625597C13006220E8 /* EditingServicesCell.swift in Sources */,
 				89A39BD5273FF268002830D3 /* Schedule.swift in Sources */,
@@ -1205,22 +1278,29 @@
 				8927BDC327AB12AD00E24477 /* NoPastBookingsCell.swift in Sources */,
 				89644ED3249DAB6A001D28B3 /* TimePicker.swift in Sources */,
 				89B5FEEE278674810009F1D1 /* ColumnScrollView.swift in Sources */,
+				894C62A42800F9F90057F1C5 /* ConnectCell.swift in Sources */,
 				898A1562268BA79000A75723 /* ServiceSelectedTableCell.swift in Sources */,
 				893F402B251DAD8F00EDFAE2 /* CreateBooking.swift in Sources */,
 				89C32CB024F1FDAF006709C3 /* MessageViewController.swift in Sources */,
 				89926A9A25379931002601B2 /* EmployeeBusinessPerformanceController.swift in Sources */,
+				8935C99C280607F000AF40A8 /* EmployeePayroll.swift in Sources */,
 				89459FCE247E0F0E0077A9F9 /* RegAdminThree.swift in Sources */,
 				894817AE27CC4B27003AB3E9 /* ViewGroupViewController.swift in Sources */,
+				8935C9962805E4D300AF40A8 /* PayrollSetupViewController.swift in Sources */,
 				894600D7248323990001A453 /* RegAdminSeven.swift in Sources */,
+				89B0A4EF28032CAE00DEBA3E /* SearchTable.swift in Sources */,
+				898D0613280AF2F10097A48F /* PayrollNumbers.swift in Sources */,
 				896B448A2794E33400927B53 /* UserBookedUnansweredNotificationCell.swift in Sources */,
 				894304872527C2BE00973FB3 /* ColumnTableCell.swift in Sources */,
 				8944DCD3244F53B7004A2819 /* SceneDelegate.swift in Sources */,
 				89B660682483F42100DD79E5 /* HelpRegModal.swift in Sources */,
+				8935C99A2805EC7A00AF40A8 /* EmployeeDropDown.swift in Sources */,
 				89C32CB224F48518006709C3 /* RequestAnswerNotificationCell.swift in Sources */,
 				89ADB297277B7EC300A22D63 /* EditingProductsCell.swift in Sources */,
 				89ADB290277A511D00A22D63 /* ProductSelectedTableCell.swift in Sources */,
 				8974E6C5247F56C40066528E /* RegAdminFive.swift in Sources */,
 				89E93AB724D5114A0042E46E /* SendEmployeeIdViewController.swift in Sources */,
+				8935C9A02809380B00AF40A8 /* PayrollCollectionViewCell.swift in Sources */,
 				894C5007256AD48700FB2DD1 /* EmployeeProfileController.swift in Sources */,
 				8944A84924859F7F00D0007F /* BasicCalls.swift in Sources */,
 				89C3434A25488B3200149F46 /* ProductTableCell.swift in Sources */,

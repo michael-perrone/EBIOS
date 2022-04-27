@@ -338,6 +338,7 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
         view.addSubview(businessClosedText);
         businessClosedText.padTop(from: choosePreferredTime.topAnchor, num: 20);
         businessClosedText.centerTo(element: view.centerXAnchor);
+        businessClosedText.isHidden = true;
         view.addSubview(continueButton);
         continueButton.centerTo(element: view.centerXAnchor);
         continueButton.padTop(from: choosePreferredTime.bottomAnchor, num: 20);
@@ -580,7 +581,7 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
         let userId = Utilities().getUserId();
         API().post(url: myURL + "getBookings/areas", dataToSend: ["businessId": business?.id, "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.choosePreferredTime.selectedItem, "timeDurationNum": timeDurationNum, "userId": userId!]) { (res) in
             if res["statusCode"] as! Int == 205 {
-                let alert = UIAlertController(title: "Business Closed", message: "This booking is scheduled to end after your business has closed. Please choose a time that will not go past the business closing time.", preferredStyle: .alert);
+                let alert = UIAlertController(title: "Business Closed", message: "This booking is scheduled to end after the business has closed. Please choose a time that will not go past the business closing time.", preferredStyle: .alert);
                 let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
                 alert.addAction(woops);
                 DispatchQueue.main.async {

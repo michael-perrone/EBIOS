@@ -220,6 +220,7 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     private let bottomBorder = Components().createBorder(height: 1.5, width: 220, color: .black);
     
     private let rightBorder = Components().createBorder(height: 200, width: 1.5, color: .black);
+
     
     
     // MARK: Set Up Borders Func

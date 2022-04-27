@@ -96,11 +96,11 @@ class GenericCollectionHorizontal: UICollectionView, UICollectionViewDelegate, U
         if let data = data {
             let item = data[indexPath.row];
             let titleArray = Array(item.title);
-            if titleArray.count > 1 {
+            if titleArray.count > 2 {
                 return CGSize(width: (Double(titleArray.count) + 4.7) * 8.2, height: 40.0);
             }
             else {
-                return CGSize(width: 50, height: 40);
+                return CGSize(width: 40, height: 40);
             }
         }
         else {

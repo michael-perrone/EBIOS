@@ -46,8 +46,21 @@ class UserBookings: UICollectionViewController, UserBookingCancel, LeaveGroupDel
         }
     }
     
+    lazy var barButton: UIButton = {
+        let uib = UIButton(type: .system);
+        uib.setImage(UIImage(named: "business-search"), for: .normal);
+        uib.tintColor = .black;
+        uib.addTarget(self, action: #selector(goToBusinesSearch), for: .touchUpInside);
+        return uib;
+    }()
+    
+    @objc func goToBusinesSearch() {
+        let businessSearch = Components().createNavBarItemController(image: UIImage(named: "business-search"), viewController: BusinessSearch(), title: "Search");
+        self.present(businessSearch, animated: true, completion: nil);
+        print("yo?")
+    }
+    
     func cancelBooking(booking: Booking, row: Int) {
-        
         let alertController = UIAlertController(title: "Confirm Cancellation", message: "Please confirm that you would like to cancel this booking.", preferredStyle: .alert);
         let confirmDelete = UIAlertAction(title: "Yes", style: .destructive) { UIAlertAction in
             API().post(url: myURL + "iosBooking/deleteFromUser", headerToSend: Utilities().getToken(), dataToSend: ["bookingId": booking.id]) { res in
@@ -86,6 +99,7 @@ class UserBookings: UICollectionViewController, UserBookingCancel, LeaveGroupDel
         collectionView.register(UserGroupsCell.self, forCellWithReuseIdentifier: "UserGroupCell");
         collectionView.register(NoBookingsCell.self, forCellWithReuseIdentifier: "NB");
         collectionView.backgroundColor = .mainLav;
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: barButton);
     }
     
     
@@ -99,7 +113,6 @@ class UserBookings: UICollectionViewController, UserBookingCancel, LeaveGroupDel
                     let actualBooking = Booking(dic: booking);
                     self.allOfIt.append(actualBooking)
                 }
-               
             }
             if let groupsBack = res["groups"] as? [[String: Any]] {
                 var realGroups: [Group] = [];

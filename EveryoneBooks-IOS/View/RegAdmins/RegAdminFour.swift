@@ -31,7 +31,7 @@ class RegAdminFour: UIView {
     }()
     
     lazy var businessPhoneInput: UIView = {
-        let uiv = Components().createInput(textField: businessPhoneTextField, view: self, typeOfInput: nil, width: UIScreen.main.bounds.width / 1.3);
+        let uiv = Components().createInput(textField: businessPhoneTextField, view: self, width: UIScreen.main.bounds.width / 1.3);
         return uiv;
     }()
     
@@ -41,7 +41,7 @@ class RegAdminFour: UIView {
     }()
     
     lazy var businessWebsiteInput: UIView = {
-        let uiv = Components().createInput(textField: businessWebsiteTextField, view: self, typeOfInput: nil, width: UIScreen.main.bounds.width / 1.3);
+        let uiv = Components().createInput(textField: businessWebsiteTextField, view: self, width: UIScreen.main.bounds.width / 1.3);
         return uiv;
     }()
     

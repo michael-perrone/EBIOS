@@ -93,9 +93,8 @@ class AddServices: UIViewController, DeleteServiceProtocol {
     }();
     
     private let addServiceButton: UIButton = {
-        let uib = Components().createNormalButton(title: "Add Service");
-        uib.setWidth(width: 160);
-        uib.setHeight(height: 50);
+        let uib = Components().createIncredibleButton(title: "Add Service", width: 150, fontSize: 24, height: 40);
+        
         uib.addTarget(self, action: #selector(addService), for: .touchUpInside);
         return uib;
     }()

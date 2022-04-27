@@ -41,7 +41,7 @@ class UserNotifications: UICollectionViewController, NotiTappedProtocol {
         testText.isHidden = true;
     }
     
-    private let testText = Components().createSimpleText(text: "You do not have any notifications at this time. We will let you know when you do!");
+    private let testText = Components().createNotAsLittleText(text: "You do not have any notifications at this time. We will let you know when you do!", color: .mainLav);
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);

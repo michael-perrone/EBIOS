@@ -10,8 +10,8 @@ import UIKit
 class NoBookingsCell: UICollectionViewCell {
     
     private let title: UITextView = {
-        let uitv = Components().createSimpleText(text: "You do not have any bookings at this time");
-        uitv.font = .systemFont(ofSize: 16);
+        let uitv = Components().createNotAsLittleText(text: "You do not have any bookings at this time", color: .mainLav);
+        
         return uitv;
     }()
     

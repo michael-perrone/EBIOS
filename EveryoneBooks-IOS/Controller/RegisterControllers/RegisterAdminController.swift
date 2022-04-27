@@ -157,8 +157,6 @@ class RegisterAdminController: UIViewController, DisplayView {
                 regAdminOne.isHidden = true;
                 regOneEntered = true;
                 progressBar.progress = 0.15;
-                continueButton.isHidden = true;
-                questionButton.isHidden = true;
                 regAdminTwo.isHidden = false;
           }
         }
@@ -276,24 +274,16 @@ class RegisterAdminController: UIViewController, DisplayView {
                     okay = false;
                 }
             }
-            if okay && typeOfBusiness != "Restaurant" {
+            if okay  {
                 regSixEntered = true;
                 regAdminSix.isHidden = true;
                 regAdminSeven.isHidden = false;
                 progressBar.progress = 0.9;
                 error = "";
             }
-            else if okay && typeOfBusiness == "Restaurant" {
-                regSixEntered = true;
-                regAdminSix.isHidden = true;
-                regAdminRestaurants.isHidden = false;
-                progressBar.progress = 0.9;
-                error = "";
-            }
+   
         }
-        else if !regRestaurantsEntered {
-            print("Okay!");
-        }
+   
         else if !regSevenEntered {
             if let bookingColumnNumber = regAdminSeven.getBookingColumnNumber(), let bookingColumnType = regAdminSeven.getBookingColumnType(), let eq = regAdminSeven.eq {
                 if bookingColumnNumber != "" && bookingColumnType != "" {
@@ -378,7 +368,6 @@ class RegisterAdminController: UIViewController, DisplayView {
             progressBar.progress = 0.75
         }
     }
-    
     
     // MARK: - LIFECYCLE
     override func viewDidLoad() {

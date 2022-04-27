@@ -743,6 +743,7 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
         timePicker.padTop(from: timePickerText.topAnchor, num: -26);
         timePicker.padLeft(from: timePickerText.rightAnchor, num: 22);
         timePicker.setWidth(width: 150);
+        timePicker.setHeight(height: 100)
         view.addSubview(closedTodayText);
         closedTodayText.isHidden = true;
         closedTodayText.padTop(from: timePickerText.topAnchor, num: 0);
@@ -912,7 +913,7 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
     }
     
     func getServices() {
-        API().post(url: myURL + "services/getServices", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"]!]) { (res) in
+        API().get(url: myURL + "services/getServices", headerToSend: Utilities().getAdminToken()) { res in
             if let services = res["services"] as? [[String: Any]] {
                 if services.count == 0 {
                     DispatchQueue.main.async {
@@ -966,7 +967,7 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
             }
             let closeTime = Utilities.itst[Utilities.stit[self.timePicker.selectedItem!]! + timeDurationNum];
             
-            API().post(url: myURL + "getBookings", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum]) { (res) in
+        API().post(url: myURL + "getBookings", headerToSend: Utilities().getAdminToken(), dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum]) { (res) in
                 if res["statusCode"] as! Int == 205 {
                     let alert = UIAlertController(title: "Business Closed", message: "This booking is scheduled to end after your business has closed. Please choose a time that will not go past the business closing time.", preferredStyle: .alert);
                     let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);

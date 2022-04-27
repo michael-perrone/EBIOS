@@ -11,8 +11,7 @@ import UIKit
 class NoBusinessesFollowingCell: UICollectionViewCell {
     
     private let title: UITextView = {
-        let uitv = Components().createSimpleText(text: "You are not following any businesses at this time.");
-        uitv.font = .systemFont(ofSize: 16);
+        let uitv = Components().createNotAsLittleText(text: "You are not following any businesses at this time.", color: .mainLav);
         return uitv;
     }()
     
@@ -22,7 +21,6 @@ class NoBusinessesFollowingCell: UICollectionViewCell {
         title.centerTo(element: contentView.centerXAnchor);
         setWidth(width: fullWidth);
         setHeight(height: 100);
-        
     }
 }
 

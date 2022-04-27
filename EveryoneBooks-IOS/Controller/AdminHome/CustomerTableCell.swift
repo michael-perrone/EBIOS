@@ -16,13 +16,12 @@ class CustomerTableCell: UITableViewCell {
         }
     }
     
-    private let customerText = Components().createNotAsLittleText(text: "", color: .mainLav);
+    private let customerText = Components().createLittleText(text: "", color: .mainLav);
 
     func setupCell() {
         contentView.addSubview(customerText);
         customerText.padLeft(from: contentView.leftAnchor, num: 15);
         customerText.padTop(from: contentView.topAnchor, num: 3);
-        contentView.setWidth(width: fullWidth)
         backgroundColor = .mainLav;
     }
 

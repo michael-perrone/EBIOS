@@ -43,7 +43,7 @@ class RegisterUserController: UIViewController {
     }()
     
     lazy var fullNameInput: UIView = {
-        let uiv = Components().createInput( textField: fullNameTextField, view: view, typeOfInput: nil);
+        let uiv = Components().createInput( textField: fullNameTextField, view: view);
         return uiv;
     }()
     
@@ -55,7 +55,7 @@ class RegisterUserController: UIViewController {
     }()
     
     lazy var phoneNumberInput: UIView = {
-        let uiv = Components().createInput( textField: phoneNumberTextField, view: view, typeOfInput: nil);
+        let uiv = Components().createInput( textField: phoneNumberTextField, view: view);
         return uiv;
     }()
     
@@ -75,12 +75,12 @@ class RegisterUserController: UIViewController {
     }()
     
     lazy var emailInput: UIView = {
-        let uiv = Components().createInput(textField: emailLoginTextField, view: view, typeOfInput: "mail")
+        let uiv = Components().createInput(textField: emailLoginTextField, view: view)
         return uiv;
     }()
     
     lazy var passwordInput: UIView = {
-        let uiv = Components().createInput(textField: passwordLoginTextField, view: view, typeOfInput: "lock")
+        let uiv = Components().createInput(textField: passwordLoginTextField, view: view)
         return uiv;
     }()
     
@@ -93,7 +93,7 @@ class RegisterUserController: UIViewController {
     }()
     
     lazy var confirmPasswordInput: UIView = {
-        let uiv = Components().createInput( textField: confirmPasswordLoginText, view: view, typeOfInput: "lock")
+        let uiv = Components().createInput( textField: confirmPasswordLoginText, view: view)
         return uiv;
     }()
     

@@ -77,6 +77,7 @@ class BusinessSearchCollection: UICollectionViewController, BusinessSearchDelega
     
     func configureUI() {
         collectionView.register(BusinessSearchCell.self, forCellWithReuseIdentifier: "BusinessSearchCell");
+        collectionView.register(BusinessSearchCellFollowing.self, forCellWithReuseIdentifier: "BusinessSearchCellFollowing");
         collectionView.register(NoBusinessSearchCell.self, forCellWithReuseIdentifier: "NF");
         collectionView.backgroundColor = .mainLav;
         navigationController?.navigationBar.barTintColor = .mainLav;
@@ -130,30 +131,56 @@ override func collectionView(_ collectionView: UICollectionView, cellForItemAt i
         }
         if let businessesFollowing = self.businessesFollowing {
             if businessesFollowing.count == 0 {
-                cell.following = false;
+                cell.webText.text = businesses[indexPath.row].website;
+                cell.phoneText.text = businesses[indexPath.row].phone;
+                cell.businessName.text = businesses[indexPath.row].nameOfBusiness;
+                cell.streetText.text = businesses[indexPath.row].street;
+                cell.cityText.text = businesses[indexPath.row].city ;
+                cell.stateText.text = businesses[indexPath.row].state ;
+                cell.zipText.text = businesses[indexPath.row].zip;
+                cell.bID = businesses[indexPath.row].id as! String;
+                cell.business = businesses[indexPath.row];
+                cell.index_ = indexPath.row;
+                cell.configureView();
+                cell.delegate = self;
+                return cell;
             }
             else {
                 if businessesFollowing.contains(businesses[indexPath.row].id!)  {
-                        cell.following = true;
-                    }
-                    
+                    let otherCell = collectionView.dequeueReusableCell(withReuseIdentifier: "BusinessSearchCellFollowing", for: indexPath) as! BusinessSearchCellFollowing;
+                    otherCell.webText.text = businesses[indexPath.row].website;
+                    otherCell.phoneText.text = businesses[indexPath.row].phone;
+                    otherCell.businessName.text = businesses[indexPath.row].nameOfBusiness;
+                    otherCell.streetText.text = businesses[indexPath.row].street;
+                    otherCell.cityText.text = businesses[indexPath.row].city ;
+                    otherCell.stateText.text = businesses[indexPath.row].state ;
+                    otherCell.zipText.text = businesses[indexPath.row].zip;
+                    otherCell.bID = businesses[indexPath.row].id as! String;
+                    otherCell.business = businesses[indexPath.row];
+                    otherCell.index_ = indexPath.row;
+                    otherCell.configureView();
+                    otherCell.extra();
+                    otherCell.delegate = self;
+                    return otherCell;
+                }
                 else {
-                        cell.following = false;
+                    cell.webText.text = businesses[indexPath.row].website;
+                    cell.phoneText.text = businesses[indexPath.row].phone;
+                    cell.businessName.text = businesses[indexPath.row].nameOfBusiness;
+                    cell.streetText.text = businesses[indexPath.row].street;
+                    cell.cityText.text = businesses[indexPath.row].city ;
+                    cell.stateText.text = businesses[indexPath.row].state ;
+                    cell.zipText.text = businesses[indexPath.row].zip;
+                    cell.bID = businesses[indexPath.row].id as! String;
+                    cell.business = businesses[indexPath.row];
+                    cell.index_ = indexPath.row;
+                    cell.configureView();
+                    cell.delegate = self;
+                    return cell;
                 }
             }
         }
-        cell.webText.text = businesses[indexPath.row].website;
-        cell.phoneText.text = businesses[indexPath.row].phone;
-        cell.businessName.text = businesses[indexPath.row].nameOfBusiness;
-        cell.streetText.text = businesses[indexPath.row].street;
-        cell.cityText.text = businesses[indexPath.row].city ;
-        cell.stateText.text = businesses[indexPath.row].state ;
-        cell.zipText.text = businesses[indexPath.row].zip;
-        cell.bID = businesses[indexPath.row].id as! String;
-        cell.business = businesses[indexPath.row];
-        cell.index_ = indexPath.row;
-        cell.configureView();
-        cell.delegate = self;
+       
     }
     return cell;
     }

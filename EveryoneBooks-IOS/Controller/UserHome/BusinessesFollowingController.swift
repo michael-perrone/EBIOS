@@ -39,6 +39,20 @@ class BusinessesFollowingCollection: UICollectionViewController, OtherCollection
         self.present(nav, animated: true, completion: nil);
     }
     
+    lazy var barButton: UIButton = {
+        let uib = UIButton(type: .system);
+        uib.setImage(UIImage(named: "business-search"), for: .normal);
+        uib.tintColor = .black;
+        uib.addTarget(self, action: #selector(goToBusinesSearch), for: .touchUpInside);
+        return uib;
+    }()
+    
+    @objc func goToBusinesSearch() {
+        let businessSearch = Components().createNavBarItemController(image: UIImage(named: "business-search"), viewController: BusinessSearch(), title: "Search");
+        self.present(businessSearch, animated: true, completion: nil);
+        print("yo?")
+    }
+    
     var delto: HideWheel?;
     
     var businesses: [Business]? {
@@ -77,6 +91,7 @@ class BusinessesFollowingCollection: UICollectionViewController, OtherCollection
         navigationController?.navigationBar.backgroundColor = .mainLav;
         navigationController?.navigationBar.barTintColor = .mainLav;
         navigationItem.title = "Following";
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: barButton);
     }
 
     func getFollowing() {

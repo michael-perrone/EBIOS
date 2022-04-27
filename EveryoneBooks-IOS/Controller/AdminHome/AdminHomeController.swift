@@ -18,6 +18,7 @@ class AdminHomeController: SlideTabBarController {
     
     func configureUI() {
         view.backgroundColor = .mainLav;
+        tabBar.backgroundColor = .white;
     }
     
     

@@ -11,8 +11,9 @@ import UIKit
 class ServicesDisplayTable: UITableView, UITableViewDataSource {
     
     override init(frame: CGRect, style: UITableView.Style) {
-        super.init(frame: CGRect.zero, style: UITableView.Style.insetGrouped);
+        super.init(frame: CGRect.zero, style: UITableView.Style.plain);
         configureView()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -28,11 +29,12 @@ class ServicesDisplayTable: UITableView, UITableViewDataSource {
     }
     
     func configureView() {
-        backgroundColor = .clear;
+        backgroundColor = .mainLav;
         setWidth(width: UIScreen.main.bounds.width / 1.3);
         setHeight(height: 260);
         dataSource = self;
         register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -51,6 +53,7 @@ class ServicesDisplayTable: UITableView, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath);
+        cell.backgroundColor = .mainLav;
         if let services = services {
             if services.count > 0 {
                 cell.selectionStyle = .none

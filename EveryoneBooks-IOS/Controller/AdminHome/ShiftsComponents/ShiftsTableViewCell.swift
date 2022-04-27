@@ -12,7 +12,6 @@ class ShiftsTableViewCell: UITableViewCell {
     
     var shift: Shift? {
         didSet {
-            print(shift);
             let name = Utilities().slimString(stringToSlim: shift!.employeeName);
             shiftName.text = name;
             shiftTime.text = shift!.timeStart + "-" + shift!.timeEnd;
@@ -20,8 +19,14 @@ class ShiftsTableViewCell: UITableViewCell {
                 return
             }
             bctAndNum.text = bct + " " + shift!.bcn;
+            print("shiftAbove")
             if let breakStart = shift?.breakStart, let breakEnd = shift?.breakEnd {
-                breakText.text = "Break: " + breakStart + "-" + breakEnd
+                if breakStart != "" && breakEnd != "" {
+                    breakText.text = "Break: " + breakStart + "-" + breakEnd;
+                }
+                else {
+                    breakText.text = "No Break";
+                }
             }
             else {
                 breakText.text = "No Break";

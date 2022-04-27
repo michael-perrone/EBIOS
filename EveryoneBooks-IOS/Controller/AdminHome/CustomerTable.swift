@@ -18,6 +18,8 @@ class CustomerTable: UITableView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    weak var otherDel: CustomerTableDelegateFromView?
+    
     weak var del: CustomerTableDelegate?
     
     override init(frame: CGRect, style: UITableView.Style) {
@@ -59,7 +61,8 @@ class CustomerTable: UITableView, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if let customers = customers {
             if editingStyle == .delete {
-                del?.deleteCustomer(customerId: customers[indexPath.row].id!, index: indexPath.row)
+                otherDel?.delete(customerId: customers[indexPath.row].id!, index: indexPath.row);
+                del?.deleteCustomer(customerId: customers[indexPath.row].id!, index: indexPath.row);
             }
         }
     }

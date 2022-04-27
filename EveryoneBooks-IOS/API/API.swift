@@ -17,10 +17,10 @@ class API {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type");
         
         if let value = headerToSend {
-                  request.setValue(value, forHTTPHeaderField: "x-auth-token");
-              }
+            request.setValue(value, forHTTPHeaderField: "x-auth-token");
+        }
         
-        if let jsonData = try? JSONSerialization.data(withJSONObject: dataToSend, options: []) {
+        if let jsonData = try? JSONSerialization.data(withJSONObject: dataToSend, options: .fragmentsAllowed) {
            
             let task = URLSession.shared.uploadTask(with: request, from: jsonData) { (data, response, error) in
                 if let error = error {
@@ -41,7 +41,7 @@ class API {
                 catch let error {
                     print(error)
                     print("error hit")
-                    if response.statusCode == 200 || response.statusCode == 204 || response.statusCode == 205 {
+                    if response.statusCode == 200 || response.statusCode == 204 || response.statusCode == 205 || response.statusCode == 206 {
                         completion(["statusCode": response.statusCode])
                     }
                     else {

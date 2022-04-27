@@ -11,7 +11,6 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
     }
     
     func addCustomerToTable(phoneNumber: String) {
-        print(dateChosen)
         API().post(url: myURL + "getCustomers/addNewCustomer", headerToSend: Utilities().getAdminToken(), dataToSend: ["phoneNumber": phoneNumber, "date": dateChosen]) { res in
             if res["statusCode"] as? Int == 200 {
                 if let customer = res["user"] as? [String: Any] {
@@ -49,6 +48,22 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
             }
         }
     }
+
+    
+    private let scrollView: UIScrollView = {
+        let uisv = UIScrollView();
+        uisv.contentSize = CGSize(width: fullWidth, height: 850);
+        return uisv;
+    }();
+    
+    
+    private let peopleLimitDrop: GenericDropDown = {
+        let pld = GenericDropDown();
+        pld.data = ["No Limit", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"]
+        pld.setHeight(height: 70);
+        pld.setWidth(width: 150);
+        return pld;
+    }()
     
     var dateChosen: String?;
     
@@ -58,6 +73,8 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
     
     private let timePicker1 = GenericDropDown();
     
+    
+    private var openToPublic: Bool?;
     
     @objc func changedVal() {
         print("hello")
@@ -221,7 +238,6 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
     
     private let timeText = Components().createNotAsLittleText(text: "Time:", color: .mainLav);
     private let dateText = Components().createNotAsLittleText(text: "Date:", color: .mainLav);
-    
     private let dollar = Components().createNotAsLittleText(text: "$", color: .mainLav);
     
     private let createButton: UIButton = {
@@ -288,12 +304,17 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
             present(alert, animated: true, completion: nil);
             return;
         }
+        guard let groupOpen = self.openToPublic else {
+            let alert = Components().createActionAlert(title: "Selection Error", message: "Please select whether or not this group is open to the public to join. If it is, customers will be able to join the group without an invitation.", buttonTitle: "Okay!", handler: nil);
+            present(alert, animated: true, completion: nil);
+            return;
+        }
         if Utilities.stit[timePicker1.selectedItem!]! >= Utilities.stit[timePicker2.selectedItem!]! {
             let alert = Components().createActionAlert(title: "Time Error", message: "Please adjust the group times with the first time being the start time of the group and the second time being the end time of the group.", buttonTitle: "Okay!", handler: nil);
             present(alert, animated: true, completion: nil);
             return;
         }
-        let data = ["price": String(priceDouble), "startTime": timePicker1.selectedItem, "endTime": timePicker2.selectedItem, "businessId": businessId, "date": dateChosen, "employeeBooked": employeeBooked, "type": groupName, "customers": customerIds, "bcn": bcnSelected] as [String : Any];
+        let data = ["price": String(priceDouble), "startTime": timePicker1.selectedItem, "endTime": timePicker2.selectedItem, "businessId": businessId, "date": dateChosen, "employeeBooked": employeeBooked, "type": groupName, "customers": customerIds, "bcn": bcnSelected, "groupOpen": self.openToPublic, "groupLimitNumber": peopleLimitDrop.selectedItem] as [String : Any];
         API().post(url: myURL + "groups/create", headerToSend: Utilities().getAdminToken(), dataToSend: data) { res in
             if res["statusCode"] as? Int == 200 {
                 DispatchQueue.main.async {
@@ -374,25 +395,65 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
         navigationItem.title = "Create Groups/Clinics";
     }
     
+    private let noEmployeeTextView = Components().createNotAsLittleText(text: "No registered employees", color: .mainLav);
+    
+    private let groupOpenToPublicText = Components().createNotAsLittleText(text: "Group open to public?", color: .mainLav);
+    
+    lazy var yesButton: UIButton = {
+           let uib = Components().createGoodButton(title: "Yes");
+           uib.addTarget(self, action: #selector(yesHit), for: .touchUpInside);
+           return uib;
+    }()
+       
+    lazy var noButton: UIButton = {
+           let uib = Components().createGoodButton(title: "No");
+           uib.addTarget(self, action: #selector(noHit), for: .touchUpInside);
+           return uib;
+    }()
+    
+    @objc func yesHit() {
+        openToPublic = true;
+        noButton.backgroundColor = .literGray;
+        noButton.tintColor = .darkGray2;
+        yesButton.backgroundColor = .darkGray2;
+        yesButton.tintColor = .literGray;
+     
+    }
+    
+    @objc func noHit() {
+        openToPublic = false;
+        noButton.backgroundColor = .darkGray2;
+        noButton.tintColor = .literGray;
+        yesButton.backgroundColor = .literGray;
+        yesButton.tintColor = .darkGray2;
+    }
+    
+    private let groupLimitNumberText = Components().createNotAsLittleText(text: "Group Limit Number:", color: .mainLav);
+    
     func setUpView() {
-        view.addSubview(groupNameInput);
-        groupNameInput.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 2);
-        groupNameInput.padLeft(from: view.leftAnchor, num: fullWidth / 12);
-        view.addSubview(priceInput);
+        view.addSubview(scrollView);
+        scrollView.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 0);
+        scrollView.padLeft(from: view.leftAnchor, num: 0);
+        scrollView.setHeight(height: fullHeight);
+        scrollView.setWidth(width: fullWidth);
+        scrollView.addSubview(groupNameInput);
+        groupNameInput.padTop(from: scrollView.topAnchor, num: 2);
+        groupNameInput.padLeft(from: scrollView.leftAnchor, num: fullWidth / 12);
+        scrollView.addSubview(priceInput);
         priceInput.padTop(from: groupNameInput.bottomAnchor, num: 6);
-        priceInput.padLeft(from: view.leftAnchor, num: fullWidth / 12);
-        view.addSubview(customerPhoneInput);
+        priceInput.padLeft(from: scrollView.leftAnchor, num: fullWidth / 12);
+        scrollView.addSubview(customerPhoneInput);
         customerPhoneInput.padTop(from: priceInput.bottomAnchor, num: 6);
-        customerPhoneInput.padLeft(from: view.leftAnchor, num: fullWidth / 12);
-        view.addSubview(plusButton);
+        customerPhoneInput.padLeft(from: scrollView.leftAnchor, num: fullWidth / 12);
+        scrollView.addSubview(plusButton);
         plusButton.padLeft(from: customerPhoneInput.rightAnchor, num: 2);
         plusButton.padTop(from: customerPhoneInput.topAnchor, num: -10);
-        view.addSubview(dollar);
+        scrollView.addSubview(dollar);
         dollar.padTop(from: priceInput.topAnchor, num: 2);
         dollar.padRight(from: priceInput.leftAnchor, num: 0);
-        view.addSubview(customerTable);
+        scrollView.addSubview(customerTable);
         customerTable.padTop(from: customerPhoneInput.bottomAnchor, num: 8);
-        customerTable.padLeft(from: view.leftAnchor, num: fullWidth / 12);
+        customerTable.padLeft(from: scrollView.leftAnchor, num: fullWidth / 12);
         customerTable.del = self;
         view.addSubview(timeText);
         timeText.padTop(from: customerTable.bottomAnchor, num: 23);
@@ -424,22 +485,41 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
         view.addSubview(employeeText);
         employeeText.padLeft(from: view.leftAnchor, num: 15);
         employeeText.padTop(from: datePicker.bottomAnchor, num: 24);
+        view.addSubview(noEmployeeTextView);
+        noEmployeeTextView.isHidden = true;
+        noEmployeeTextView.padLeft(from: employeeText.rightAnchor, num: 5);
+        noEmployeeTextView.padTop(from: employeeText.topAnchor, num: 0);
         view.addSubview(employeesCollection);
         employeesCollection.padLeft(from: employeeText.rightAnchor, num: 0);
         employeesCollection.padTop(from: datePicker.bottomAnchor, num: 24);
         employeesCollection.setHeight(height: 40);
-        employeesCollection.setWidth(width: fullWidth  - 130);
+        employeesCollection.padRight(from: view.rightAnchor, num: 5);
         view.addSubview(bctText);
         bctText.padLeft(from: view.leftAnchor, num: 15);
         bctText.padTop(from: employeeText.bottomAnchor, num: 25);
         view.addSubview(bcnCollection);
         bcnCollection.padTop(from: employeesCollection.bottomAnchor, num: 20);
-        bcnCollection.padLeft(from: bctText.rightAnchor, num: 10);
+        bcnCollection.padLeft(from: bctText.rightAnchor, num: 5);
         bcnCollection.setHeight(height: 40);
-        bcnCollection.setWidth(width: fullWidth  - 100);
-        view.addSubview(createButton);
-        createButton.padTop(from: bcnCollection.bottomAnchor, num: 15);
-        createButton.centerTo(element: view.centerXAnchor);
+        bcnCollection.padRight(from: view.rightAnchor, num: 7)
+        view.addSubview(groupOpenToPublicText);
+        groupOpenToPublicText.padTop(from: bcnCollection.bottomAnchor, num: 20);
+        groupOpenToPublicText.padLeft(from: view.leftAnchor, num: 15);
+        scrollView.addSubview(yesButton);
+        yesButton.padLeft(from: groupOpenToPublicText.rightAnchor, num: 10);
+        yesButton.padTop(from: groupOpenToPublicText.topAnchor, num: 5);
+        scrollView.addSubview(noButton);
+        noButton.padTop(from: yesButton.topAnchor, num: 0);
+        noButton.padLeft(from: yesButton.rightAnchor, num: 20);
+        scrollView.addSubview(groupLimitNumberText);
+        groupLimitNumberText.padLeft(from: view.leftAnchor, num: 15);
+        groupLimitNumberText.padTop(from: groupOpenToPublicText.bottomAnchor, num: 30);
+        scrollView.addSubview(peopleLimitDrop);
+        peopleLimitDrop.padLeft(from: groupLimitNumberText.rightAnchor, num: 5);
+        peopleLimitDrop.padTop(from: groupLimitNumberText.topAnchor, num: -18);
+        scrollView.addSubview(createButton);
+        createButton.padTop(from: groupLimitNumberText.bottomAnchor, num: 30);
+        createButton.centerTo(element: scrollView.centerXAnchor);
         getEmployees()
     }
     
@@ -460,12 +540,31 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
                         }
                         self.employeesCollection.data = horItems;
                     }
+                    else {
+                        print("yo yo joe joe")
+                        DispatchQueue.main.async {
+                            self.employeesCollection.isHidden = true;
+                            self.noEmployeeTextView.isHidden = false;
+                        }
+                    }
                 }
+                
                 if let bcn = res["bcn"] as? String {
                     self.bcn = bcn;
                 }
                 if let bct = res["bct"] as? String {
                     self.bct = bct;
+                }
+            } else if res["statusCode"] as! Int == 206 {
+                if let bcn = res["bcn"] as? String {
+                    self.bcn = bcn;
+                }
+                if let bct = res["bct"] as? String {
+                    self.bct = bct;
+                }
+                DispatchQueue.main.async {
+                    self.employeesCollection.isHidden = true;
+                    self.noEmployeeTextView.isHidden = false;
                 }
             }
         }
