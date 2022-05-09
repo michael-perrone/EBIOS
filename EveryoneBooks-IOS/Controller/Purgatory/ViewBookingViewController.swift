@@ -46,6 +46,7 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
         let alertController = UIAlertController(title: "Remove Service:", message: "Please confirm that you would like to remove " + service.serviceName + " from this booking.", preferredStyle: .alert);
         let confirmAction = UIAlertAction(title: "Confirm", style: .destructive) { (UIAlertAction) in
             self.services?.remove(at: index);
+            // check this if employee ever uses it
             API().post(url: myURL + "getBookings/removeService", dataToSend: ["bookingId": self.booking!.id, "serviceId": service.id]) { (res) in
                 if let newCost = res["cost"] as? String {
                     DispatchQueue.main.async {
@@ -85,7 +86,7 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     
     var booking: Booking? {
         didSet {
-            API().post(url: myURL + "getBookings/moreBookingInfo", dataToSend: ["bookingId": booking!.id]) { (res) in
+            API().post(url: myURL + "getBookings/moreBookingInfo", headerToSend: Utilities().getAdminToken(), dataToSend: ["bookingId": booking!.id]) { (res) in
                 if let services = res["services"] as? [[String: Any]] {
                     var servicesArray: [Service] = [];
                     for service in services {
@@ -457,7 +458,7 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
             for service in servicesTable.selectedServices {
                 serviceIdsArray.append(service.id);
             }
-            API().post(url: myURL + "getBookings/editBooking", dataToSend: ["bookingId": booking!.id, "servicesToAdd": serviceIdsArray ]) { (res) in
+            API().post(url: myURL + "getBookings/editBooking", headerToSend: Utilities().getAdminToken(), dataToSend: ["bookingId": booking!.id, "servicesToAdd": serviceIdsArray ]) { (res) in
                 if res["statusCode"] as! Int == 200 {
                     var newEditServicesArray = self.services!;
                     for service in self.servicesTable.selectedServices {
@@ -597,7 +598,7 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     
     func getServices(businessId: String) {
         if Utilities().decodeAdminToken() != nil || Utilities().decodeEmployeeToken() != nil {
-            API().post(url: myURL + "services/getServices", dataToSend: ["businessId": businessId]) { (res) in
+            API().get(url: myURL + "services/getServices", headerToSend: Utilities().getAdminToken()) { (res) in
                 if let services = res["services"] as? [[String: Any]] {
                     var newServicesArray: [Service] = [];
                     for service in services {

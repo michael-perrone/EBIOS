@@ -968,7 +968,7 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
             let closeTime = Utilities.itst[Utilities.stit[self.timePicker.selectedItem!]! + timeDurationNum];
             
         API().post(url: myURL + "getBookings", headerToSend: Utilities().getAdminToken(), dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum]) { (res) in
-                if res["statusCode"] as! Int == 205 {
+                if res["statusCode"] as! Int == 201 {
                     let alert = UIAlertController(title: "Business Closed", message: "This booking is scheduled to end after your business has closed. Please choose a time that will not go past the business closing time.", preferredStyle: .alert);
                     let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
                     alert.addAction(woops);
@@ -1075,7 +1075,7 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
         let daysBetween = numWheel2.selected;
         
         API().post(url: myURL + "getBookings/clone", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum, "cloneNum": cloneNum, "daysBetween": daysBetween]) { (res) in
-            if res["statusCode"] as! Int == 205 {
+            if res["statusCode"] as! Int == 201 {
                 if let dayError = res["day"] as? String {
                     let alert = UIAlertController(title: "Clone Open Time Error", message: "You cannot clone this booking because your business is closed at the preferred time on " + dayError + ".", preferredStyle: .alert);
                     let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
@@ -1181,7 +1181,7 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
         let closeTime = Utilities.itst[Utilities.stit[self.timePicker.selectedItem!]! + timeDurationNum];
         
         API().post(url: myURL + "getBookings/areas", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum]) { (res) in
-            if res["statusCode"] as! Int == 205 {
+            if res["statusCode"] as! Int == 201 {
                 let alert = UIAlertController(title: "Business Closed", message: "This booking is scheduled to end after your business has closed. Please choose a time that will not go past the business closing time.", preferredStyle: .alert);
                 let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
                 alert.addAction(woops);
@@ -1279,7 +1279,7 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
         let daysBetween = numWheel2.selected;
         
         API().post(url: myURL + "getBookings/cloneAreas", dataToSend: ["businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.dateChosen, "serviceIds": serviceIds, "timeChosen": self.timePicker.selectedItem, "timeDurationNum": timeDurationNum, "cloneNum": cloneNum, "daysBetween": daysBetween]) { (res) in
-            if res["statusCode"] as! Int == 205 {
+            if res["statusCode"] as! Int == 201 {
                 if let dayError = res["day"] as? String {
                     let alert = UIAlertController(title: "Clone Open Time Error", message: "You cannot clone this booking because your business is closed at the preferred time on " + dayError + ".", preferredStyle: .alert);
                     let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);
@@ -1417,7 +1417,7 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
                                 else {
                                     data = ["phone": phone ,"timeStart": timeStart, "date": date, "dates": datesForClone, "serviceIds": serviceIdsArray, "businessId": Utilities().decodeAdminToken()!["businessId"], "cost": costForTable]
                                 }
-                                API().post(url: myURL + "iosBooking/admin/clone", dataToSend: data) { (res) in
+                                API().post(url: myURL + "iosBooking/admin/clone/area", dataToSend: data) { (res) in
                                     if res["statusCode"] as! Int == 200 {
                                         self.bookHit();
                                     }
