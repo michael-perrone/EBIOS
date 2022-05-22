@@ -13,7 +13,7 @@ class ReadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
     func layoutReadCell() {
         if let noti = noti {
             // You denied Employee
-            if noti.notificationType == "YDE" {
+            if noti.notificationType == "YDER" { // changed from yde
                 notiMessage.text = noti.fromName! + " was denied from becoming an employee."
             }
             // You accepted request read // formerly EAR
@@ -29,8 +29,8 @@ class ReadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
                 notiMessage.text = noti.fromName! + " has accepted your request to join their business as an employee."
             }
             // You Accepted Employee
-            else if noti.notificationType == "YAE" {
-                notiMessage.text = "You have added " + noti.fromName! + " as an employee of your bussiness";
+            else if noti.notificationType == "ERYR" {
+                notiMessage.text = "You have added " + noti.fromName! + " as an employee of your business";
             }
             // Admin Accepted User Request
             else if noti.notificationType == "AAUR" {

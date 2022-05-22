@@ -117,11 +117,11 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
                     if eq == "n" {
                         self.bct = bct;
                         self.eq = eq;
+                        }
                     }
-                }
-                var notis = res["notifications"] as? [[String: Any]];
-                if let notis = notis {
-                    DispatchQueue.main.async {
+                    var notis = res["notifications"] as? [[String: Any]];
+                    if let notis = notis {
+                        DispatchQueue.main.async {
                         if notis.count == 0 && self.testText.isHidden == true {
                             self.testText.isHidden = false;
                         }

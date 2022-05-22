@@ -483,6 +483,12 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
                             self.present(alert, animated: true, completion: nil);
                         }
                     }
+                    else if res["statusCode"] as! Int == 406 {
+                        let alert = Components().createActionAlert(title: "Closing Error", message: "Adding these service(s) to this booking will make the booking overlap with the closing time.", buttonTitle: "Okay!", handler: nil);
+                        DispatchQueue.main.async {
+                            self.present(alert, animated: true, completion: nil);
+                        }
+                    }
                 }
             }
         }

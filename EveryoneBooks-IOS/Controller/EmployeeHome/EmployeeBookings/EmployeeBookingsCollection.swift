@@ -36,7 +36,7 @@ class EmployeeBookingsCollection: UICollectionView, UICollectionViewDelegate, UI
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: UICollectionViewFlowLayout());
         register(EmployeeBookingCollectionCell.self, forCellWithReuseIdentifier: "EBC");
-        register(BreakFillerCell.self, forCellWithReuseIdentifier: "BreakCell");
+       // register(BreakFillerCell.self, forCellWithReuseIdentifier: "BreakCell");
         delegate = self;
         dataSource = self;
         backgroundColor = .mainLav;
@@ -66,15 +66,15 @@ class EmployeeBookingsCollection: UICollectionView, UICollectionViewDelegate, UI
         let cell = dequeueReusableCell(withReuseIdentifier: "EBC", for: indexPath) as! EmployeeBookingCollectionCell;
         if let bookings = bookings {
             if indexPath.row == 0 {
-            if isBreak {
-                    let otherCell = dequeueReusableCell(withReuseIdentifier: "BreakCell", for: indexPath) as! BreakFillerCell;
-                    if let breakTime = breakTime {
-                        otherCell.breakTime = breakTime;
-                        otherCell.setup()
-                    }
-                    return otherCell;
-            }
-            else if indexPath.row == bookings.count {
+//            if isBreak {
+//                    let otherCell = dequeueReusableCell(withReuseIdentifier: "BreakCell", for: indexPath) as! BreakFillerCell;
+//                    if let breakTime = breakTime {
+//                        otherCell.breakTime = breakTime;
+//                        otherCell.setup()
+//                    }
+//                    return otherCell;
+//            }
+            if indexPath.row == bookings.count {
                 cell.booking = bookings[indexPath.row];
                 cell.bct = self.bct;
                 if let employeeCellDelegate = self.employeeCellDelegate {

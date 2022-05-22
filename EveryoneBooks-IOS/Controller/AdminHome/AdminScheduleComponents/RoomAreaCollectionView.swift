@@ -166,7 +166,7 @@ class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 180, height: fullHeight - 175);
+        return CGSize(width: 240, height: fullHeight - 175);
     }
     
 

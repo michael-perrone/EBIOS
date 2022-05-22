@@ -326,7 +326,7 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
                     self.customers = [];
                 }
             }
-            if res["statusCode"] as? Int == 403 {
+            if res["statusCode"] as? Int == 406 {
                 if let bcnArray = res["bcnArray"] as? [Int] {
                     var helper1 = " are ";
                     var helper2 = "'s"
@@ -455,11 +455,18 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
         customerTable.padTop(from: customerPhoneInput.bottomAnchor, num: 8);
         customerTable.padLeft(from: scrollView.leftAnchor, num: fullWidth / 12);
         customerTable.del = self;
+        view.addSubview(dateText);
+        dateText.padTop(from: customerTable.bottomAnchor, num: 10);
+        dateText.padLeft(from: view.leftAnchor, num: 15);
+        view.addSubview(datePicker);
+        datePicker.padLeft(from: dateText.rightAnchor, num: 15);
+        datePicker.padTop(from: customerTable.bottomAnchor, num: 6);
+        datePicker.setHeight(height: 40)
         view.addSubview(timeText);
-        timeText.padTop(from: customerTable.bottomAnchor, num: 23);
+        timeText.padTop(from: datePicker.bottomAnchor, num: 23);
         timeText.padLeft(from: view.leftAnchor, num: 15);
         view.addSubview(timePicker1);
-        timePicker1.padTop(from: customerTable.bottomAnchor, num: 12);
+        timePicker1.padTop(from: datePicker.bottomAnchor, num: 12);
         timePicker1.padLeft(from: timeText.rightAnchor, num: 0);
         view.addSubview(dashText);
         dashText.padLeft(from: timePicker1.rightAnchor, num: 0);
@@ -467,13 +474,6 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
         view.addSubview(timePicker2);
         timePicker2.padLeft(from: dashText.rightAnchor, num: 0);
         timePicker2.padTop(from: timePicker1.topAnchor, num: 0);
-        view.addSubview(dateText);
-        dateText.padTop(from: timeText.bottomAnchor, num: 30);
-        dateText.padLeft(from: view.leftAnchor, num: 15);
-        view.addSubview(datePicker);
-        datePicker.padLeft(from: dateText.rightAnchor, num: 15);
-        datePicker.padTop(from: timePicker1.bottomAnchor, num: 15);
-        datePicker.setHeight(height: 40)
         timePicker1.setWidth(width: 140);
         timePicker1.setHeight(height: 60);
         timePicker2.setHeight(height: 60);
@@ -484,14 +484,14 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
         closedTodayText.isHidden = true;
         view.addSubview(employeeText);
         employeeText.padLeft(from: view.leftAnchor, num: 15);
-        employeeText.padTop(from: datePicker.bottomAnchor, num: 24);
+        employeeText.padTop(from: timeText.bottomAnchor, num: 24);
         view.addSubview(noEmployeeTextView);
         noEmployeeTextView.isHidden = true;
         noEmployeeTextView.padLeft(from: employeeText.rightAnchor, num: 5);
         noEmployeeTextView.padTop(from: employeeText.topAnchor, num: 0);
         view.addSubview(employeesCollection);
         employeesCollection.padLeft(from: employeeText.rightAnchor, num: 0);
-        employeesCollection.padTop(from: datePicker.bottomAnchor, num: 24);
+        employeesCollection.padTop(from: employeeText.topAnchor, num: 0);
         employeesCollection.setHeight(height: 40);
         employeesCollection.padRight(from: view.rightAnchor, num: 5);
         view.addSubview(bctText);

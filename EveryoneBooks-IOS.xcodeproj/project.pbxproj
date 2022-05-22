@@ -177,7 +177,6 @@
 		89D11B9C248E80550018D1BC /* EditBusinessHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D11B9B248E80550018D1BC /* EditBusinessHelp.swift */; };
 		89D4047D25771652007C9DF3 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D4047C25771652007C9DF3 /* UserProfileController.swift */; };
 		89D8D1F5247A04EC00060B53 /* RegisterAdminController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D8D1F4247A04EC00060B53 /* RegisterAdminController.swift */; };
-		89DB76E127EE415400B56F9D /* BreakFillerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DB76E027EE415400B56F9D /* BreakFillerCell.swift */; };
 		89DC57FB25360263005326A1 /* SlideTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DC57FA25360263005326A1 /* SlideTabBarController.swift */; };
 		89DC57FE25364731005326A1 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DC57FD25364731005326A1 /* Menu.swift */; };
 		89DC580125364791005326A1 /* MenuTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DC580025364791005326A1 /* MenuTable.swift */; };
@@ -1210,7 +1209,6 @@
 				89B5FEF62787EBF80009F1D1 /* HolderCell.swift in Sources */,
 				897D3EF827F2112C003AF08D /* BreakView.swift in Sources */,
 				8944DCD1244F53B7004A2819 /* AppDelegate.swift in Sources */,
-				89DB76E127EE415400B56F9D /* BreakFillerCell.swift in Sources */,
 				89742FFB25944400000C8E0D /* NoBusinessSearchCell.swift in Sources */,
 				8937C66924BBFEAA001BB785 /* ShiftsTableViewCell.swift in Sources */,
 				89ADB28E277A504B00A22D63 /* ProductsSelectCell.swift in Sources */,

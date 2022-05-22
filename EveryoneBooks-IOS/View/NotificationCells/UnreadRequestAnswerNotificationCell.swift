@@ -6,6 +6,8 @@
 //  Copyright © 2020 Michael Perrone. All rights reserved.
 //
 
+
+
 import UIKit
 
 class UnreadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
@@ -36,12 +38,15 @@ class UnreadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
             else if noti.notificationType == "BRE" {
                 notiMessage.text = noti.fromName! + " has removed you as an employee from their business."
             }
+            // Your User Request Accepted
             else if noti.notificationType == "YURA" {
                 notiMessage.text = noti.fromName! + " has accepted your booking request."
             }
+            // Business Booked You
             else if noti.notificationType == "BBY" {
                 notiMessage.text = noti.fromName! + " has booked you at their business. Check your bookings for details.";
             }
+            // User Added To Group
             else if noti.notificationType == "UATG" {
                 notiMessage.text = noti.fromName! + " has added you as a member of a group."
             }

@@ -166,7 +166,7 @@ class MessageViewController: UIViewController {
                 yesButton.addTarget(self, action: #selector(acceptEmployeeRequest), for: .touchUpInside);
                 noButton.addTarget(self, action: #selector(denyEmployeeRequest), for: .touchUpInside);
                 header = "Employee Join Request";
-                message = noti.fromName! + " has requested that they be added as a current working employee to your business. Would you like to add " + noti.fromName! + "? If yes, be aware this employee will be able to be booked on your current schedule unless you go into your settings and specify otherwise.";
+                message = noti.fromName! + " has requested that they be added as a current working employee to your business. Would you like to add " + noti.fromName! + "? If yes, this employee will be able to be booked on your current schedule and will be able to be scheduled for shifts in applicable.";
                 view.addSubview(answeredYes);
                 answeredYes.padBottom(from: view.bottomAnchor, num: 100);
                 answeredYes.centerTo(element: view.centerXAnchor);
@@ -191,18 +191,14 @@ class MessageViewController: UIViewController {
             }
             else if noti.notificationType == "ERY" || noti.notificationType == "ERYR" {
                 header = "Employee Accepted";
-                message = noti.fromName! + " has accepted your request to join your business as an employee. You can now add them to your shift schedule!";
+                message = "Your business accepted a request from " + noti.fromName! + " to join your business as an employee. They can now be added to your shift schedule.";
             }
             else if noti.notificationType == "BAR" || noti.notificationType == "BARR" {
                 header = "Employer Accepted";
                 message = noti.fromName! + " has accepted your request to join their business as an employee. You can now be added to their shift schedule!";
             }
-            else if noti.notificationType == "YAE" {
-                header = "Employee Accepted";
-                message = "Your business accepted a request from " + noti.fromName! + " to join your business as an employee. They can now be added to your shift schedule.";
-            }
             // COME BACK AND ADD MORE DATE PLX
-            else if noti.notificationType == "AAUR" {
+            else if noti.notificationType == "AAUR" { // fix this // check this AAUR doesnt have a non read version
                 header = "Booking Request Accepted";
                 message = "A booking request from  " + noti.fromName! + " has been accepted. This booking is now in your schedule.";
             }
@@ -217,7 +213,7 @@ class MessageViewController: UIViewController {
             else if noti.notificationType == "BBY" || noti.notificationType == "BBYR" {
                 header = "Business Added Booking"
                 message = noti.fromName! + " has booked you at their business. You can find the information for this booking on your bookings page. Enjoy!";
-            }
+            }  
             else if noti.notificationType == "YURA" || noti.notificationType == "YURAR" {
                 header = "User Request Accepted"
                 message = "Your user request for a booking at " + noti.fromName! + " has been accepted. You can find the information for this booking on your bookings page. Enjoy!"

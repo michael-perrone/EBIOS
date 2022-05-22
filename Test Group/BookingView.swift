@@ -43,13 +43,18 @@ class BookingView: UIView {
         self.heightNumber = heightNumber;
         super.init(frame: CGRect.zero)
         backgroundColor = UIColor.init(red: 300, green: 0, blue: 0, alpha: 0.3);
-        setWidth(width: 180);
         let topBorder = Components().createBorder(height: 0.8, width: 180, color: .black);
         addSubview(topBorder);
         topBorder.padTop(from: topAnchor, num: 0);
         let bottomBorder = Components().createBorder(height: 0.8, width: 180, color: .black);
         addSubview(bottomBorder);
         bottomBorder.padBottom(from: bottomAnchor, num: 0);
+        let leftBorder = Components().createBorder(height: CGFloat(Double(heightNumber * 16)), width: 0.8, color: .black);
+        addSubview(leftBorder);
+        leftBorder.padLeft(from: leftAnchor, num: 0);
+        let rightBorder = Components().createBorder(height: CGFloat(Double(heightNumber * 16)), width: 0.8, color: .black);
+        addSubview(rightBorder);
+        rightBorder.padLeft(from: leftAnchor, num: 175);
         let tap = UITapGestureRecognizer(target: self, action: #selector(hit));
         tap.numberOfTapsRequired = 2;
         addGestureRecognizer(tap);
@@ -90,7 +95,6 @@ class BookingView: UIView {
             addSubview(endTime);
             addSubview(dash);
             if heightNumber < 6 {
-                
                 if heightNumber < 3 {
                     if heightNumber == 2 {
                         beginningTime.font = .boldSystemFont(ofSize: 16);
