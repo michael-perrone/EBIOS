@@ -86,36 +86,74 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     
     var booking: Booking? {
         didSet {
-            API().post(url: myURL + "getBookings/moreBookingInfo", headerToSend: Utilities().getAdminToken(), dataToSend: ["bookingId": booking!.id]) { (res) in
-                if let services = res["services"] as? [[String: Any]] {
-                    var servicesArray: [Service] = [];
-                    for service in services {
-                        let actualService = Service(dic: service);
-                        servicesArray.append(actualService);
+            print(Utilities().getAdminToken())
+            if Utilities().getAdminToken() != "nil" {
+                API().post(url: myURL + "getBookings/moreBookingInfo", headerToSend: Utilities().getAdminToken(), dataToSend: ["bookingId": booking!.id]) { (res) in
+                    if let services = res["services"] as? [[String: Any]] {
+                        var servicesArray: [Service] = [];
+                        for service in services {
+                            let actualService = Service(dic: service);
+                            servicesArray.append(actualService);
+                        }
+                        self.services = servicesArray;
                     }
-                    self.services = servicesArray;
-                }
-                if let employeeNameBack = res["employeeName"] as? String {
-                    self.employeeName = employeeNameBack;
-                }
-                if let customerComingBack = res["customer"] as? [String: Any] {
-                    self.customer = Customer(dic: customerComingBack);
-                    DispatchQueue.main.async {
-                        self.costText.text = self.booking?.cost;
-                        self.dateText.text = self.booking?.date;
-                        self.timeOfServiceText.text = self.booking?.time;
-                        self.customerNameText.text = self.customer?.name;
-                        self.customerPhoneText.text = self.customer?.phone;
-                        self.employeeNameText.text = self.employeeName;
+                    if let employeeNameBack = res["employeeName"] as? String {
+                        self.employeeName = employeeNameBack;
+                    }
+                    if let customerComingBack = res["customer"] as? [String: Any] {
+                        self.customer = Customer(dic: customerComingBack);
+                        DispatchQueue.main.async {
+                            self.costText.text = self.booking?.cost;
+                            self.dateText.text = self.booking?.date;
+                            self.timeOfServiceText.text = self.booking?.time;
+                            self.customerNameText.text = self.customer?.name;
+                            self.customerPhoneText.text = self.customer?.phone;
+                            self.employeeNameText.text = self.employeeName;
+                        }
+                    }
+                    if let productsComingBack = res["products"] as? [[String: Any]] {
+                        var productsHereArray: [Product] = [];
+                        for iProduct in productsComingBack {
+                            let realProduct = Product(name: iProduct["name"] as! String, price: iProduct["cost"] as! String, idParam: iProduct["_id"] as! String);
+                            productsHereArray.append(realProduct);
+                        }
+                        self.productsInBooking = productsHereArray;
                     }
                 }
-                if let productsComingBack = res["products"] as? [[String: Any]] {
-                    var productsHereArray: [Product] = [];
-                    for iProduct in productsComingBack {
-                        let realProduct = Product(name: iProduct["name"] as! String, price: iProduct["cost"] as! String, idParam: iProduct["_id"] as! String);
-                        productsHereArray.append(realProduct);
+            }
+            print(Utilities().getEmployeeToken())
+            if Utilities().getEmployeeToken() != "nil" {
+                API().post(url: myURL + "getBookings/moreBookingInfoEmployee", headerToSend: Utilities().getEmployeeToken(), dataToSend: ["bookingId": booking!.id]) { (res) in
+                    if let services = res["services"] as? [[String: Any]] {
+                        var servicesArray: [Service] = [];
+                        for service in services {
+                            let actualService = Service(dic: service);
+                            servicesArray.append(actualService);
+                        }
+                        self.services = servicesArray;
                     }
-                    self.productsInBooking = productsHereArray;
+                    if let employeeNameBack = res["employeeName"] as? String {
+                        self.employeeName = employeeNameBack;
+                    }
+                    if let customerComingBack = res["customer"] as? [String: Any] {
+                        self.customer = Customer(dic: customerComingBack);
+                        DispatchQueue.main.async {
+                            self.costText.text = self.booking?.cost;
+                            self.dateText.text = self.booking?.date;
+                            self.timeOfServiceText.text = self.booking?.time;
+                            self.customerNameText.text = self.customer?.name;
+                            self.customerPhoneText.text = self.customer?.phone;
+                            self.employeeNameText.text = self.employeeName;
+                        }
+                    }
+                    if let productsComingBack = res["products"] as? [[String: Any]] {
+                        var productsHereArray: [Product] = [];
+                        for iProduct in productsComingBack {
+                            let realProduct = Product(name: iProduct["name"] as! String, price: iProduct["cost"] as! String, idParam: iProduct["_id"] as! String);
+                            productsHereArray.append(realProduct);
+                        }
+                        self.productsInBooking = productsHereArray;
+                    }
                 }
             }
             if Utilities().getToken() == "nil" {
@@ -603,8 +641,7 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     }
     
     func getServices(businessId: String) {
-        if Utilities().decodeAdminToken() != nil || Utilities().decodeEmployeeToken() != nil {
-            API().get(url: myURL + "services/getServices", headerToSend: Utilities().getAdminToken()) { (res) in
+        API().post(url: myURL + "services/getServices", dataToSend: ["businessId": businessId]) { (res) in
                 if let services = res["services"] as? [[String: Any]] {
                     var newServicesArray: [Service] = [];
                     for service in services {
@@ -614,7 +651,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
                 }
             }
         }
-    }
     
     func getProducts(businessId: String) {
         API().post(url: myURL + "products", dataToSend: ["businessId": businessId]) { res in

@@ -45,7 +45,7 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
         messageVC.requestAnswerNoti = noti;
         messageVC.employeeDelegate = self;
         present(messageVC, animated: true, completion: nil);
-        if noti.notificationType == "BAR" {
+        if noti.notificationType == "BAW" {
             API().post(url: myURL + "notifications/changeToRead", dataToSend: ["notificationId": noti.id]) { (res) in
                 if res["statusCode"] as? Int == 200 {
                     self.getEmployeeNotis();
@@ -121,7 +121,7 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
         let otherCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UnreadRequestAnswernNotiCell", for: indexPath) as! UnreadRequestAnswerNotificationCell;
         if let employeeNotifications = self.employeeNotifications {
             let noti = employeeNotifications[indexPath.row];
-            if  noti.notificationType == "BAE" || noti.notificationType == "BAR" {
+            if  noti.notificationType == "BAE" || noti.notificationType == "BAW" {
                 let unreadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UnreadRequestAnswernNotiCell", for: indexPath) as! UnreadRequestAnswerNotificationCell;
                 unreadCell.noti = noti;
                 unreadCell.layoutCell();

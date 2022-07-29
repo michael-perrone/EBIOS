@@ -98,23 +98,20 @@ class MessageViewController: UIViewController {
 
     @objc func denyEmployeeRequest() {
         self.adminDelegate?.answerHit();
-//        API().post(url: myURL + "notifications/employerDeniedEmployee", headerToSend: Utilities().getAdminToken(), dataToSend: ["notificationId": adminNoti?.id, "employeeId": adminNoti?.fromId]) { (res) in
-//            if res["statusCode"] as! Int == 200 {
-//
-
-//                UIView.animate(withDuration: 0.5) {
-//                    DispatchQueue.main.async {
-//                        self.yesButton.alpha = 0;
-//                        self.noButton.alpha = 0;
-//                    }
-//                }
-//                UIView.animate(withDuration: 0.5, delay: 0.5, options: UIView.AnimationOptions.transitionFlipFromTop, animations: {
-//                    DispatchQueue.main.async {
-//                        self.answeredNo.alpha = 1;
-//                    }
-//                }, completion: nil)
-//            }
-//        }
+        API().post(url: myURL + "notifications/employerDeniedEmployee", headerToSend: Utilities().getAdminToken(), dataToSend: ["notificationId": requestAnswerNoti?.id, "employeeId": requestAnswerNoti?.fromId]) { (res) in
+            if res["statusCode"] as! Int == 200 {
+                UIView.animate(withDuration: 0.5) {
+                    DispatchQueue.main.async {
+                        self.yesButton.alpha = 0;
+                        self.noButton.alpha = 0;
+                    }
+                }
+                let alert = Components().createActionAlert(title: "Employee Denied", message: "You have denied this employee from joining your business", buttonTitle: "Indeed I have!", handler: nil);
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true);
+                }
+            }
+        }
      }
     
     @objc func acceptEmployerRequest() {
@@ -140,7 +137,16 @@ class MessageViewController: UIViewController {
     }
     
     @objc func denyEmployerRequest() {
-        
+        API().post(url: myURL + "notifications/employeeDeniedRequest", headerToSend: Utilities().getEmployeeToken(), dataToSend: ["notificationId": requestAnswerNoti!.id!]) { res in
+            if res["statusCode"] as? Int == 200 {
+                DispatchQueue.main.async {
+                    UIView.animate(withDuration: 0.5) {
+                        self.yesButton.alpha = 0
+                        self.noButton.alpha = 0;
+                    }
+                }
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -175,7 +181,7 @@ class MessageViewController: UIViewController {
                 answeredNo.centerTo(element: view.centerXAnchor);
             }
             else if noti.notificationType == "BAE" { // business added employee
-                header = "Employer Sent Request";
+                header = "Business Join Request";
                 message = noti.fromName! + " has used your unique id to add you as an employee to their business. If you accept this request, this employer will be able to add you to their shift schedule right away. Would you like to confirm youself as an employee?";
                 view.addSubview(yesButton);
                 yesButton.centerTo(element: view.centerXAnchor);
@@ -185,7 +191,7 @@ class MessageViewController: UIViewController {
                 noButton.centerTo(element: view.centerXAnchor);
                 noButton.padTop(from: yesButton.bottomAnchor, num: 20);
             }
-            else if noti.notificationType == "EAR" {
+            else if noti.notificationType == "BAER" {
                 header = "Request Accepted";
                 message = "You accepted this request from " + noti.fromName! + " to join there business as an employee! You will now be able to be added to their shift schedule.";
             }
@@ -193,7 +199,7 @@ class MessageViewController: UIViewController {
                 header = "Employee Accepted";
                 message = "Your business accepted a request from " + noti.fromName! + " to join your business as an employee. They can now be added to your shift schedule.";
             }
-            else if noti.notificationType == "BAR" || noti.notificationType == "BARR" {
+            else if noti.notificationType == "BAW" || noti.notificationType == "BAWR" {
                 header = "Employer Accepted";
                 message = noti.fromName! + " has accepted your request to join their business as an employee. You can now be added to their shift schedule!";
             }
@@ -219,8 +225,16 @@ class MessageViewController: UIViewController {
                 message = "Your user request for a booking at " + noti.fromName! + " has been accepted. You can find the information for this booking on your bookings page. Enjoy!"
             }
             else if noti.notificationType == "UATG" || noti.notificationType == "UATGR" {
-                header = "Group Addition"
+                header = "Group Addition";
                 message = "You have been added as a member of a group on " + noti.potentialDate! + " at " + noti.fromName! + " at the time of " + noti.potentialStartTime! + ". You can find this information on your bookings page."
+            }
+            else if noti.notificationType == "ESIDDR" {
+                header = "Employee Request Denied";
+                message = "You have denied " + noti.fromName! + " from joining your business. If this was a mistake, you can add this individual as an employee in the edit business menu.";
+            }
+            else if noti.notificationType == "ERDE" {
+                header = "Business Denied Request";
+                message = noti.fromName! + " has denied your request to join their business. If you believe this was a mistake please ask your employer to send you an invite to join their business.";
             }
         }
         

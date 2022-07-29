@@ -12,7 +12,7 @@ class BusinessPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource
     
     var selected: String = "Business Type";
   
-    let typesOfBusinesses = ["Business Type","Wax Center", "Beauty Center", "Fitness Center", "Medical Office", "Hair Salon", "Tanning Salon", "Barber Shop", "Tattoo Studio", "Tennis Club", "Other"];
+    let typesOfBusinesses = ["Business Type","Wax Center", "Restaurant", "Beauty Center", "Fitness Center", "Medical Office", "Hair Salon", "Tanning Salon", "Barber Shop", "Tattoo Studio", "Tennis Club", "Other"];
 
     override init(frame: CGRect) {
         self.selected = "";

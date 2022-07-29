@@ -33,7 +33,6 @@ class BcnSelectorCollectionCell: UICollectionViewCell {
         bcnText.backgroundColor = .mainLav;
         contentView.setHeight(height: 40);
         contentView.setWidth(width: 40);
-        print(tapped);
     }
     
     @objc func iveBeenTapped() {

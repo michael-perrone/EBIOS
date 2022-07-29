@@ -61,16 +61,18 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
     var bookingRequiresEmployee: Bool?
     
     func bookHit() {
-        let bookSuccess = UIAlertController(title: "Success!", message: "You're request has been received and accepted.", preferredStyle: .alert);
-        let okayButton = UIAlertAction(title: "Exit!", style: .cancel) { (action: UIAlertAction) in
+        let actionAlert = Components().createActionAlert(title: "Booking Request Sent", message: "A request has been sent to the employee and business that you have specified to see if they are able to complete your requested services at this time. If they are able to, you will receive a notification confirming that your appointment has been scheduled.", buttonTitle: "Got it!") { (UIAlertAction) in
+            self.dismiss(animated: true, completion: nil);
+        }
+        let okayButton = UIAlertAction(title: "Got it!", style: .cancel) { (action: UIAlertAction) in
             UIView.animate(withDuration: 0.45) {
                 self.popUp.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.6);
             }
             self.dismiss(animated: true, completion: nil);
         }
-        bookSuccess.addAction(okayButton);
+        actionAlert.addAction(okayButton);
         DispatchQueue.main.async {
-            self.present(bookSuccess, animated: true, completion: nil);
+            self.present(actionAlert, animated: true, completion: nil);
         }
     }
     
@@ -483,7 +485,7 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
         let costString = String(cost);
         let userId = Utilities().decodeUserToken()!["id"];
         let closeTime = Utilities.itst[Utilities.stit[choosePreferredTime.selectedItem!]! + timeDurationNum];
-        API().post(url: myURL + "getBookings", dataToSend: ["businessId": business!.id!, "date": dateChosen, "serviceIds": serviceIds, "timeChosen": choosePreferredTime.selectedItem, "userId": userId, "fromUser": true]) { (res) in
+        API().post(url: myURL + "getBookings/userChecking", headerToSend: Utilities().getToken(), dataToSend: ["businessId": business!.id!, "date": dateChosen, "serviceIds": serviceIds, "timeChosen": choosePreferredTime.selectedItem, "userId": userId, "fromUser": true]) { (res) in
             if res["statusCode"] as! Int == 403 {
                 let alert = UIAlertController(title: "Booking Alert", message: "You already are scheduled for a booking or have sent a request for a booking to this business on the date requested. We limit the requests for a day or bookings per day to one. If you wish to cancel your prior booking or request do that from your home menu.", preferredStyle: .alert);
                 let woops = UIAlertAction(title: "Woops, Got it!", style: .cancel, handler: nil);

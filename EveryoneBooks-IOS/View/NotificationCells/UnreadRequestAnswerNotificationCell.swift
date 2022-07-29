@@ -22,8 +22,8 @@ class UnreadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
             else if noti.notificationType == "BAE" {
                 notiMessage.text = noti.fromName! + " has added you as an employee to their business."
             }
-            // Business Accepted Request
-            else if noti.notificationType == "BAR" {
+            // Business Accepted Worker
+            else if noti.notificationType == "BAW" {
                 notiMessage.text = noti.fromName! + " has accepted your request to join their business as an employee."
             }
             // Employee Responded Yes

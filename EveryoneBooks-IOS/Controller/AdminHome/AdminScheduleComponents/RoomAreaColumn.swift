@@ -35,8 +35,6 @@ class RoomAreaColumn: UICollectionViewCell {
     
     var breaks: [Break]? {
         didSet {
-            print(breaks)
-            print("BELOW BREAKS")
             columnScrollView.breaks = self.breaks!;
         }
     }

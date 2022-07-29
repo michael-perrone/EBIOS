@@ -35,8 +35,8 @@ class ServicesSelectCell: UITableViewCell {
     
     func configureName() {
         addSubview(serviceName);
-        serviceName.padTop(from: topAnchor, num: 1);
+        serviceName.padTop(from: topAnchor, num: 8);
         serviceName.setHeight(height: 30);
-        serviceName.padLeft(from: leftAnchor, num: 16);
+        serviceName.padLeft(from: leftAnchor, num: 2);
     }
 }

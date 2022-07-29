@@ -13,7 +13,6 @@ class ShiftsTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     var bct: String? {
         didSet {
             print(bct)
-            print("BELOW BCT")
         }
     }
    

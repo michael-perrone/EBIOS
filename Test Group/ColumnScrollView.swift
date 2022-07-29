@@ -106,7 +106,6 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
             if let breaks = breaks {
             if breakViews != breaks.count  {
                 for iBreak in breaks {
-                    print(iBreak)
                     let timeArray = iBreak.time?.components(separatedBy: "-");
                     let heightNum = Utilities.heightGetterNum[timeArray![1]]! - Utilities.heightGetterNum[timeArray![0]]!;
                     let breakView = BreakView(heightNumber: heightNum);
@@ -128,23 +127,20 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
     
     func addTimeListTimes() { // doesnt require a return type or void if not returning anything
         var i = Utilities.stit[self.openTime!]!;
-        print(i)
-        print(Utilities.stit[self.closeTime!]!)
-        while i < Utilities.stit[self.closeTime!]! {
-            let textView = UITextView();
-            textView.text = Utilities.itst[i];
-            textView.font = UIFont.systemFont(ofSize: 10);
-            timeList.addSubview(textView);
-            textView.padTop(from: timeList.topAnchor, num: CGFloat(Double(i - Utilities.stit[self.openTime!]!) * 16) - 10);
-            textView.padLeft(from: timeList.leftAnchor, num: 0);
-            textView.setWidth(width: 60);
-            textView.setHeight(height: 20);
-            textView.backgroundColor = .white;
-            textView.textAlignment = .center;
-            print(i);
-            i = i + 6;
+            while i < Utilities.stit[self.closeTime!]! {
+                let textView = UITextView();
+                textView.text = Utilities.itst[i];
+                textView.font = UIFont.systemFont(ofSize: 10);
+                self.timeList.addSubview(textView);
+                textView.padTop(from: self.timeList.topAnchor, num: CGFloat(Double(i - Utilities.stit[self.openTime!]!) * 16) - 10);
+                textView.padLeft(from: self.timeList.leftAnchor, num: 0);
+                textView.setWidth(width: 60);
+                textView.setHeight(height: 20);
+                textView.backgroundColor = .white;
+                textView.textAlignment = .center;
+                i = i + 6;
+            }
         }
-    }
     
     func setBcn(bcn: String) {
         self.bcn = bcn;
@@ -180,6 +176,7 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
         
         showsHorizontalScrollIndicator = false;
         addSubview(timeList);
+       
     }
     
     required init?(coder: NSCoder) {

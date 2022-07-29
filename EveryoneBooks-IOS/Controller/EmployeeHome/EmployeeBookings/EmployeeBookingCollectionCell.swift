@@ -26,7 +26,7 @@ class EmployeeBookingCollectionCell: UICollectionViewCell {
             if let booking = booking {
                 if let bct = bct {
                     if let bcn = booking.bcn {
-                        print(bcn)
+
                         bctnText.text = bct + " " + bcn;
                     }
                 }
@@ -39,7 +39,7 @@ class EmployeeBookingCollectionCell: UICollectionViewCell {
         return uitv;
     }();
     
-    private let border = Components().createBorder(height: 0.8, width: 160, color: .black);
+    private let border = Components().createBorder(height: 2, width: 130, color: .black);
     
     private let servicesTable = ServicesTextTable();
     
@@ -73,8 +73,8 @@ class EmployeeBookingCollectionCell: UICollectionViewCell {
         servicesText.padTop(from: contentView.topAnchor, num: 10);
         servicesText.padLeft(from: contentView.leftAnchor, num: 30);
         contentView.addSubview(border);
-        border.padTop(from: servicesText.bottomAnchor, num: 0);
-        border.padLeft(from: contentView.leftAnchor, num: 16);
+        border.padTop(from: servicesText.bottomAnchor, num: -4);
+        border.padLeft(from: contentView.leftAnchor, num: 31);
         contentView.addSubview(servicesTable);
         servicesTable.padTop(from: servicesText.bottomAnchor, num: 10);
         servicesTable.padLeft(from: contentView.leftAnchor, num: 0);

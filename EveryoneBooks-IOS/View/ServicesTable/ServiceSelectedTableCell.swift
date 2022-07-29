@@ -24,7 +24,7 @@ class ServiceSelectedTableCell: ServicesSelectCell {
     func configureColor() {
         backgroundColor = .darkGray;
         addSubview(minusServiceButton);
-        minusServiceButton.padTop(from: topAnchor, num: 1);
+        minusServiceButton.padTop(from: topAnchor, num: 4);
         minusServiceButton.padRight(from: rightAnchor, num: 0);
         serviceName.textColor = .mainLav;
         serviceName.backgroundColor = .darkGray;

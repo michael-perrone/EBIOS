@@ -17,7 +17,7 @@ struct Shift {
     var date: String;
     var breakStart: String;
     var breakEnd: String;
-    var bcn: String;
+    var bcn: String?
     
     init(dic: [String: String]) {
         print(dic)
@@ -25,7 +25,7 @@ struct Shift {
         self.timeEnd = dic["timeEnd"]!;
         self.employeeName = dic["employeeName"]!;
         self.id = dic["_id"]!;
-        self.bcn = dic["bookingColumnNumber"]!;
+        self.bcn = dic["bookingColumnNumber"] as? String;
         if let date = dic["shiftDate"] as? String {
             self.date = date;
         }

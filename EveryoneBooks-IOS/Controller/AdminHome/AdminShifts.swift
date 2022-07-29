@@ -15,6 +15,7 @@ class AdminShifts: UIViewController, EditingProtocol {
         UIView.animate(withDuration: 1.3) {
             self.cancelButton.alpha = 1.0;
         }
+        print(shift)
         let startRow = fromTimePicker.data.firstIndex(where: {$0 == shift.timeStart});
         let endRow = fromTimePicker.data.firstIndex { any in
             any == shift.timeEnd
@@ -140,6 +141,22 @@ class AdminShifts: UIViewController, EditingProtocol {
     
     var shifts: [Shift]? {
         didSet {
+            if let shifts = shifts {
+                if shifts.count == 0 {
+                    DispatchQueue.main.async {
+                        self.noShiftsTextView.isHidden = false;
+                        self.specialTable.isHidden = true;
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        if self.noShiftsTextView.isHidden == false {
+                            self.noShiftsTextView.isHidden = true;
+                            self.specialTable.isHidden = false;
+                        }
+                    }
+                }
+            }
             specialTable.shifts = self.shifts;
         }
     }
@@ -149,6 +166,8 @@ class AdminShifts: UIViewController, EditingProtocol {
             getShifts()
         }
     }
+    
+    private let noShiftsTextView = Components().createNotAsLittleText(text: "There are no shifts scheduled for today.", color: .mainLav);
     
     var shiftAddDate: String?
     
@@ -616,6 +635,10 @@ class AdminShifts: UIViewController, EditingProtocol {
         view.addSubview(datePicker);
         datePicker.centerTo(element: view.centerXAnchor);
         datePicker.padTop(from: scheduleText.bottomAnchor, num: 7);
+        view.addSubview(noShiftsTextView);
+        noShiftsTextView.centerTo(element: view.centerXAnchor);
+        noShiftsTextView.padTop(from: datePicker.bottomAnchor, num: 20);
+        noShiftsTextView.isHidden = true;
         view.addSubview(specialTable);
         specialTable.setHeight(height: 300);
         specialTable.setWidth(width: view.frame.width);

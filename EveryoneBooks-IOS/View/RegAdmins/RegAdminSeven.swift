@@ -51,7 +51,7 @@ class RegAdminSeven: UIView {
     }()
     
     private let employeeQuestionText: UITextView = {
-        let uitv = Components().createSimpleText(text: "Will your employees be working predetermined shifts from one set time to another in ONE OF THE AREAS/ITEMS lised above per shift? (Click the question mark to the bottom left and scroll to step 10 if you need more details.)");
+        let uitv = Components().createSimpleText(text: "Does your business require that employees who are booked for a service should be working a shift during that time? (Click the help button on the bottom left and see Step 10 for more details.)");
         uitv.font = .systemFont(ofSize: 18);
         uitv.setWidth(width: fullWidth / 1.04);
         uitv.backgroundColor = .mainLav;

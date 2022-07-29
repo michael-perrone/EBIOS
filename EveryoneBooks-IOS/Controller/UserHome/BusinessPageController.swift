@@ -241,17 +241,12 @@ class BusinessPageController: UIViewController, GroupJoinDelegate {
     var groupsToJoin: [Group]? {
         didSet {
             groupTable.groups = self.groupsToJoin!;
-            print(groupsToJoin?.count);
         }
     }
     
     func getGroupsToJoin() {
         API().post(url: myURL + "groups/toJoin", headerToSend: Utilities().getToken(), dataToSend: ["businessId": self.businessId!]) { res in
-            print(res)
-            print("BELOW RES");
             if let groupsBack = res["groups"] as? [[String: String]] {
-                print(groupsBack);
-                print("BELOW GROUPSBACK")
                 var groupsArray: [Group] = [];
                 for group in groupsBack {
                     groupsArray.append(Group(dic: group));

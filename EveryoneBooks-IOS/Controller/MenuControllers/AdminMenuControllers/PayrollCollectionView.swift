@@ -12,7 +12,6 @@ class PayrollCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
     
     var payrollNums: [PayrollNumbers]? {
         didSet {
-            print(payrollNums);
             DispatchQueue.main.async {
                 self.reloadData();
             }
@@ -34,7 +33,6 @@ class PayrollCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let payrollNums = payrollNums {
-            print(payrollNums.count);
             return payrollNums.count;
         }
         else {

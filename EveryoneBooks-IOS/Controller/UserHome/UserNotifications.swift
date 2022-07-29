@@ -62,7 +62,6 @@ class UserNotifications: UICollectionViewController, NotiTappedProtocol {
                     var userNotification = Notification(dic: noti);
                     userNotificationsArray.insert(userNotification, at: 0);
                 }
-                print(userNotificationsArray)
                 self.userNotifications = userNotificationsArray;
                 if userNotificationsArray.count == 0 {
                     DispatchQueue.main.async {

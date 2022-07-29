@@ -48,8 +48,6 @@ class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
     weak var groupClickedDelegate: GroupClickedProtocol? {
         didSet {
             if self.groupClickedDelegate != nil {
-                print(self.groupClickedDelegate);
-                print("YOOO")
                 DispatchQueue.main.async {
                     self.reloadData();
                 }
@@ -143,9 +141,6 @@ class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
             cell.groups = groups[indexPath.row]
         }
         if let breaks = breaks {
-            print("yep")
-            print(breaks)
-            print("Dep")
             for subview in cell.subviews {
                 for subview2 in subview.subviews {
                     if subview2 is BreakView {
@@ -156,7 +151,7 @@ class RoomAreaCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
             cell.breaks = breaks[indexPath.row]
         }
         else {
-            print("qwojdqwoijdhqiwojdsdWKDJQWJKHFWEJFHWJFHWJEFHWEF")
+          
         }
         
         

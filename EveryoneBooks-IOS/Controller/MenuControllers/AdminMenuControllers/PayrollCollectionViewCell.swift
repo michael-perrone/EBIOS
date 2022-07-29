@@ -17,9 +17,7 @@ class PayrollCollectionViewCell: UICollectionViewCell {
             hourlyText.text = payrollNums?.hourlyNum;
             serviceCommissionText.text = payrollNums?.serviceCommissionNum;
             productCommissionText.text = payrollNums?.productCommissionNum;
-            print("yo");
-            print(payrollNums)
-            print("yooo")
+        
         }
     }
     

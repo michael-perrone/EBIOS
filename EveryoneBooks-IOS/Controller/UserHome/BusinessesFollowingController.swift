@@ -50,7 +50,6 @@ class BusinessesFollowingCollection: UICollectionViewController, OtherCollection
     @objc func goToBusinesSearch() {
         let businessSearch = Components().createNavBarItemController(image: UIImage(named: "business-search"), viewController: BusinessSearch(), title: "Search");
         self.present(businessSearch, animated: true, completion: nil);
-        print("yo?")
     }
     
     var delto: HideWheel?;

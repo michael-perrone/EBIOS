@@ -16,7 +16,6 @@ class RestaurantBuilderDropDown: GenericDropDown {
    override func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if data.count > 0 {
             self.selectedItem = data[row];
-            print(data[row])
             changeDelegate?.changed(selected: data[row]);
         }
     }

@@ -64,7 +64,6 @@ class UserBookingsCollectionCell: UICollectionViewCell {
     }()
 
     @objc func cancelBooking() {
-        print("hello")
         cancelDelegate?.cancelBooking(booking: self.booking!, row: row!);
     }
     

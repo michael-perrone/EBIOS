@@ -53,7 +53,7 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
         messageVC.requestAnswerNoti = noti;
         messageVC.adminDelegate = self;
         present(messageVC, animated: true, completion: nil);
-        if noti.notificationType == "ERY" || noti.notificationType == "ELB" {
+        if noti.notificationType == "ERY" || noti.notificationType == "ELB" { // check this // should be updated a bit i think
             API().post(url: myURL + "notifications/changeToRead", dataToSend: ["notificationId": noti.id]) { (res) in
                 if res["statusCode"] as? Int == 200 {
                     self.getAdminNotis();

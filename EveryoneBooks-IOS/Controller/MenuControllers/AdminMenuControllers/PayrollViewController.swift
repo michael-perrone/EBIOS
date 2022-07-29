@@ -118,7 +118,6 @@ class PayrollViewController: UIViewController {
     func getPayrollInfo() {
         API().post(url: myURL + "payroll/getPayrollInfo", headerToSend: Utilities().getAdminToken(), dataToSend: ["startDate": dateOne, "endDate": dateTwo ]) { res in
             if let payrollNums = res["payrollNums"] as? [[String: String]] {
-                print(payrollNums)
                 var payrollNumsArray: [PayrollNumbers] = [];
                 for payrollNum in payrollNums {
                     let newPayrollNums = PayrollNumbers(dic: payrollNum);

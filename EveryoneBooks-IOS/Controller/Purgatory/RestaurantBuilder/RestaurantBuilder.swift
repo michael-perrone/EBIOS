@@ -134,7 +134,6 @@ class RestaurantBuilder: UIViewController, RestaurantBuilderDelegate {
                         newIV.setHeight(height: self.imageView!.frame.height);
                         newIV.setWidth(width: self.imageView!.frame.width);
                         self.rTables[self.frameCount].append(RTable(dic: ["x": (self.imageView!.layer.position.x - (self.frames[self.frameCount].layer.position.x - (self.tableFrame.frame.width / 2))), "y": self.imageView!.layer.position.y - (self.frames[self.frameCount].layer.position.y - (self.tableFrame.frame.height / 2)), "hor": true, "num": 2]))
-                        print();
                         self.imageView?.removeFromSuperview();
                         self.imageView = self.twoPeopleHorizontal;
                     }
@@ -166,7 +165,6 @@ class RestaurantBuilder: UIViewController, RestaurantBuilderDelegate {
                     }
                 }
             }
-            print(rTables);
         }
     }
     
@@ -357,7 +355,6 @@ class RestaurantBuilder: UIViewController, RestaurantBuilderDelegate {
     
     @objc func finished() {
         let alert = Components().createActionAlert(title: "Finished Confirm", message: "Are you sure you are finished creating your layout?", buttonTitle: "Yes!") { UIAlertAction in
-            print(self.rTables);
         }
         let action = UIAlertAction(title: "Oops, no!", style: .cancel, handler: nil);
         alert.addAction(action);

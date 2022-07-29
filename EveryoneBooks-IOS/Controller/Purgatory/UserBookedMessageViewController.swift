@@ -283,7 +283,7 @@ class UserBookedMessageViewController: UIViewController, FromNotiBcnSelector {
             if let bID = Utilities().getBusinessId() {
                 businessId = bID
             }
-            API().post(url: myURL + "iosBooking/acceptedUserRequest", dataToSend: ["notiId": noti!.id, "businessId": businessId, "bcn": selectedBcn]) { res in
+            API().post(url: myURL + "iosBooking/acceptedUserRequest", headerToSend: Utilities().getAdminToken(), dataToSend: ["notiId": noti!.id, "businessId": businessId, "bcn": selectedBcn]) { res in
                 if res["statusCode"] as! Int == 200 {
                     let alert = Components().createActionAlert(title: "Booking Added", message: "This booking was succesfully added to your schedule.", buttonTitle: "Cool") { UIAlertAction in
                         API().post(url: myURL + "notifications/changeAcceptedUserRequestNoti", dataToSend: ["notiId": self.noti!.id, "businessId": businessId]) { res in
@@ -304,7 +304,7 @@ class UserBookedMessageViewController: UIViewController, FromNotiBcnSelector {
         else if Utilities().getEmployeeToken() != "nil" {
             let eToken = Utilities().decodeEmployeeToken();
             let id = eToken!["id"] as! String;
-            API().post(url: myURL + "iosBooking/acceptedUserRequest", dataToSend: ["notiId": noti!.id, "employeeId": id, "bcn": selectedBcn]) { res in
+            API().post(url: myURL + "iosBooking/acceptedUserRequestEmployee", headerToSend: Utilities().getEmployeeToken(), dataToSend: ["notiId": noti!.id, "bcn": selectedBcn]) { res in
                 if res["statusCode"] as! Int == 409 {
                     let dateAlert = Components().createActionAlert(title: "Time/Date Error", message: "This time or date has already passed.", buttonTitle: "Okay!") { UIAlertAction in
                         DispatchQueue.main.async {

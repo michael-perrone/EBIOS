@@ -18,8 +18,13 @@ class ShiftsTableViewCell: UITableViewCell {
             guard let bct = bct else {
                 return
             }
-            bctAndNum.text = bct + " " + shift!.bcn;
-            print("shiftAbove")
+            if let bcn = shift!.bcn {
+                bctAndNum.text = bct + ": " + bcn;
+            }
+            else {
+                bctAndNum.text = bct + ": None"
+            }
+          
             if let breakStart = shift?.breakStart, let breakEnd = shift?.breakEnd {
                 if breakStart != "" && breakEnd != "" {
                     breakText.text = "Break: " + breakStart + "-" + breakEnd;

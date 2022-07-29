@@ -38,7 +38,7 @@ class ServiceUnselectedTableCell: ServicesSelectCell {
             backgroundColor = .mainLav;
         }
         addSubview(addService);
-        addService.padTop(from: topAnchor, num: 1);
+        addService.padTop(from: topAnchor, num: 4);
         addService.padRight(from: rightAnchor, num: 0);
     }
     

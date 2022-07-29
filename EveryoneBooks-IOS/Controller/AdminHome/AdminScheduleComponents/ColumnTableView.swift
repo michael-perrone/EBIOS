@@ -16,7 +16,6 @@ class ColumnTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
     
     func getBookingInfo(time: String) {
         API().post(url: myURL + "getBookings/individual", dataToSend: ["time": time, "bcn": self.bcn!, "businessId": Utilities().decodeAdminToken()!["businessId"], "date": self.date!]) { (res) in
-            print("IIWDOIQWDIQWDIWQDIWQJDIQWJDQWIDJSK WILL RUN")
             if let booking = res["booking"] as? [String: Any] {
                 let realBooking = Booking(dic: booking);
                 self.bookingClickedDelegate?.viewBookingInfo(booking: realBooking);

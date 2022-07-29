@@ -52,7 +52,6 @@ class EmployeeDropdown: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if employees.count > 0 {
             self.selectedItem = employees[row];
-            print(employees[row]);
             chooseEmployeeDelegate?.chooseEmployee(employee: employees[row]);
         }
     }
