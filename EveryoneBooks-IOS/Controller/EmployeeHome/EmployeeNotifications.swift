@@ -47,9 +47,28 @@ class EmployeeNotifications: UICollectionViewController, RequestAnswerCell, Mess
         present(messageVC, animated: true, completion: nil);
         if noti.notificationType == "BAW" {
             API().post(url: myURL + "notifications/changeToRead", dataToSend: ["notificationId": noti.id]) { (res) in
-                if res["statusCode"] as? Int == 200 {
-                    self.getEmployeeNotis();
-                }
+                    if res["statusCode"] as? Int == 200 {
+                        if let notif = res["notification"] as? [String: Any] {
+                            let notifi = Notification(dic: notif);
+                            print(noti);
+                            print("noti above");
+                            let indy = self.employeeNotifications?.firstIndex(where: { notific in
+                                notific.id == notifi.id
+                            })
+                            self.employeeNotifications?.remove(at: indy!);
+                            self.employeeNotifications?.insert(notifi, at: indy!)
+                        }
+                        else if let notif = res["bookedNoti"] as? [String: Any] {
+                            let notifi = Notification(dic: notif);
+                            print(noti);
+                            print("noti above");
+                            let indy = self.employeeNotifications?.firstIndex(where: { notific in
+                                notific.id == notifi.id
+                            })
+                            self.employeeNotifications?.remove(at: indy!);
+                            self.employeeNotifications?.insert(notifi, at: indy!)
+                        }
+                    }
             }
         }
     }

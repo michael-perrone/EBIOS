@@ -19,7 +19,6 @@ class PayrollSetupViewController: UIViewController, SelectEmployeeProtocol {
         API().post(url: myURL + "payroll/getEmployeePayroll", headerToSend: Utilities().getAdminToken(), dataToSend: ["employeeId": employee.id]) { res in
             if let employeeBack = res["emPayroll"] as? [String: Any] {
                 let emPayroll = EmployeePayroll(dic: employeeBack);
-                print(emPayroll)
                 self.salaryBool = emPayroll.isSalary;
                 self.hourlyBool = emPayroll.isHourlyWage;
                 self.productCommission = emPayroll.isComissionProducts;
@@ -474,7 +473,6 @@ class PayrollSetupViewController: UIViewController, SelectEmployeeProtocol {
     }();
     
     @objc func goToDirections() {
-        print("YOOOOO")
         self.present(PayrollDirections(), animated: true, completion: nil);
         getEmployees();
     }

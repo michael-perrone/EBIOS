@@ -45,8 +45,6 @@ class GenericCollectionHorizontal: UICollectionView, UICollectionViewDelegate, U
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         let myLayout = UICollectionViewFlowLayout();
-        print(myLayout.estimatedItemSize);
-        print("HELLLO")
         myLayout.scrollDirection = .horizontal;
         myLayout.minimumInteritemSpacing = 5;
         myLayout.minimumLineSpacing = 5;

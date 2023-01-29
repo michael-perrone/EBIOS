@@ -178,7 +178,6 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
                     for individualBreak in breaks {
                         breaksArray.append(Break(dictionary: individualBreak))
                     }
-                    print(breaksArray)
                     var breaksArrayToSend: [[Break]] = [];
                     var i = 1;
                     if let bcn = self.bcn {
@@ -222,7 +221,6 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
                 }
                 if let bcn = res["bcn"] as? String {
                     if let eq = res["eq"] as? String {
-                        print(eq)
                             self.bcn = Int(bcn);
                             self.eq = eq; 
                     }
@@ -291,8 +289,6 @@ class AdminBookings: UIViewController, ReloadTableAfterBooking, BookingClickedPr
                     self.closedText.isHidden = false;
                 }
                 if let bcn = res["bcn"] as? String, let eq = res["eq"] as? String, let bct = res["bct"] as? String  {
-                    print(eq)
-                    print(bcn)
                     self.bct = bct;
                     self.bcn = Int(bcn);
                     self.eq = eq;

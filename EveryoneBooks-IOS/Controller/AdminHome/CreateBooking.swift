@@ -541,7 +541,6 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
     @objc func continueHit() {
         if cloneBooking == "y" && servicesTable.selectedServices.count > 0 {
             let dateFormatter = DateFormatter();
-            let realDate = "Feb 12, 2022 5:00 AM"
             dateFormatter.dateFormat = "MMM dd, yyyy h:mm a";
             let date = dateFormatter.date(from: dateChosen! + " " + timePicker.selectedItem!)
             if date! < Date() {
@@ -724,6 +723,7 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
     
     func configureView() {
         servicesTable.requiresEmployeeDelegate = self;
+        servicesTable.setWidth(width: 360)
         noServicesText.setWidth(width: fullWidth / 1.3);
         employeesTable.otherOtherDelegate = self;
         view.backgroundColor = .literGray;
@@ -858,7 +858,6 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
         bookIfEmployeeNotNeededButton.padTop(from: bcnSelectorCV.bottomAnchor, num: 40);
         bookIfEmployeeNotNeededButton.isHidden = true;
         if eq == "n" {
-            print("NOOOOO")
             bcnSelectorCV.isHidden = false;
             popUp.addSubview(employeesAvailableText);
             employeesAvailableText.padTop(from: bcnSelectorCV.bottomAnchor, num: 20);
@@ -871,7 +870,6 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
             employeesTable.backgroundColor = .mainLav;
         }
         else {
-            print(eq)
             bctText.isHidden = true;
             popUp.addSubview(employeesAvailableText);
             employeesAvailableText.padTop(from: servicesChosenTable.bottomAnchor, num: 20);
@@ -913,7 +911,7 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
     }
     
     func getServices() {
-        API().get(url: myURL + "services/getServices", headerToSend: Utilities().getAdminToken()) { res in
+        API().get(url: myURL + "services", headerToSend: Utilities().getAdminToken()) { res in
             if let services = res["services"] as? [[String: Any]] {
                 if services.count == 0 {
                     DispatchQueue.main.async {
@@ -985,8 +983,6 @@ class CreateBooking: UIViewController, BookingHit, ServiceChosenProtocol {
                     }
                 }
                 if let bcnArray = res["bcnArray"] as? [Int] {
-                    print(bcnArray);
-                    print("bcnArray above")
                     self.bcnArray = bcnArray;
                 }
                 if let employees = res["employees"] as? [[String: String]] {

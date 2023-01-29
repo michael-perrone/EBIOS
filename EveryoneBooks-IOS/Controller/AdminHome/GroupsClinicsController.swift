@@ -25,10 +25,7 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
                             }
                         }
                     }
-                    print(customer)
                     let customerHere = Customer(dic: customer);
-                    print(customerHere)
-                    print("below customer here");
                     self.customers?.append(customerHere);
                 }
             }
@@ -274,26 +271,15 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
         }
         
         var customerIds: [String] = [];
-        guard let customers = customers else {
-            let alert = Components().createActionAlert(title: "No Customers", message: "Please add at least 1 customer to this group.", buttonTitle: "Okay!", handler: nil);
-            present(alert, animated: true, completion: nil);
-            return;
-        }
-        if customers.count > 0 {
-            for customer in customers {
-                customerIds.append(customer.id!);
+        if let customers = customers {
+            if customers.count > 0 {
+                for customer in customers {
+                    customerIds.append(customer.id!);
+                }
             }
         }
-        else {
-            let alert = Components().createActionAlert(title: "No Customers", message: "Please add at least 1 customer to this group.", buttonTitle: "Okay!", handler: nil);
-            present(alert, animated: true, completion: nil);
-            return;
-        }
-        guard let employeeBooked = employeesCollection.selectedItem?.id else {
-            let alert = Components().createActionAlert(title: "Employee Error", message: "Please choose the employee for this group.", buttonTitle: "Okay!", handler: nil);
-            present(alert, animated: true, completion: nil);
-            return;
-        }
+        let employeeBooked = employeesCollection.selectedItem?.id;
+        
         guard let bcnSelected = bcnCollection.selectedItem?.title else {
             let alert = Components().createActionAlert(title: bct! +  " Error", message: "Please choose the " + bct! + " number for this group.", buttonTitle: "Okay!", handler: nil);
             present(alert, animated: true, completion: nil);
@@ -392,7 +378,7 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
         setUpView()
         getTimes(date: Date())
         view.backgroundColor = .mainLav;
-        navigationItem.title = "Create Groups/Clinics";
+        navigationItem.title = "Create Groups/Events";
     }
     
     private let noEmployeeTextView = Components().createNotAsLittleText(text: "No registered employees", color: .mainLav);
@@ -526,7 +512,6 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
     func getEmployees() {
         API().get(url: myURL + "getEmployees/plusBcn", headerToSend: Utilities().getAdminToken()) { res in
             if res["statusCode"] as! Int == 200 {
-                print(res)
                 var employeesArray: [Employee] = [];
                 if let employees = res["employees"] as? [[String: String]] {
                     for employee in employees {
@@ -541,7 +526,6 @@ class GroupsClinicsController: UIViewController, CustomerTableDelegate {
                         self.employeesCollection.data = horItems;
                     }
                     else {
-                        print("yo yo joe joe")
                         DispatchQueue.main.async {
                             self.employeesCollection.isHidden = true;
                             self.noEmployeeTextView.isHidden = false;

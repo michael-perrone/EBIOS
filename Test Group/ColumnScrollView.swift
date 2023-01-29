@@ -19,11 +19,7 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
     
     var bcn: String?
     
-    var timeList: UIView = {
-        let uiv = UIView();
-        uiv.backgroundColor = .white;
-        return uiv;
-    }();
+  
     
     var bookings: [Booking]? {
         didSet {
@@ -44,7 +40,7 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
                     bookingView.setBeginningTime(time: timeArray![0]);
                     bookingView.setEndTime(time: timeArray![1]);
                     bookingView.setHeight(height: CGFloat(heightNum * 16));
-                    bookingView.setWidth(width: 180);
+                    bookingView.setWidth(width: 176);
                     if let bookingClickedDelegate = bookingClickedDelegate {
                         bookingView.bookingClickedDelegate = bookingClickedDelegate;
                     }
@@ -52,7 +48,7 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
                     addSubview(bookingView);
                     let padTopNum = (Utilities.heightGetterNum[timeArray![0]]! - Utilities.heightGetterNum[self.openTime!]!) * 16;
                     bookingView.padTop(from: topAnchor, num: CGFloat(Double(padTopNum)));
-                    bookingView.padLeft(from: leftAnchor, num: 60);
+                    bookingView.padLeft(from: leftAnchor, num: 0);
                     self.reloadInputViews();
                     }
                 }
@@ -87,7 +83,7 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
                     addSubview(groupView);
                     let padTopNum = (Utilities.heightGetterNum[timeArray![0]]! - Utilities.heightGetterNum[self.openTime!]!) * 16;
                     groupView.padTop(from: topAnchor, num: CGFloat(Double(padTopNum)));
-                    groupView.padLeft(from: leftAnchor, num: 60);
+                    groupView.padLeft(from: leftAnchor, num: 0);
                     self.reloadInputViews();
                     }
                 }
@@ -125,22 +121,6 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
         }
     }
     
-    func addTimeListTimes() { // doesnt require a return type or void if not returning anything
-        var i = Utilities.stit[self.openTime!]!;
-            while i < Utilities.stit[self.closeTime!]! {
-                let textView = UITextView();
-                textView.text = Utilities.itst[i];
-                textView.font = UIFont.systemFont(ofSize: 10);
-                self.timeList.addSubview(textView);
-                textView.padTop(from: self.timeList.topAnchor, num: CGFloat(Double(i - Utilities.stit[self.openTime!]!) * 16) - 10);
-                textView.padLeft(from: self.timeList.leftAnchor, num: 0);
-                textView.setWidth(width: 60);
-                textView.setHeight(height: 20);
-                textView.backgroundColor = .white;
-                textView.textAlignment = .center;
-                i = i + 6;
-            }
-        }
     
     func setBcn(bcn: String) {
         self.bcn = bcn;
@@ -161,10 +141,7 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
     var closeTime: String? {
         didSet {
             let height = Utilities().determineColumnHeight(dayStart: self.openTime!, dayEnd: self.closeTime!)
-            contentSize = CGSize(width: 180, height: height);
-            timeList.setHeight(height: height);
-            timeList.setWidth(width: 60);
-            addTimeListTimes();
+            contentSize = CGSize(width: 176, height: height);
         }
     }
     
@@ -175,7 +152,6 @@ class ColumnScrollView: UIScrollView, UIScrollViewDelegate {
         bounces = false;
         
         showsHorizontalScrollIndicator = false;
-        addSubview(timeList);
        
     }
     

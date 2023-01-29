@@ -86,7 +86,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
     
     var booking: Booking? {
         didSet {
-            print(Utilities().getAdminToken())
             if Utilities().getAdminToken() != "nil" {
                 API().post(url: myURL + "getBookings/moreBookingInfo", headerToSend: Utilities().getAdminToken(), dataToSend: ["bookingId": booking!.id]) { (res) in
                     if let services = res["services"] as? [[String: Any]] {
@@ -121,7 +120,6 @@ class ViewBookingViewController: UIViewController, EditServicesDelegate, EditPro
                     }
                 }
             }
-            print(Utilities().getEmployeeToken())
             if Utilities().getEmployeeToken() != "nil" {
                 API().post(url: myURL + "getBookings/moreBookingInfoEmployee", headerToSend: Utilities().getEmployeeToken(), dataToSend: ["bookingId": booking!.id]) { (res) in
                     if let services = res["services"] as? [[String: Any]] {

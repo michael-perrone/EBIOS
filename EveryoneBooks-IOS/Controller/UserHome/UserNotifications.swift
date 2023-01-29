@@ -7,13 +7,34 @@ protocol NotiTappedProtocol: UserNotifications {
 class UserNotifications: UICollectionViewController, NotiTappedProtocol {
     
     func tapped(noti: Notification) {
+        print("anything");
         let messageVC = MessageViewController();
         messageVC.requestAnswerNoti = noti;
         present(messageVC, animated: true, completion: nil);
-        if noti.notificationType == "YURA" || noti.notificationType == "BBY" || noti.notificationType == "UATG" {
-            API().post(url: myURL + "notifications/changeToRead", dataToSend: ["notificationId": noti.id]) { (res) in
+        print(noti);
+        if noti.notificationType == "YURA" || noti.notificationType == "BBY" || noti.notificationType == "UATG" || noti.notificationType == "BDB" || noti.notificationType == "BBYR" {
+            API().post(url: myURL + "notifications/changeToRead", dataToSend: ["notificationId": noti.id]) { [self] (res) in
                 if res["statusCode"] as? Int == 200 {
-                    self.getUserNotis();
+                    if let notif = res["notification"] as? [String: Any] {
+                        let notifi = Notification(dic: notif);
+                        print(noti);
+                        print("noti above");
+                        let indy = userNotifications?.firstIndex(where: { notific in
+                            notific.id == notifi.id
+                        })
+                        userNotifications?.remove(at: indy!);
+                        userNotifications?.insert(notifi, at: indy!)
+                    }
+                    else if let notif = res["bookedNoti"] as? [String: Any] {
+                        let notifi = Notification(dic: notif);
+                        print(noti);
+                        print("noti above");
+                        let indy = userNotifications?.firstIndex(where: { notific in
+                            notific.id == notifi.id
+                        })
+                        userNotifications?.remove(at: indy!);
+                        userNotifications?.insert(notifi, at: indy!)
+                    }
                 }
             }
         }
@@ -88,7 +109,7 @@ class UserNotifications: UICollectionViewController, NotiTappedProtocol {
         let otherCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UnreadRequestAnswernNotiCell", for: indexPath) as! UnreadRequestAnswerNotificationCell;
         if let userNotifications = self.userNotifications {
             let noti = userNotifications[indexPath.row];
-            if noti.notificationType == "YURA" || noti.notificationType == "BBY" || noti.notificationType == "UATG" {
+            if noti.notificationType == "YURA" || noti.notificationType == "BBY" || noti.notificationType == "UATG" || noti.notificationType == "BDB" {
                 
                 let unreadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UnreadRequestAnswernNotiCell", for: indexPath) as! UnreadRequestAnswerNotificationCell;
                 unreadCell.noti = noti;

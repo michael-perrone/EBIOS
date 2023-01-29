@@ -217,8 +217,8 @@ class MessageViewController: UIViewController {
                 message = noti.fromName! + " has left your business. All bookings that " + noti.fromName! + " was scheduled for have been deleted.";
             }
             else if noti.notificationType == "BBY" || noti.notificationType == "BBYR" {
-                header = "Business Added Booking"
-                message = noti.fromName! + " has booked you at their business. You can find the information for this booking on your bookings page. Enjoy!";
+                header = "Business Created Booking"
+                message = noti.fromName! + " has created a booking in which you are the customer at their business. The booking is scheduled to be on the date of " + noti.potentialDate! + " at the time of " + noti.potentialStartTime! + ".";
             }  
             else if noti.notificationType == "YURA" || noti.notificationType == "YURAR" {
                 header = "User Request Accepted"
@@ -236,6 +236,11 @@ class MessageViewController: UIViewController {
                 header = "Business Denied Request";
                 message = noti.fromName! + " has denied your request to join their business. If you believe this was a mistake please ask your employer to send you an invite to join their business.";
             }
+            else if (noti.notificationType == "BDB" || noti.notificationType == "BDBR") {
+                header = "Business Deleted Booking";
+                message = noti.fromName! + " has canceled or deleted a booking that was scheduled at their business. If you believe this was a mistake please contact the business. You can find their contact information on the business page.";
+            
+            }
         }
         
         dateView.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 24);
@@ -252,9 +257,6 @@ class MessageViewController: UIViewController {
         view.addSubview(fakeThing);
         fakeThing.padTop(from: view.safeAreaLayoutGuide.topAnchor, num: 14);
         fakeThing.centerTo(element: view.centerXAnchor);
-        
-        
-        
     }
     
 }

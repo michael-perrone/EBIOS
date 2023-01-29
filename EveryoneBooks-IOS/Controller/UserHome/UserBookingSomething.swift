@@ -64,13 +64,7 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
         let actionAlert = Components().createActionAlert(title: "Booking Request Sent", message: "A request has been sent to the employee and business that you have specified to see if they are able to complete your requested services at this time. If they are able to, you will receive a notification confirming that your appointment has been scheduled.", buttonTitle: "Got it!") { (UIAlertAction) in
             self.dismiss(animated: true, completion: nil);
         }
-        let okayButton = UIAlertAction(title: "Got it!", style: .cancel) { (action: UIAlertAction) in
-            UIView.animate(withDuration: 0.45) {
-                self.popUp.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.6);
-            }
-            self.dismiss(animated: true, completion: nil);
-        }
-        actionAlert.addAction(okayButton);
+
         DispatchQueue.main.async {
             self.present(actionAlert, animated: true, completion: nil);
         }
@@ -103,7 +97,6 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
     
     private var eq: Bool? {
         didSet {
-            print(eq)
             employeesTable.eq = eq;
         }
     }
@@ -111,7 +104,6 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
     var business: Business? {
         didSet {
             navigationItem.title = business!.nameOfBusiness;
-            print(business)
             self.eq = business!.eq;
         }
     }
@@ -130,7 +122,6 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
     
     
     @objc func dismissCreateBooking() {
-        print("helllo")
         navigationController?.popViewController(animated: true);
     }
     
@@ -214,11 +205,9 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
         if servicesTable.selectedServices.count > 0 {
             if let bookingRequiresEmployee = bookingRequiresEmployee {
                 if bookingRequiresEmployee {
-                    print("getAvailableEmployees")
                     getAvailableEmployees()
                 }
                 else {
-                    print("getAvaialbeAreas")
                     getAvailableAreas()
                 }
             }
@@ -324,7 +313,7 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
         servicesTable.padTop(from: chooseServiceText.bottomAnchor, num: 6);
         servicesTable.centerTo(element: view.centerXAnchor);
         servicesTable.setHeight(height: 140);
-        servicesTable.setWidth(width: fullWidth);
+        servicesTable.setWidth(width: 350);
         view.addSubview(chooseDateText);
         chooseDateText.padTop(from: servicesTable.bottomAnchor, num: 12);
         chooseDateText.padLeft(from: view.leftAnchor, num: 30);
@@ -603,7 +592,6 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
             if let bcnArray = res["bcnArray"] as? [Int] {
                 self.servicesChosenTable.servicesChosen = serviceNames;
                 if bcnArray.count > 0 {
-                        print(self.eq!)
                         DispatchQueue.main.async {
                             self.bookIfEmployeeNotNeededButton.isHidden = false;
                             self.employeesAvailableText.isHidden = true;
@@ -618,7 +606,6 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
                 }
             }
             else if res["statusCode"] as? Int == 401 {
-                print("yes")
                 let alert = UIAlertController(title: "Time Unavailable", message: "Your business does not have any availability at this time. Want us to check for other nearby times on this date?", preferredStyle: .alert);
                 let searchOthers = UIAlertAction(title: "Yes", style: .default) { (action: UIAlertAction) in
                     print("gotta go find the others")
@@ -654,7 +641,6 @@ class UserBookingSomething: UIViewController, EmployeesTable, ServiceChosenProto
             let data = ["timeStart": timeStart, "date": date, "serviceIds": serviceIdsArray, "businessId": business?.id] as [String : Any]
             API().post(url: myURL + "iosBooking/user/area", headerToSend: Utilities().getToken()
                        , dataToSend: data) { (res) in
-                print(res)
                 if res["statusCode"] as! Int == 200 {
                     self.bookHit();
                 }

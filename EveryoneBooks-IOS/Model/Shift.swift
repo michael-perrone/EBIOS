@@ -20,7 +20,6 @@ struct Shift {
     var bcn: String?
     
     init(dic: [String: String]) {
-        print(dic)
         self.timeStart = dic["timeStart"]!;
         self.timeEnd = dic["timeEnd"]!;
         self.employeeName = dic["employeeName"]!;

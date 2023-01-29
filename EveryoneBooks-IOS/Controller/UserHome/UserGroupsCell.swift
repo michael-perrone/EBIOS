@@ -53,9 +53,9 @@ class UserGroupsCell: UICollectionViewCell {
     
     lazy var leaveButton: UIButton = {
         let uib = Components().createNormalButton(title: "Leave");
-        uib.setWidth(width: 120);
-        uib.setHeight(height: 44);
-        uib.backgroundColor = .bookedRed;
+        uib.setWidth(width: 100);
+        uib.setHeight(height: 36);
+        uib.backgroundColor = UIColor.init(red: 210, green: 0, blue: 0, alpha: 0.2);
         uib.tintColor = .black;
         uib.showsTouchWhenHighlighted = true;
         uib.addTarget(self, action: #selector(leaveGroup), for: .touchUpInside)
@@ -98,7 +98,7 @@ class UserGroupsCell: UICollectionViewCell {
         customersTable.setWidth(width: fullWidth / 2.1);
         addSubview(leaveButton);
         leaveButton.padBottom(from: costText.bottomAnchor, num: 0);
-        leaveButton.padRight(from: customersTable.rightAnchor, num: 30);
+        leaveButton.padRight(from: customersTable.rightAnchor, num: 50);
         addSubview(customersText);
         customersText.centerTo(element: customersTable.centerXAnchor);
         customersText.padTop(from: topAnchor, num: 3);

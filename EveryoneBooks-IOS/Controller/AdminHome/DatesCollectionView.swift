@@ -39,7 +39,6 @@ class DatesCollectionView: UICollectionView, UICollectionViewDelegate, UICollect
             return dates.count;
         }
         else {
-            print("ME OH MYO")
             return 0;
         }
     }

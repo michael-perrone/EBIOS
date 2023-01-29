@@ -31,7 +31,6 @@ class BookingView: UIView {
         endTime.text = time;
     }
     
-    private let topBorder = Components().createBorder(height: 2, width: 180, color: .black);
     
     @objc func hit() {
         bookingClickedDelegate?.viewBookingInfo(booking: booking!);
@@ -54,7 +53,7 @@ class BookingView: UIView {
         leftBorder.padLeft(from: leftAnchor, num: 0);
         let rightBorder = Components().createBorder(height: CGFloat(Double(heightNumber * 16)), width: 0.8, color: .black);
         addSubview(rightBorder);
-        rightBorder.padLeft(from: leftAnchor, num: 175);
+        rightBorder.padRight(from: rightAnchor, num: 0);
         let tap = UITapGestureRecognizer(target: self, action: #selector(hit));
         tap.numberOfTapsRequired = 2;
         addGestureRecognizer(tap);

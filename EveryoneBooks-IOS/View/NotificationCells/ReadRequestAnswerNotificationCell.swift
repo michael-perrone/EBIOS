@@ -50,10 +50,13 @@ class ReadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
                 notiMessage.text = noti.fromName! + " has accepted your booking request."
             }
             else if noti.notificationType == "BBYR" {
-                notiMessage.text = noti.fromName! + " has booked you at their business. Check your bookings for details.";
+                notiMessage.text = noti.fromName! + " has booked you at their business.";
             }
             else if noti.notificationType == "UATGR" {
                 notiMessage.text = noti.fromName! + " has added you as a member of a group."
+            }
+            else if noti.notificationType == "BDBR" {
+                notiMessage.text = noti.fromName! + " has canceled a booking that was scheduled at their business."
             }
         }
         addSubview(openEnv);

@@ -47,9 +47,7 @@ class CustomNumberPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSo
     
     var none: Bool? {
         didSet {
-            print("dwdjwkdjawkdwd")
             if none! {
-                print("hello")
                 data.append("None");
             }
         }

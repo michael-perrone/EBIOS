@@ -16,8 +16,7 @@ class EmployeeSchedule: UIViewController, EmployeeBookingCellProtocol {
     
     func goToBooking(booking: Booking) {
         let vbvc = ViewBookingViewController();
-        print(booking);
-        print("BOOKING");
+        
         vbvc.booking = booking;
         vbvc.modalPresentationStyle = .fullScreen;
         navigationController?.pushViewController(vbvc, animated: true);
@@ -59,8 +58,8 @@ class EmployeeSchedule: UIViewController, EmployeeBookingCellProtocol {
     private let bookingsShiftText: UITextView = {
         let uitv = Components().createSimpleText(text: "");
         uitv.backgroundColor = .mainLav;
-        uitv.font = .boldSystemFont(ofSize: 18);
-        uitv.setWidth(width: fullWidth / 1.2);
+        uitv.font = .boldSystemFont(ofSize: 16);
+        uitv.textAlignment = .center;
         return uitv;
     }()
     

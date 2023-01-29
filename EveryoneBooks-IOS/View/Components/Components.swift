@@ -246,7 +246,7 @@ class Components {
     func createNormalButton(title: String) -> UIButton {
         let loginButton = UIButton(type: .system);
         loginButton.layer.borderColor = CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 1);
-        loginButton.layer.borderWidth = 1.3;
+        loginButton.layer.borderWidth = 0.8;
         loginButton.backgroundColor = .white;
         loginButton.setTitle(title, for: .normal);
         loginButton.tintColor = .black;

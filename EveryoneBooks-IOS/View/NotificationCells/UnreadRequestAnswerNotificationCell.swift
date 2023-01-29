@@ -44,11 +44,14 @@ class UnreadRequestAnswerNotificationCell: RequestAnswerNotificationCell {
             }
             // Business Booked You
             else if noti.notificationType == "BBY" {
-                notiMessage.text = noti.fromName! + " has booked you at their business. Check your bookings for details.";
+                notiMessage.text = noti.fromName! + " has booked you at their business.";
             }
             // User Added To Group
             else if noti.notificationType == "UATG" {
                 notiMessage.text = noti.fromName! + " has added you as a member of a group."
+            }
+            else if noti.notificationType == "BDB" {
+                notiMessage.text = noti.fromName! + " has canceled a booking that was scheduled at their business."
             }
             addSubview(closeEnv);
             closeEnv.padLeft(from: leftAnchor, num: 10);

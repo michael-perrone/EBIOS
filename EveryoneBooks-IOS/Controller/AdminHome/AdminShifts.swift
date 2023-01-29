@@ -15,7 +15,6 @@ class AdminShifts: UIViewController, EditingProtocol {
         UIView.animate(withDuration: 1.3) {
             self.cancelButton.alpha = 1.0;
         }
-        print(shift)
         let startRow = fromTimePicker.data.firstIndex(where: {$0 == shift.timeStart});
         let endRow = fromTimePicker.data.firstIndex { any in
             any == shift.timeEnd
@@ -791,7 +790,6 @@ class AdminShifts: UIViewController, EditingProtocol {
                     shiftsArray = [];
             }
             self.shifts = shiftsArray;
-            print(shiftsArray);
         }
     }
     

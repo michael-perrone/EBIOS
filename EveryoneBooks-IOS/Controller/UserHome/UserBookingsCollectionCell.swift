@@ -54,9 +54,9 @@ class UserBookingsCollectionCell: UICollectionViewCell {
     
     lazy var cancelButton: UIButton = {
         let uib = Components().createNormalButton(title: "Cancel");
-        uib.setWidth(width: 120);
-        uib.setHeight(height: 44);
-        uib.backgroundColor = .bookedRed;
+        uib.setWidth(width: 100);
+        uib.setHeight(height: 36);
+        uib.backgroundColor = UIColor.init(red: 210, green: 0, blue: 0, alpha: 0.2);
         uib.tintColor = .black;
         uib.showsTouchWhenHighlighted = true;
         uib.addTarget(self, action: #selector(cancelBooking), for: .touchUpInside)
@@ -99,7 +99,7 @@ class UserBookingsCollectionCell: UICollectionViewCell {
         servicesTable.setWidth(width: fullWidth / 2.1);
         addSubview(cancelButton);
         cancelButton.padBottom(from: costText.bottomAnchor, num: 0);
-        cancelButton.padRight(from: servicesTable.rightAnchor, num: 30);
+        cancelButton.padRight(from: servicesTable.rightAnchor, num: 50);
         addSubview(servicesText);
         servicesText.centerTo(element: servicesTable.centerXAnchor);
         servicesText.padTop(from: topAnchor, num: 3);

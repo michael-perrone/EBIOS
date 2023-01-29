@@ -56,7 +56,26 @@ class AdminNotifications: UICollectionViewController, RequestAnswerCell, Message
         if noti.notificationType == "ERY" || noti.notificationType == "ELB" { // check this // should be updated a bit i think
             API().post(url: myURL + "notifications/changeToRead", dataToSend: ["notificationId": noti.id]) { (res) in
                 if res["statusCode"] as? Int == 200 {
-                    self.getAdminNotis();
+                    if let notif = res["notification"] as? [String: Any] {
+                        let notifi = Notification(dic: notif);
+                        print(noti);
+                        print("noti above");
+                        let indy = self.adminNotifications?.firstIndex(where: { notific in
+                            notific.id == notifi.id
+                        })
+                        self.adminNotifications?.remove(at: indy!);
+                        self.adminNotifications?.insert(notifi, at: indy!)
+                    }
+                    else if let notif = res["bookedNoti"] as? [String: Any] {
+                        let notifi = Notification(dic: notif);
+                        print(noti);
+                        print("noti above");
+                        let indy = self.adminNotifications?.firstIndex(where: { notific in
+                            notific.id == notifi.id
+                        })
+                        self.adminNotifications?.remove(at: indy!);
+                        self.adminNotifications?.insert(notifi, at: indy!)
+                    }
                 }
             }
         }

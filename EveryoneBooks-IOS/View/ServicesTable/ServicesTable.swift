@@ -19,7 +19,6 @@ class ServicesTable: UITableView, UITableViewDelegate, UITableViewDataSource, Se
         selectedServices.removeAll(where: { (eachService) -> Bool in
            return service.id == eachService.id
         })
-        print(selectedServices);
         if selectedServices.count == 0 {
             self.requiresEmployeeDelegate?.servicesRemoved();
             self.servicesDelegate?.servicesRemoved();
